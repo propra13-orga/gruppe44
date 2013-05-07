@@ -13,11 +13,11 @@ import javax.swing.Timer;
 
 public class gui extends JPanel implements ActionListener {
 
-	Timer time; //notwendig für das wiederholte Laden des Bildes
+	Timer time; //notwendig fuer das wiederholte Laden des Bildes
 	Image img;
-	int key; //Variable für Taste
-	int laufhorizontal; //Variable für Geschwindigkeit nach Links bzw Rechts
-	int laufvertikal; //Variable für Geschwindigkeit nach Oben bzw Unten
+	int key; //Variable fuer Taste
+	int laufhorizontal; //Variable fuer Geschwindigkeit nach Links bzw Rechts
+	int laufvertikal; //Variable fuer Geschwindigkeit nach Oben bzw Unten
 	int x_Bild; //Variable von bewegen
 	int y_Bild;
 	
@@ -63,7 +63,7 @@ public class gui extends JPanel implements ActionListener {
 			
 		}//hier passiert nix
 		
-		public void keyPressed(KeyEvent e){ // wird beim Drücken irgeneiner Taste aufgerufen
+		public void keyPressed(KeyEvent e){ // wird beim Druecken irgeneiner Taste aufgerufen
 			key=e.getKeyCode();
 			
 			if (key == KeyEvent.VK_LEFT){ //Linkstaste wird gedrückt
