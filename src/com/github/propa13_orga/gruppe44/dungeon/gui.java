@@ -15,11 +15,14 @@ public class gui extends JPanel implements ActionListener {
 
 	Timer time; //notwendig fuer das wiederholte Laden des Bildes
 	Image img;
+	Image img2;
 	int key; //Variable fuer Taste
-	int laufhorizontal; //Variable fuer Geschwindigkeit nach Links bzw Rechts
-	int laufvertikal; //Variable fuer Geschwindigkeit nach Oben bzw Unten
+	double laufhorizontal; //Variable fuer Geschwindigkeit nach Links bzw Rechts
+	double laufvertikal; //Variable fuer Geschwindigkeit nach Oben bzw Unten
 	int x_Bild; //Variable von bewegen
 	int y_Bild;
+	int x_Bild2 = 50;
+	int y_Bild2 = 50;
 	
 	public gui (){
 		
@@ -29,9 +32,12 @@ public class gui extends JPanel implements ActionListener {
 		
 		setFocusable(true);
 		// man kann malen und drauf zugreifen
-		ImageIcon u = new ImageIcon ("C:/Users/Satyra/Documents/uni sandy/programmierpraktikum/pixelbild.jpg");
+		ImageIcon u = new ImageIcon ("C:/Users/Satyra/workspace/gruppe44/pixelbild.jpg");
+		ImageIcon u2 = new ImageIcon ("C:/Users/Satyra/workspace/gruppe44/pixelbild.jpg"); 
 		//einfach nur ein Beispielbild
 		img = u.getImage();
+		img2 = u2.getImage();
+		
 		addKeyListener(new AL());
 		
 		time = new Timer(5,this); //Methode wird alle 5 Millisekunden wiederaufgerufen
@@ -46,16 +52,44 @@ public class gui extends JPanel implements ActionListener {
 	public void paint (Graphics g){
 		
 		super.paint(g);
+		Graphics2D f = (Graphics2D) g;
 		Graphics2D f2 = (Graphics2D) g;
 		//Methode zeichnet sonst nur Linien, notwendig um Bilder darstellen zu können
 		
-		f2.drawImage(img,x_Bild,y_Bild,null);
+		f.drawImage(img,x_Bild,y_Bild,null);
+		f2.drawImage(img2,x_Bild2,y_Bild2,null);
 		//Name, Position
 	}
 	
 	public void bewegen (){
-		x_Bild += laufhorizontal;
-		y_Bild += laufvertikal;
+		if (x_Bild == 20 && 20<= y_Bild && y_Bild <=80) {
+			laufhorizontal = -1;
+			laufvertikal = 0;
+			x_Bild += laufhorizontal;
+			y_Bild += laufvertikal;
+		}
+		if (x_Bild == 80 && 20<= y_Bild && y_Bild <=80) {
+			laufhorizontal = 1;
+			laufvertikal = 0;
+			x_Bild += laufhorizontal;
+			y_Bild += laufvertikal;
+		}
+		if (y_Bild == 20 && 20<= x_Bild && x_Bild <=80) {
+			laufhorizontal = 0;
+			laufvertikal = -1;
+			x_Bild += laufhorizontal;
+			y_Bild += laufvertikal;
+		}
+		if (y_Bild == 80 && 20<= x_Bild && x_Bild <=80) {
+			laufhorizontal = 0;
+			laufvertikal = 1;
+			x_Bild += laufhorizontal;
+			y_Bild += laufvertikal;
+		}
+		else{
+			x_Bild += laufhorizontal;
+			y_Bild += laufvertikal;
+		}
 	}
 	
 	private class AL extends KeyAdapter{

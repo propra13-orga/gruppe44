@@ -1,8 +1,9 @@
 package com.github.propa13_orga.gruppe44.dungeon;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import javax.swing.JButton;
-import javax.swing.JFrame;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.Image;
 import javax.swing.*;
 
 
@@ -14,6 +15,8 @@ public class Menue extends JFrame implements ActionListener{
 	private JButton einstellungen;
 	private JButton programmierer;
 	private JButton ende;
+	
+	Image img;
 	
 //Methoden der Buttons
 	
@@ -29,6 +32,9 @@ public class Menue extends JFrame implements ActionListener{
 		}
 		
 		if (a.getSource()== einstellungen){
+		Object[] option = {"Schliessen"};
+			
+			JOptionPane.showOptionDialog(null, "","Einstellungen", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, option, option [0]);
 			
 			//noch ohne Inhalt
 
@@ -45,6 +51,7 @@ public class Menue extends JFrame implements ActionListener{
 	
 	public Menue (String titel){
 		super(titel);
+		
 		
 		spielen = new JButton ("Spiel starten");
 		spielen.setBounds(150,30,160,40); // Position, Groesse
@@ -66,7 +73,21 @@ public class Menue extends JFrame implements ActionListener{
 		ende.addActionListener(this);
 		add(ende);
 		
+		ImageIcon u = new ImageIcon ("C:/Users/Satyra/workspace/gruppe44/lighthouse.jpg");
+		img = u.getImage();
 	}
+//notwendig fuer den Hintergrund
+	
+public void paint (Graphics g){
+		
+		super.paint(g);
+		Graphics2D f2 = (Graphics2D) g;
+		//Methode zeichnet sonst nur Linien, notwendig um Bilder darstellen zu können
+		
+		f2.drawImage(img,0,0,null);
+		//Name, Position
+	}
+	
 	
 // Startbildfenster
 	
