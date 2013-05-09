@@ -1,4 +1,4 @@
-package com.github.propa13_orga.gruppe44.dungeon;
+package src.com.github.propa13_orga.gruppe44.dungeon;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.Graphics;
@@ -73,7 +73,7 @@ public class Menue extends JFrame implements ActionListener{
 		ende.addActionListener(this);
 		add(ende);
 		
-		ImageIcon u = new ImageIcon ("C:/Users/Satyra/workspace/gruppe44/lighthouse.jpg");
+		ImageIcon u = new ImageIcon ("lighthouse.jpg");
 		img = u.getImage();
 	}
 //notwendig fuer den Hintergrund

@@ -1,4 +1,4 @@
-package com.github.propa13_orga.gruppe44.dungeon;
+package src.com.github.propa13_orga.gruppe44.dungeon;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
@@ -32,8 +32,8 @@ public class gui extends JPanel implements ActionListener {
 		
 		setFocusable(true);
 		// man kann malen und drauf zugreifen
-		ImageIcon u = new ImageIcon ("C:/Users/Satyra/workspace/gruppe44/pixelbild.jpg");
-		ImageIcon u2 = new ImageIcon ("C:/Users/Satyra/workspace/gruppe44/pixelbild.jpg"); 
+		ImageIcon u = new ImageIcon ("pixelbild.jpg");
+		ImageIcon u2 = new ImageIcon ("pixelbild.jpg"); 
 		//einfach nur ein Beispielbild
 		img = u.getImage();
 		img2 = u2.getImage();
