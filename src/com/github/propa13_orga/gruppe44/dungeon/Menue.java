@@ -1,6 +1,7 @@
 package src.com.github.propa13_orga.gruppe44.dungeon;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
@@ -73,18 +74,20 @@ public class Menue extends JFrame implements ActionListener{
 		ende.addActionListener(this);
 		add(ende);
 		
+
+		
 		ImageIcon u = new ImageIcon ("lighthouse.jpg");
 		img = u.getImage();
 	}
 //notwendig fuer den Hintergrund
 	
 public void paint (Graphics g){
-		
+
 		super.paint(g);
 		Graphics2D f2 = (Graphics2D) g;
 		//Methode zeichnet sonst nur Linien, notwendig um Bilder darstellen zu können
 		
-		f2.drawImage(img,0,0,null);
+		f2.drawImage(img,07,0,null);
 		//Name, Position
 	}
 	
