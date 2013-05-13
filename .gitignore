@@ -9,3 +9,4 @@ tmp/**/*
 # Locally stored "Eclipse launch configurations"
 *.launch
 *.class
+.DS_Store
