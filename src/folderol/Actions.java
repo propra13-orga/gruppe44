@@ -55,7 +55,7 @@ public class Actions {
 		}
 
 	}
-	
+
 	static class moveUp extends AbstractAction {
 
 		private static final long serialVersionUID = 1L;

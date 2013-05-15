@@ -1,24 +1,42 @@
 package folderol;
 
 import java.awt.Color;
-import java.awt.Point;
-import java.awt.Rectangle;
+import java.awt.Graphics2D;
+import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
 
 public class Player {
 
-	private Rectangle bounds;
-	private Point resetPoint;
+	private Rectangle2D bounds;
+	private Point2D resetPoint;
 	private Color color;
 
-	private int dx;
-	private int dy;
+	private double speed;
+	private double dx;
+	private double dy;
+	private double newX;
+	private double newY;
 
 	public Player() {
-		bounds = new Rectangle();
-		resetPoint = new Point(64, 96); // Setze den Spieler hierhin zurück
+		// setze Farbe des Players
 		setColor(new Color(0, 255, 64));
+		
+		// setze Geschwindigkeit des Players
+		speed = 128;
+		
+		// Setze den Player hierhin zurück
+		resetPoint = new Point2D.Double(64, 96);
+		
+		// setze position und größe des Players
+		bounds = new Rectangle2D.Double(resetPoint.getX(), resetPoint.getY(), 32, 32);
+	}
+	
+	
+	
 
-		bounds.setBounds((int) resetPoint.getX(), (int) resetPoint.getY(), 32, 32);
+	public void drawObjects(Graphics2D g) {
+		g.fillRect((int) bounds.getX(), (int) bounds.getY(),
+				(int) bounds.getWidth(), (int) bounds.getHeight());
 	}
 
 	public Color getColor() {
@@ -29,49 +47,54 @@ public class Player {
 		this.color = color;
 	}
 
-	void setPosition(int x, int y) {
-		bounds.setLocation(x, y);
+	void setPosition(double x, double y) {
+		bounds.setRect(x, y, bounds.getWidth(), bounds.getHeight());
 	}
 
 	void resetPosition() {
-		setPosition((int) resetPoint.getX(), (int) resetPoint.getY());
+		setPosition(resetPoint.getX(), resetPoint.getY());
 	}
-	
+
 	void setResetPosition(double x, double y) {
 		resetPoint.setLocation(x, y);
 	}
 
-	void move() {
-		bounds.setLocation((int) bounds.getX() + dx, (int) bounds.getY() + dy);
+	void move(long delta) {
+		// Wenn dx oder dy ungleich 0 sind, dann bewege dich
+		if (dx != 0 || dy != 0) {
+			newX = bounds.getX() + dx * (delta / 1e9);
+			newY = bounds.getY() + dy * (delta / 1e9);
+			bounds.setRect(newX, newY, bounds.getWidth(), bounds.getHeight());
+		}
 	}
 
-	void setMovement(int x, int y) {
-		dx = x * 32;
-		dy = y * 32;
+	void setMovement(double x, double y) {
+		dx = x * speed;
+		dy = y * speed;
 	}
 
-	void setXMovement(int x) {
-		dx = x * 32;
+	void setXMovement(double x) {
+		dx = x * speed;
 	}
 
-	void setYMovement(int y) {
-		dy = y * 32;
+	void setYMovement(double y) {
+		dy = y * speed;
 	}
 
-	int getX() {
-		return (int) bounds.getX();
+	double getX() {
+		return bounds.getX();
 	}
 
-	int getY() {
-		return (int) bounds.getY();
+	double getY() {
+		return bounds.getY();
 	}
 
-	int getWidth() {
-		return (int) bounds.getWidth();
+	double getWidth() {
+		return bounds.getWidth();
 	}
 
-	int getHeight() {
-		return (int) bounds.getHeight();
+	double getHeight() {
+		return bounds.getHeight();
 	}
 
 }

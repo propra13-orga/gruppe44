@@ -23,7 +23,6 @@ import javax.swing.ActionMap;
 import javax.swing.InputMap;
 import javax.swing.JButton;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.KeyStroke;
 
@@ -31,16 +30,16 @@ public class Houston implements ActionListener, Runnable {
 	
 	
 	// hier den code noch besser organisieren und evtl in eigene methode auslagern
-	Player player = new Player();
 	
 	private int height;
 	private int width;
 
 	private boolean gameIsRunning = false;
 	private boolean gameOver = true;
-	private long delta = 0;
+	long delta = 0;
 	private long last = 0;
 	long fps = 0;
+	private int preferredFps;
 
 	private JFrame frame;
 	private JPanel cards;
@@ -48,6 +47,7 @@ public class Houston implements ActionListener, Runnable {
 	GamePanel gamePanel;
 	private String currentCard;
 	private CardLayout cl;
+	Player player;
 	
 	private JButton 
 	c1b1, //Neues Spiel
@@ -58,6 +58,7 @@ public class Houston implements ActionListener, Runnable {
 	c4b1, //zurueck ins Spiel
 	c4b2, //zum Hauptmenue
 	c5b1; //zum Hauptmenue
+	
 
 	// diese Strings identifizieren jeweils eins der Card Panel
 	final static String STARTMENU = "STARTMENU";
@@ -76,6 +77,10 @@ public class Houston implements ActionListener, Runnable {
 	// ------------------------------------------------------------
 
 	public Houston(int width, int height) {
+
+		// initialisiere allen moeglichen Kram hier drin
+		initializeCrap();
+
 		// Hoehe und Breite des Fensterinhaltes
 		this.width = width;
 		this.height = height;
@@ -115,9 +120,6 @@ public class Houston implements ActionListener, Runnable {
 		cl.show(cards, STARTMENU);
 		currentCard = STARTMENU;
 		
-		// initialisiere allen moeglichen Kram hier drin
-		initializeCrap();
-		
 		// springe in den Game-Loop
 		Thread th = new Thread(this);
 		th.start();
@@ -130,7 +132,8 @@ public class Houston implements ActionListener, Runnable {
 		// hier wird alles moegliche initialisiert
 		
 		last = System.nanoTime();
-		Player player = new Player();
+		preferredFps = 30;
+		player = new Player();
 		
 	}
 	
@@ -144,14 +147,14 @@ public class Houston implements ActionListener, Runnable {
 		
 			if (gameIsRunning) {
 				computeDelta();
-				player.move();
+				player.move(delta);
 				card3.repaint();
 			}
 			
 			
 			
 			try {
-				Thread.sleep(1000 / 30);
+				Thread.sleep(1000 / preferredFps);
 			} catch (InterruptedException e) {}
 		}
 	}
@@ -181,32 +184,38 @@ public class Houston implements ActionListener, Runnable {
 	}
 
 	private JPanel card1() {
-		card1 = new JPanel();
-		card1.add(new JLabel(STARTMENU));
-
+		card1 = new JPanel(null);
+		
+		// card1.add(new JLabel(STARTMENU));
+		
 		c1b1 = new JButton("Neues Spiel");
 		c1b1.addActionListener(this);
+		c1b1.setBounds(284, 300, 200, 40);
 		card1.add(c1b1);
 
 		c1b2 = new JButton("Einstellungen");
 		c1b2.addActionListener(this);
+		c1b2.setBounds(284, 360, 200, 40);
 		card1.add(c1b2);
 
 		c1b3 = new JButton("Mitwirkende");
 		c1b3.addActionListener(this);
+		c1b3.setBounds(284, 420, 200, 40);
 		card1.add(c1b3);
 
 		c1b4 = new JButton("Beenden");
 		c1b4.addActionListener(this);
+		c1b4.setBounds(284, 480, 200, 40);
 		card1.add(c1b4);
 		return card1;
 	}
 	
 	private JPanel card2() {
-		card2 = new JPanel();
-		card2.add(new JLabel(SETTINGS));
+		card2 = new JPanel(null);
+		// card2.add(new JLabel(SETTINGS));
 
 		c2b1 = new JButton("-> Hauptmenue");
+		c2b1.setBounds(284, 360, 200, 40);
 		c2b1.addActionListener(this);
 		card2.add(c2b1);
 		return card2;
@@ -220,25 +229,28 @@ public class Houston implements ActionListener, Runnable {
 	}
 
 	private JPanel card4() {
-		card4 = new JPanel();
-		card4.add(new JLabel(INGAMEMENU));
+		card4 = new JPanel(null);
+		// card4.add(new JLabel(INGAMEMENU));
 
 		c4b1 = new JButton("zurueck ins Spiel");
 		c4b1.addActionListener(this);
+		c4b1.setBounds(284, 300, 200, 40);
 		card4.add(c4b1);
 
 		c4b2 = new JButton("-> Hauptmenue");
 		c4b2.addActionListener(this);
+		c4b2.setBounds(284, 360, 200, 40);
 		card4.add(c4b2);
 		return card4;
 	}
 
 	private JPanel card5() {
-		card5 = new JPanel();
-		card5.add(new JLabel(CREDITS));
+		card5 = new JPanel(null);
+//		card5.add(new JLabel(CREDITS));
 
 		c5b1 = new JButton("-> Hauptmenue");
 		c5b1.addActionListener(this);
+		c5b1.setBounds(284, 420, 200, 40);
 		card5.add(c5b1);
 		return card5;
 	}
@@ -348,6 +360,7 @@ public class Houston implements ActionListener, Runnable {
 		// kuemmert sich um die Events der Menu Buttons
 		if (buttonClicked == c1b1) {
 			changeAppearance(false, true, GAME);
+			player.resetPosition();
 		} else if (buttonClicked == c1b2) {
 			changeAppearance(SETTINGS);
 		} else if (buttonClicked == c1b3) {
