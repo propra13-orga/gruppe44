@@ -4,7 +4,6 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
@@ -13,18 +12,22 @@ public class GamePanel extends JPanel {
 	private static final long serialVersionUID = 1L;
 	Timer timer;
 	Houston houston;
+	Player player;
 
+	
+	
 	public GamePanel(Houston houston) {
 		this.houston = houston;
+		this.player = houston.player;
 	}
+	
+	
 	
 	@Override
 	protected void paintComponent(Graphics gr) {
 		super.paintComponent(gr);
 		Graphics2D g = (Graphics2D) gr;
 		// Hier wird gezeichnet
-		
-
 		
 		g.setColor(new Color(230, 230, 230));
 		g.fillRect(0, 0, 768, 640); // Hintergrund
@@ -66,15 +69,21 @@ public class GamePanel extends JPanel {
 		
 		
 		
+		g.setColor(player.getColor());
+		g.fillRect(player.getX(), player.getY(), player.getWidth(), player.getHeight());
+		
+		
+		
 		// Hier werden Konsolenausgaben gezeichnet
 		g.setColor(Color.BLACK);
 		g.setFont(new Font("Arial", Font.BOLD, 12));
-		g.drawString("Konsolenausgaben hier", 10, 20);
+		g.drawString("Konsolenausgaben hier", 16, 20);
+		g.drawString("Pos " + "x:"+player.getX()+" y:"+player.getY(), 208, 20);
 		
 		
 		// Hier werden die aktuellen fps gezeichnet
 		g.setColor(Color.BLACK);
-		g.drawString("FPS: " + houston.fps, 715, 20);
+		g.drawString("FPS: " + houston.fps, 712, 20);
 
 	} // Ab hier ist Schluss mit Zeichnen
 

@@ -29,6 +29,10 @@ import javax.swing.KeyStroke;
 
 public class Houston implements ActionListener, Runnable {
 	
+	
+	// hier den code noch besser organisieren und evtl in eigene methode auslagern
+	Player player = new Player();
+	
 	private int height;
 	private int width;
 
@@ -41,7 +45,7 @@ public class Houston implements ActionListener, Runnable {
 	private JFrame frame;
 	private JPanel cards;
 	private JPanel card1, card2, card3, card4, card5;
-	private GamePanel gamePanel;
+	GamePanel gamePanel;
 	private String currentCard;
 	private CardLayout cl;
 	
@@ -61,6 +65,8 @@ public class Houston implements ActionListener, Runnable {
 	final static String GAME = "GAME";
 	final static String INGAMEMENU = "INGAMEMENU";
 	final static String CREDITS = "CREDITS";
+	
+	
 
 	// ------------------------------------------------------------
 	public static void main(String[] args) {
@@ -124,6 +130,7 @@ public class Houston implements ActionListener, Runnable {
 		// hier wird alles moegliche initialisiert
 		
 		last = System.nanoTime();
+		Player player = new Player();
 		
 	}
 	
@@ -137,6 +144,7 @@ public class Houston implements ActionListener, Runnable {
 		
 			if (gameIsRunning) {
 				computeDelta();
+				player.move();
 				card3.repaint();
 			}
 			
@@ -270,17 +278,27 @@ public class Houston implements ActionListener, Runnable {
 		
 		// Definiere die benoetigten Tastendruecke
 		KeyStroke esc = KeyStroke.getKeyStroke("ESCAPE");
+		KeyStroke r = KeyStroke.getKeyStroke("R");
 		KeyStroke w = KeyStroke.getKeyStroke("W");
 		KeyStroke s = KeyStroke.getKeyStroke("S");
 		KeyStroke a = KeyStroke.getKeyStroke("A");
 		KeyStroke d = KeyStroke.getKeyStroke("D");
+		KeyStroke rw = KeyStroke.getKeyStroke("released W");
+		KeyStroke rs = KeyStroke.getKeyStroke("released S");
+		KeyStroke ra = KeyStroke.getKeyStroke("released A");
+		KeyStroke rd = KeyStroke.getKeyStroke("released D");
 		
 		// Entferne alle Tastenzuweisungen
 		im.remove(KeyStroke.getKeyStroke("ESCAPE"));
+		im.remove(r);
 		im.remove(w);
 		im.remove(s);
 		im.remove(a);
 		im.remove(d);
+		im.remove(rw);
+		im.remove(rs);
+		im.remove(ra);
+		im.remove(rd);
 		
 		
 		// aktiviert das Wechseln zwischen GAME und INGAMEMENU mit "Escape"
@@ -294,19 +312,29 @@ public class Houston implements ActionListener, Runnable {
 
 		// aktiviert die Bewegungstasten
 		if (gameIsRunning) {
+			im.put(r, "resetPlayer");
 			im.put(w, "moveUp");
 			im.put(s, "moveDown");
 			im.put(a, "moveLeft");
 			im.put(d, "moveRight");
+			im.put(rw, "releasedUp");
+			im.put(rs, "releasedDown");
+			im.put(ra, "releasedLeft");
+			im.put(rd, "releasedRight");
 		}
 		
 		// "verbindet" den jeweiligen Tastendruck mit einer Action
 		am.put("jumpToIngamemenu", new Actions.jumpToIngamemenu(this));
 		am.put("jumpToGame", new Actions.jumpToGame(this));
+		am.put("resetPlayer", new Actions.resetPlayer(this));
 		am.put("moveUp", new Actions.moveUp(this));
 		am.put("moveDown", new Actions.moveDown(this));
 		am.put("moveLeft", new Actions.moveLeft(this));
 		am.put("moveRight", new Actions.moveRight(this));
+		am.put("releasedUp", new Actions.releasedUp(this));
+		am.put("releasedDown", new Actions.releasedDown(this));
+		am.put("releasedLeft", new Actions.releasedLeft(this));
+		am.put("releasedRight", new Actions.releasedRight(this));
 
 	}
 

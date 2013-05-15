@@ -39,6 +39,23 @@ public class Actions {
 
 	}
 
+	static class resetPlayer extends AbstractAction {
+
+		private static final long serialVersionUID = 1L;
+		private Houston houston;
+
+		public resetPlayer(Houston houston) {
+			this.houston = houston;
+		}
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			// System.out.println("pressedUp");
+			houston.player.resetPosition();
+		}
+
+	}
+	
 	static class moveUp extends AbstractAction {
 
 		private static final long serialVersionUID = 1L;
@@ -50,7 +67,8 @@ public class Actions {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			System.out.println("moveUp");
+			// System.out.println("pressedUp");
+			houston.player.setYMovement(-1);
 		}
 
 	}
@@ -66,7 +84,8 @@ public class Actions {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			System.out.println("moveDown");
+			// System.out.println("pressedDown");
+			houston.player.setYMovement(1);
 		}
 
 	}
@@ -82,7 +101,8 @@ public class Actions {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			System.out.println("moveLeft");
+			// System.out.println("pressedLeft");
+			houston.player.setXMovement(-1);
 		}
 
 	}
@@ -98,7 +118,76 @@ public class Actions {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			System.out.println("moveRight");
+			// System.out.println("pressedRight");
+			houston.player.setXMovement(1);
+		}
+
+	}
+
+	static class releasedUp extends AbstractAction {
+
+		private static final long serialVersionUID = 1L;
+		private Houston houston;
+
+		public releasedUp(Houston houston) {
+			this.houston = houston;
+		}
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			// System.out.println("releasedUp");
+			houston.player.setYMovement(0);
+		}
+
+	}
+
+	static class releasedDown extends AbstractAction {
+
+		private static final long serialVersionUID = 1L;
+		private Houston houston;
+
+		public releasedDown(Houston houston) {
+			this.houston = houston;
+		}
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			// System.out.println("releasedDown");
+			houston.player.setYMovement(0);
+		}
+
+	}
+
+	static class releasedLeft extends AbstractAction {
+
+		private static final long serialVersionUID = 1L;
+		private Houston houston;
+
+		public releasedLeft(Houston houston) {
+			this.houston = houston;
+		}
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			// System.out.println("releasedLeft");
+			houston.player.setXMovement(0);
+		}
+
+	}
+
+	static class releasedRight extends AbstractAction {
+
+		private static final long serialVersionUID = 1L;
+		private Houston houston;
+
+		public releasedRight(Houston houston) {
+			this.houston = houston;
+		}
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			// System.out.println("releasedRight");
+			houston.player.setXMovement(0);
 		}
 
 	}
