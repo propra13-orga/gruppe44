@@ -19,10 +19,13 @@ import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.ActionMap;
+import javax.swing.InputMap;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.KeyStroke;
 
 public class Houston implements ActionListener, Runnable {
 	
@@ -30,15 +33,17 @@ public class Houston implements ActionListener, Runnable {
 	private int width;
 
 	private boolean gameIsRunning = false;
-	private boolean gameOver = false;
-	long delta = 0;
-	long last = 0;
-	public static long fps = 0;
+	private boolean gameOver = true;
+	private long delta = 0;
+	private long last = 0;
+	long fps = 0;
 
-	JFrame frame;
-	JPanel cards;
-	JPanel card1, card2, card3, card4, card5;
-	CardLayout cl;
+	private JFrame frame;
+	private JPanel cards;
+	private JPanel card1, card2, card3, card4, card5;
+	private GamePanel gamePanel;
+	private String currentCard;
+	private CardLayout cl;
 	
 	private JButton 
 	c1b1, //Neues Spiel
@@ -50,12 +55,12 @@ public class Houston implements ActionListener, Runnable {
 	c4b2, //zum Hauptmenue
 	c5b1; //zum Hauptmenue
 
-	// strings to identify each card (jpanel) in cards (jpanel:cardlayout)
-	final static String STARTMENU = "Hauptmenue";
-	final static String SETTINGS = "Einstellungen";
-	final static String GAME = "Spielfenster";
-	final static String INGAMEMENU = "Spielmenue";
-	final static String CREDITS = "Mitwirkende";
+	// diese Strings identifizieren jeweils eins der Card Panel
+	final static String STARTMENU = "STARTMENU";
+	final static String SETTINGS = "SETTINGS";
+	final static String GAME = "GAME";
+	final static String INGAMEMENU = "INGAMEMENU";
+	final static String CREDITS = "CREDITS";
 
 	// ------------------------------------------------------------
 	public static void main(String[] args) {
@@ -65,8 +70,11 @@ public class Houston implements ActionListener, Runnable {
 	// ------------------------------------------------------------
 
 	public Houston(int width, int height) {
+		// Hoehe und Breite des Fensterinhaltes
 		this.width = width;
 		this.height = height;
+		
+		// im folgenden Bereich wird alles rund ums Fenster aufgebaut und verknuepft
 		
 		// Card 1 - STARTMENU
 		card1 = card1();
@@ -83,7 +91,7 @@ public class Houston implements ActionListener, Runnable {
 		// Card 5 - CREDITS
 		card5 = card5();
 
-		// Create new Panel and add all Sub-Panel
+		// Erstelle ein neues Cards-Panel und fuege alle Card-Panel hinzu
 		cl = new CardLayout();
 		cards = new JPanel(cl);
 		cards.setPreferredSize(new Dimension(this.width, this.height));
@@ -93,23 +101,18 @@ public class Houston implements ActionListener, Runnable {
 		cards.add(card4, INGAMEMENU);
 		cards.add(card5, CREDITS);
 
-		// Create Main Window
-		frame = new JFrame("Folderol");
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		// frame.setLocationRelativeTo(null);
-		frame.setLocation(0, 0);
-		frame.add(cards);
-		frame.pack();
-		frame.setResizable(false);
-		frame.setVisible(true);
-
-		// First Card displayed: STARTMENU; SETTINGS; GAME; INGAMEMENU
-		cl.show(cards, STARTMENU);
+		// Erstelle das Hauptfenster und fuege die Cards hinzu
+		frame = buildFrame("Folderol", cards);
 		
-		// initialize all necessary crap here
+		// Card die als erstes angezeigt werden soll
+		// STARTMENU; SETTINGS; GAME; INGAMEMENU
+		cl.show(cards, STARTMENU);
+		currentCard = STARTMENU;
+		
+		// initialisiere allen moeglichen Kram hier drin
 		initializeCrap();
 		
-		// jump into the game loop
+		// springe in den Game-Loop
 		Thread th = new Thread(this);
 		th.start();
 		
@@ -118,7 +121,7 @@ public class Houston implements ActionListener, Runnable {
 	
 	
 	private void initializeCrap() {
-		// TODO Auto-generated method stub
+		// hier wird alles moegliche initialisiert
 		
 		last = System.nanoTime();
 		
@@ -126,15 +129,17 @@ public class Houston implements ActionListener, Runnable {
 	
 	
 	
+
 	@Override
 	public void run() {
-		// GameLoop - Work In Progress
+		// GameLoop - noch in Arbeit
 		while(frame.isVisible()) {
 		
 			if (gameIsRunning) {
 				computeDelta();
 				card3.repaint();
 			}
+			
 			
 			
 			try {
@@ -146,10 +151,25 @@ public class Houston implements ActionListener, Runnable {
 	
 	
 
+	/**
+	 * berechnet fps und delta
+	 */
 	private void computeDelta() {
 		delta = System.nanoTime() - last;
 		last = System.nanoTime();
 		fps = ((long) 1e9) / delta;
+	}
+	
+	private JFrame buildFrame(String titel, JPanel cards) {
+		frame = new JFrame(titel);
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		// frame.setLocationRelativeTo(null);
+		frame.setLocation(0, 0);
+		frame.add(cards);
+		frame.pack();
+		frame.setResizable(false);
+		frame.setVisible(true);
+		return frame;
 	}
 
 	private JPanel card1() {
@@ -185,26 +205,10 @@ public class Houston implements ActionListener, Runnable {
 	}
 	
 	private JPanel card3() {
-		// card3 also functions as the canvas for the game 
-		card3 = new GamePanel();
-		card3.add(new JLabel(GAME));
-
-		// replace this button by Act. List. for VK_ESCAPE in GamePanel
-		JButton c3b1 = new JButton("-> Spielmenue");
-		c3b1.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				cl.show(cards, INGAMEMENU);
-				gameIsRunning = false;
-			}
-		});
-		card3.add(c3b1);
+		// gamePanel fungiert als die Leinwand fuer das eigentliche Spiel 
+		gamePanel = new GamePanel(this);
 		
-//		card3.getInputMap().put(KeyStroke.getKeyStroke("F2"), "doSomething");
-//		card3.getActionMap().put("doSomething", anAction);
-		
-		return card3;
+		return gamePanel;
 	}
 
 	private JPanel card4() {
@@ -230,34 +234,109 @@ public class Houston implements ActionListener, Runnable {
 		card5.add(c5b1);
 		return card5;
 	}
+	
+	/**
+	 * Wechselt die Ansicht (Card) im Fenster und weist
+	 * die gerade benoetigten Tastendruecke zu
+	 * 
+	 * @param gameOver
+	 * @param gameIsRunning
+	 * @param name
+	 */
+	void changeAppearance(boolean gameOver, boolean gameIsRunning, String name) {
+		currentCard = name;
+		this.gameIsRunning = gameIsRunning;
+		this.gameOver = gameOver;
+		mapActions();
+		cl.show(cards, name);
+	}
+	
+	void changeAppearance(boolean gameIsRunning, String name) {
+		changeAppearance(gameOver, gameIsRunning, name);
+	}
+	
+	void changeAppearance(String name) {
+		changeAppearance(gameOver, gameIsRunning, name);
+	}
+	
+	
+	/**
+	 * Weist, je nach angezeigtem Panel (Card), die entsprechenden Tastendruecke zu
+	 */
+	private void mapActions() {
+		InputMap im = cards.getInputMap();
+		ActionMap am = cards.getActionMap();
+		
+		
+		// Definiere die benoetigten Tastendruecke
+		KeyStroke esc = KeyStroke.getKeyStroke("ESCAPE");
+		KeyStroke w = KeyStroke.getKeyStroke("W");
+		KeyStroke s = KeyStroke.getKeyStroke("S");
+		KeyStroke a = KeyStroke.getKeyStroke("A");
+		KeyStroke d = KeyStroke.getKeyStroke("D");
+		
+		// Entferne alle Tastenzuweisungen
+		im.remove(KeyStroke.getKeyStroke("ESCAPE"));
+		im.remove(w);
+		im.remove(s);
+		im.remove(a);
+		im.remove(d);
+		
+		
+		// aktiviert das Wechseln zwischen GAME und INGAMEMENU mit "Escape"
+		if (gameOver == false) {
+			if (currentCard == GAME) {
+				im.put(esc, "jumpToIngamemenu");
+			} else {
+				im.put(esc, "jumpToGame");
+			}
+		}
+
+		// aktiviert die Bewegungstasten
+		if (gameIsRunning) {
+			im.put(w, "moveUp");
+			im.put(s, "moveDown");
+			im.put(a, "moveLeft");
+			im.put(d, "moveRight");
+		}
+		
+		// "verbindet" den jeweiligen Tastendruck mit einer Action
+		am.put("jumpToIngamemenu", new Actions.jumpToIngamemenu(this));
+		am.put("jumpToGame", new Actions.jumpToGame(this));
+		am.put("moveUp", new Actions.moveUp(this));
+		am.put("moveDown", new Actions.moveDown(this));
+		am.put("moveLeft", new Actions.moveLeft(this));
+		am.put("moveRight", new Actions.moveRight(this));
+
+	}
 
 	
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		
-		// handling the click events on menu buttons
 		JButton buttonClicked = (JButton) e.getSource();
+
+		
+		// kuemmert sich um die Events der Menu Buttons
 		if (buttonClicked == c1b1) {
-			cl.show(cards, GAME);
-			gameIsRunning = true;
+			changeAppearance(false, true, GAME);
 		} else if (buttonClicked == c1b2) {
-			cl.show(cards, SETTINGS);
+			changeAppearance(SETTINGS);
 		} else if (buttonClicked == c1b3) {
-			cl.show(cards, CREDITS);
+			changeAppearance(CREDITS);
 		} else if (buttonClicked == c1b4) {
 			System.exit(0);
 		} else if (buttonClicked == c2b1) {
-			cl.show(cards, STARTMENU);
+			changeAppearance(STARTMENU);
 		} else if (buttonClicked == c4b1) {
-			cl.show(cards, GAME);
-			gameIsRunning = true;
+			changeAppearance(true, GAME);
 		} else if (buttonClicked == c4b2) {
-			cl.show(cards, STARTMENU);
-			gameOver = true;
+			changeAppearance(true, false, STARTMENU);
 		} else if (buttonClicked == c5b1) {
-			cl.show(cards, STARTMENU);
+			changeAppearance(STARTMENU);
 		}
-		
+
 	}
+
 
 }

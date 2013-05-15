@@ -11,26 +11,23 @@ import javax.swing.Timer;
 public class GamePanel extends JPanel {
 
 	private static final long serialVersionUID = 1L;
-	
 	Timer timer;
-	
-	
-	public GamePanel() {
-		
-		
+	Houston houston;
+
+	public GamePanel(Houston houston) {
+		this.houston = houston;
 	}
 	
-	
-
 	@Override
 	protected void paintComponent(Graphics gr) {
 		super.paintComponent(gr);
 		Graphics2D g = (Graphics2D) gr;
-		// All the drawing happens in here
+		// Hier wird gezeichnet
+		
 
 		
 		g.setColor(new Color(230, 230, 230));
-		g.fillRect(0, 0, 768, 640); // background
+		g.fillRect(0, 0, 768, 640); // Hintergrund
 	
 		
 		int[][] karte = { 	{ 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1}, 
@@ -69,19 +66,16 @@ public class GamePanel extends JPanel {
 		
 		
 		
-		
+		// Hier werden Konsolenausgaben gezeichnet
 		g.setColor(Color.BLACK);
 		g.setFont(new Font("Arial", Font.BOLD, 12));
 		g.drawString("Konsolenausgaben hier", 10, 20);
 		
 		
-		
-		
+		// Hier werden die aktuellen fps gezeichnet
 		g.setColor(Color.BLACK);
-		g.drawString("FPS: " + Houston.fps, 715, 20);
-		// End of drawing area
-	}
+		g.drawString("FPS: " + houston.fps, 715, 20);
 
-
+	} // Ab hier ist Schluss mit Zeichnen
 
 }
