@@ -31,8 +31,8 @@ public class Houston implements ActionListener, Runnable {
 	
 	// hier den code noch besser organisieren und evtl in eigene methode auslagern
 	
-	private int height;
-	private int width;
+	final int height;
+	final int width;
 
 	private boolean gameIsRunning = false;
 	private boolean gameOver = true;
@@ -42,12 +42,14 @@ public class Houston implements ActionListener, Runnable {
 	private int preferredFps;
 
 	private JFrame frame;
+	private String currentCard;
 	private JPanel cards;
 	private JPanel card1, card2, card3, card4, card5;
-	GamePanel gamePanel;
-	private String currentCard;
 	private CardLayout cl;
+	
+	GamePanel gamePanel;
 	Player player;
+	Map map;
 	
 	private JButton 
 	c1b1, //Neues Spiel
@@ -71,7 +73,7 @@ public class Houston implements ActionListener, Runnable {
 
 	// ------------------------------------------------------------
 	public static void main(String[] args) {
-		new Houston(768, 640);
+		new Houston(768, 672);
 	}
 
 	// ------------------------------------------------------------
@@ -134,6 +136,7 @@ public class Houston implements ActionListener, Runnable {
 		last = System.nanoTime();
 		preferredFps = 30;
 		player = new Player();
+		map = new Map(0, 20, 24);
 		
 	}
 	
@@ -361,6 +364,7 @@ public class Houston implements ActionListener, Runnable {
 		if (buttonClicked == c1b1) {
 			changeAppearance(false, true, GAME);
 			player.resetPosition();
+			map.renewMap(0);
 		} else if (buttonClicked == c1b2) {
 			changeAppearance(SETTINGS);
 		} else if (buttonClicked == c1b3) {

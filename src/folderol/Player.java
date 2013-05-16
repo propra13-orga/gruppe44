@@ -35,6 +35,7 @@ public class Player {
 	
 
 	public void drawObjects(Graphics2D g) {
+		g.setColor(color);
 		g.fillRect((int) bounds.getX(), (int) bounds.getY(),
 				(int) bounds.getWidth(), (int) bounds.getHeight());
 	}
