@@ -2,10 +2,10 @@ package folderol;
 
 /**
  * 
- * s = Spawn/Start
- * f = Finish/Ziel
- * g = Ground/Boden
- * w = Wall/Wand
+ * 8 = Spawn/Start
+ * 9 = Finish/Ziel
+ * 1 = Ground/Boden
+ * 0 = Wall/Wand
  * e = Enemy/Gegner
  * t = Trap/Falle
  * p = Player/Spieler

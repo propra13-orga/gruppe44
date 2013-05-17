@@ -4,6 +4,10 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
+
+import javax.imageio.ImageIO;
 
 public class Player {
 
@@ -16,6 +20,7 @@ public class Player {
 	private double dy;
 	private double newX;
 	private double newY;
+	BufferedImage texture = null;
 
 	public Player() {
 		// setze Farbe des Players
@@ -29,6 +34,11 @@ public class Player {
 		
 		// setze position und größe des Players
 		bounds = new Rectangle2D.Double(resetPoint.getX(), resetPoint.getY(), 32, 32);
+		
+		// lese und setze Textur des Player
+		try {
+			texture = ImageIO.read(getClass().getResourceAsStream("../etc/img/german_m1.png")).getSubimage(0, 0, 32, 46);
+		} catch (IOException e) {e.printStackTrace();}
 	}
 	
 	
@@ -36,8 +46,8 @@ public class Player {
 
 	public void drawObjects(Graphics2D g) {
 		g.setColor(color);
-		g.fillRect((int) bounds.getX(), (int) bounds.getY(),
-				(int) bounds.getWidth(), (int) bounds.getHeight());
+		// g.fillRect((int) bounds.getX(), (int) bounds.getY(), (int) bounds.getWidth(), (int) bounds.getHeight());
+		g.drawImage(texture, (int) bounds.getX(), (int) bounds.getY()-14, null);
 	}
 
 	public Color getColor() {
