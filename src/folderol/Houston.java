@@ -7,7 +7,7 @@ package folderol;
  * 1 = Ground/Boden
  * 0 = Wall/Wand
  * e = Enemy/Gegner
- * t = Trap/Falle
+ * 7 = Trap/Falle
  * p = Player/Spieler
  * 
 */
@@ -27,30 +27,46 @@ import javax.swing.JPanel;
 import javax.swing.KeyStroke;
 
 public class Houston implements ActionListener, Runnable {
-	
-	
-	// hier den code noch besser organisieren und evtl in eigene methode auslagern
-	
+
+	// Speichert die Hoehe und Breite des Fensterinhalts
 	final int height;
 	final int width;
 
+	// gameIsRunning und gameOver sind fuer die Menuefuehrung
+	// und den Spielverlauf von Bedeutung
 	private boolean gameIsRunning = false;
 	private boolean gameOver = true;
+	// Delta ermoeglicht die Berechnung von konstanten
+	// Bewegungen im Spiel, unabhaengig von den FPS
 	long delta = 0;
+	// Letzte Systemzeit, hilft bei Berechnungen zum Gameloop
 	private long last = 0;
 	long fps = 0;
+	// Speichert die gewuenschte Bildwiederholungsrate
 	private int preferredFps;
 
+	// Das Fenster, der Rahmen
 	private JFrame frame;
+	// Gibt an, welche Card im Fenster gerade aktiv ist
 	private String currentCard;
+	// Kontainer fuer die "Unterfenster" card1, card2, ...
 	private JPanel cards;
+	// "Unterfenster", die das Startmenue, Einstellungen, etc. beinhalten 
 	private JPanel card1, card2, card3, card4, card5;
+	// CardLayout ermoeglicht erst diese Darstellung der unterschiedlichen
+	// Fensterinhalte auf unterschiedlichen "Karten"
 	private CardLayout cl;
 	
+	// Spielfenster, Spielleinwand, hier wird drauf gezeichnet
 	GamePanel gamePanel;
+	// Durch den Spieler gesteuerter Charakter
 	Player player;
+	// Die Karte
 	Map map;
+	// In der Logik werden Berechnungen zur Laufzeit getaetigt
+	Logic logic;
 	
+	// Die im Menue vorhandenen Knoepfe
 	private JButton 
 	c1b1, //Neues Spiel
 	c1b2, //Einstellungen
@@ -62,7 +78,8 @@ public class Houston implements ActionListener, Runnable {
 	c5b1; //zum Hauptmenue
 	
 
-	// diese Strings identifizieren jeweils eins der Card Panel
+	// Diese Strings identifizieren jeweils eins der Card Panel
+	// Sind hilfreich z.B. beim Wechsel von einer Karte auf eine Andere
 	final static String STARTMENU = "STARTMENU";
 	final static String SETTINGS = "SETTINGS";
 	final static String GAME = "GAME";
@@ -75,19 +92,18 @@ public class Houston implements ActionListener, Runnable {
 	public static void main(String[] args) {
 		new Houston(768, 672);
 	}
-
 	// ------------------------------------------------------------
 
 	public Houston(int width, int height) {
 
-		// initialisiere allen moeglichen Kram hier drin
+		// Initialisiert allen moeglichen Kram, vorm ersten Spielstart
 		initializeCrap();
 
-		// Hoehe und Breite des Fensterinhaltes
+		// Setzt Hoehe und Breite des Fensterinhaltes
 		this.width = width;
 		this.height = height;
 		
-		// im folgenden Bereich wird alles rund ums Fenster aufgebaut und verknuepft
+		// Im Folgenden wird alles rund ums Fenster aufgebaut und verknuepft
 		
 		// Card 1 - STARTMENU
 		card1 = card1();
@@ -104,7 +120,7 @@ public class Houston implements ActionListener, Runnable {
 		// Card 5 - CREDITS
 		card5 = card5();
 
-		// Erstelle ein neues Cards-Panel und fuege alle Card-Panel hinzu
+		// Erstellt ein neues Cards-Panel und fuege alle Card-Panel hinzu
 		cl = new CardLayout();
 		cards = new JPanel(cl);
 		cards.setPreferredSize(new Dimension(this.width, this.height));
@@ -114,43 +130,43 @@ public class Houston implements ActionListener, Runnable {
 		cards.add(card4, INGAMEMENU);
 		cards.add(card5, CREDITS);
 
-		// Erstelle das Hauptfenster und fuege die Cards hinzu
+		// Erstellt das Hauptfenster und fuege die Cards hinzu
 		frame = buildFrame("Folderol", cards);
 		
-		// Card die als erstes angezeigt werden soll
+		// Setzt Card, die als erstes angezeigt werden soll
 		// STARTMENU; SETTINGS; GAME; INGAMEMENU
 		cl.show(cards, STARTMENU);
 		currentCard = STARTMENU;
 		
-		// springe in den Game-Loop
+		// Startet den Game-Loop
 		Thread th = new Thread(this);
 		th.start();
 		
 	}
 	
 	
-	
+	// Hier wird vor Spielbeginn alles moegliche initialisiert
 	private void initializeCrap() {
-		// hier wird alles moegliche initialisiert
 		
 		last = System.nanoTime();
 		preferredFps = 30;
-		player = new Player();
 		map = new Map(0, 20, 24);
+		player = new Player();
+		logic = new Logic(this);
 		
 	}
-	
-	
 	
 
 	@Override
 	public void run() {
-		// GameLoop - noch in Arbeit
+		// GameLoop (noch in Arbeit)
 		while(frame.isVisible()) {
 		
 			if (gameIsRunning) {
 				computeDelta();
-				player.move(delta);
+				// Berechnet z.B. Bewegungen im Spiel
+				logic.doGameUpdates(delta);
+				// Zeichnet die "Leinwand" in card4 neu
 				card3.repaint();
 			}
 			
@@ -163,17 +179,14 @@ public class Houston implements ActionListener, Runnable {
 	}
 	
 	
-	
-
-	/**
-	 * berechnet fps und delta
-	 */
+	// Berechnet FPS und Delta
 	private void computeDelta() {
 		delta = System.nanoTime() - last;
 		last = System.nanoTime();
 		fps = ((long) 1e9) / delta;
 	}
 	
+	// Baut das Fenster auf und bindet JPanel cards ein
 	private JFrame buildFrame(String titel, JPanel cards) {
 		frame = new JFrame(titel);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -186,9 +199,9 @@ public class Houston implements ActionListener, Runnable {
 		return frame;
 	}
 
+	// Baut das Hauptmenue
 	private JPanel card1() {
 		card1 = new JPanel(null);
-		
 		// card1.add(new JLabel(STARTMENU));
 		
 		c1b1 = new JButton("Neues Spiel");
@@ -213,6 +226,7 @@ public class Houston implements ActionListener, Runnable {
 		return card1;
 	}
 	
+	// Baut das Einstellungsfenster
 	private JPanel card2() {
 		card2 = new JPanel(null);
 		// card2.add(new JLabel(SETTINGS));
@@ -224,6 +238,7 @@ public class Houston implements ActionListener, Runnable {
 		return card2;
 	}
 	
+	// Baut das Spielfenster
 	private JPanel card3() {
 		// gamePanel fungiert als die Leinwand fuer das eigentliche Spiel 
 		gamePanel = new GamePanel(this);
@@ -231,6 +246,7 @@ public class Houston implements ActionListener, Runnable {
 		return gamePanel;
 	}
 
+	// Baut das Spielmenue
 	private JPanel card4() {
 		card4 = new JPanel(null);
 		// card4.add(new JLabel(INGAMEMENU));
@@ -247,9 +263,10 @@ public class Houston implements ActionListener, Runnable {
 		return card4;
 	}
 
+	// Baut das Mitwirkendenfenster
 	private JPanel card5() {
 		card5 = new JPanel(null);
-//		card5.add(new JLabel(CREDITS));
+		// card5.add(new JLabel(CREDITS));
 
 		c5b1 = new JButton("-> Hauptmenue");
 		c5b1.addActionListener(this);
@@ -258,19 +275,17 @@ public class Houston implements ActionListener, Runnable {
 		return card5;
 	}
 	
-	/**
-	 * Wechselt die Ansicht (Card) im Fenster und weist
-	 * die gerade benoetigten Tastendruecke zu
-	 * 
-	 * @param gameOver
-	 * @param gameIsRunning
-	 * @param name
-	 */
+	// Wechselt die Card und weist die entsprechenden Tastendruecke zu
 	void changeAppearance(boolean gameOver, boolean gameIsRunning, String name) {
+		// Setzt die aktuelle Card auf die neue Card
 		currentCard = name;
+		// Aendert moeglicherweise, ob das Spie noch laeuft
 		this.gameIsRunning = gameIsRunning;
+		// Aendert moeglicherweise, ob das Spiel beendet wurde
 		this.gameOver = gameOver;
+		// Weist die Tastendruecke zu
 		mapActions();
+		// Waechselt von der aktuellen Card auf die neue Card
 		cl.show(cards, name);
 	}
 	
@@ -283,15 +298,14 @@ public class Houston implements ActionListener, Runnable {
 	}
 	
 	
-	/**
-	 * Weist, je nach angezeigtem Panel (Card), die entsprechenden Tastendruecke zu
-	 */
+	// Weist, je nach angezeigtem Panel (Card), die entsprechenden Tastendruecke zu
 	private void mapActions() {
+		// Holt die InputMap, um neue Tastendruecke zu registrieren
 		InputMap im = cards.getInputMap();
+		// Holt die ActionMap, um neue Aktionen zu registrieren
 		ActionMap am = cards.getActionMap();
 		
-		
-		// Definiere die benoetigten Tastendruecke
+		// Definiert die benoetigten Tastendruecke
 		KeyStroke esc = KeyStroke.getKeyStroke("ESCAPE");
 		KeyStroke r = KeyStroke.getKeyStroke("R");
 		KeyStroke w = KeyStroke.getKeyStroke("W");
@@ -303,7 +317,7 @@ public class Houston implements ActionListener, Runnable {
 		KeyStroke ra = KeyStroke.getKeyStroke("released A");
 		KeyStroke rd = KeyStroke.getKeyStroke("released D");
 		
-		// Entferne alle Tastenzuweisungen
+		// Entfernt alle Tastenzuweisungen in der InputMap
 		im.remove(KeyStroke.getKeyStroke("ESCAPE"));
 		im.remove(r);
 		im.remove(w);
@@ -315,8 +329,7 @@ public class Houston implements ActionListener, Runnable {
 		im.remove(ra);
 		im.remove(rd);
 		
-		
-		// aktiviert das Wechseln zwischen GAME und INGAMEMENU mit "Escape"
+		// Aktiviert das Wechseln zwischen GAME und INGAMEMENU mit "Escape"
 		if (gameOver == false) {
 			if (currentCard == GAME) {
 				im.put(esc, "jumpToIngamemenu");
@@ -325,7 +338,7 @@ public class Houston implements ActionListener, Runnable {
 			}
 		}
 
-		// aktiviert die Bewegungstasten
+		// Aktiviert/registriert die Bewegungstasten und die Resettaste
 		if (gameIsRunning) {
 			im.put(r, "resetPlayer");
 			im.put(w, "moveUp");
@@ -338,7 +351,7 @@ public class Houston implements ActionListener, Runnable {
 			im.put(rd, "releasedRight");
 		}
 		
-		// "verbindet" den jeweiligen Tastendruck mit einer Action
+		// "Verbindet" die Tastendruecke mit einer jeweiligen Action
 		am.put("jumpToIngamemenu", new Actions.jumpToIngamemenu(this));
 		am.put("jumpToGame", new Actions.jumpToGame(this));
 		am.put("resetPlayer", new Actions.resetPlayer(this));
@@ -350,21 +363,19 @@ public class Houston implements ActionListener, Runnable {
 		am.put("releasedDown", new Actions.releasedDown(this));
 		am.put("releasedLeft", new Actions.releasedLeft(this));
 		am.put("releasedRight", new Actions.releasedRight(this));
-
 	}
 
 	
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		
+		// Ermittelt die Quelle des Tastendrucks
 		JButton buttonClicked = (JButton) e.getSource();
-
 		
-		// kuemmert sich um die Events der Menu Buttons
+		// Kuemmert sich um die Events der einzelnen Menu Buttons
 		if (buttonClicked == c1b1) {
 			changeAppearance(false, true, GAME);
-			player.resetPosition();
-			map.renewMap(0);
+			logic.setupNewMap(0);
 		} else if (buttonClicked == c1b2) {
 			changeAppearance(SETTINGS);
 		} else if (buttonClicked == c1b3) {
@@ -380,8 +391,6 @@ public class Houston implements ActionListener, Runnable {
 		} else if (buttonClicked == c5b1) {
 			changeAppearance(STARTMENU);
 		}
-
 	}
-
-
+	
 }

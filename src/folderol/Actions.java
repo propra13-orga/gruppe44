@@ -18,6 +18,10 @@ public class Actions {
 		public void actionPerformed(ActionEvent e) {
 			// System.out.println("ESC -> Ingamemenu");
 			houston.changeAppearance(false, false, "INGAMEMENU");
+			houston.player.up = false;
+			houston.player.down = false;
+			houston.player.left = false;
+			houston.player.right = false;
 		}
 
 	}
@@ -68,7 +72,7 @@ public class Actions {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			// System.out.println("pressedUp");
-			houston.player.setYMovement(-1);
+			houston.player.up = true;
 		}
 
 	}
@@ -85,7 +89,7 @@ public class Actions {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			// System.out.println("pressedDown");
-			houston.player.setYMovement(1);
+			houston.player.down = true;
 		}
 
 	}
@@ -102,7 +106,7 @@ public class Actions {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			// System.out.println("pressedLeft");
-			houston.player.setXMovement(-1);
+			houston.player.left = true;
 		}
 
 	}
@@ -119,7 +123,7 @@ public class Actions {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			// System.out.println("pressedRight");
-			houston.player.setXMovement(1);
+			houston.player.right = true;
 		}
 
 	}
@@ -136,7 +140,7 @@ public class Actions {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			// System.out.println("releasedUp");
-			houston.player.setYMovement(0);
+			houston.player.up = false;
 		}
 
 	}
@@ -153,7 +157,7 @@ public class Actions {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			// System.out.println("releasedDown");
-			houston.player.setYMovement(0);
+			houston.player.down = false;
 		}
 
 	}
@@ -170,7 +174,7 @@ public class Actions {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			// System.out.println("releasedLeft");
-			houston.player.setXMovement(0);
+			houston.player.left = false;
 		}
 
 	}
@@ -187,7 +191,7 @@ public class Actions {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			// System.out.println("releasedRight");
-			houston.player.setXMovement(0);
+			houston.player.right = false;
 		}
 
 	}

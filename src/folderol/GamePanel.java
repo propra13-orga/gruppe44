@@ -13,6 +13,7 @@ public class GamePanel extends JPanel {
 	private Houston houston;
 	private Player player;
 	private Map map;
+	
 	private Font font;
 	private Color bgColor;
 	
@@ -21,20 +22,22 @@ public class GamePanel extends JPanel {
 		this.player = houston.player;
 		this.map = houston.map;
 		
+		// Setzt die Schrift fuer die Konsolenausgaben
 		font = new Font("Arial", Font.BOLD, 12);
-		bgColor = new Color(230, 230, 230);
+		// Setzt die Hintergrundfarbe
+		bgColor = new Color(240, 240, 240);
 	}
 
 	@Override
 	protected void paintComponent(Graphics gr) {
-		// super.paintComponent(gr);
 		Graphics2D g = (Graphics2D) gr;
 		// g.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
 
 		// Hier wird gezeichnet
 		
+		// Zeichnet den Hintergrund
 		g.setColor(bgColor);
-		g.fillRect(0, 0, houston.width, houston.height); // Hintergrund
+		g.fillRect(0, 0, houston.width, houston.height);
 
 		// Zeichne die Karte
 		map.drawObjects(g);
@@ -42,16 +45,21 @@ public class GamePanel extends JPanel {
 		// Zeichne den Player
 		player.drawObjects(g);
 		
-		// Hier werden Konsolenausgaben gezeichnet
+		// Zeichnet Helfer zum Verstaendnis der Kollisionserkennung
+		// houston.logic.drawObjects(g);
+		
+		// Zeichnet Konsolenausgaben
 		g.setColor(Color.BLACK);
 		g.setFont(font);
 		g.drawString("Konsolenausgaben hier", 16, 20);
+		// Zeichnet die gerundete aktuelle Position des Player
 		g.drawString("Pos " + "x:"+(int)player.getX()+" y:"+(int)player.getY(), 208, 20);
-		// g.drawString("Delta " + houston.delta, 368, 20);
-
-		// Hier werden die aktuellen fps gezeichnet
+		
+		// Zeichnet die aktuellen FPS (Frames Per Second)
 		g.drawString("FPS: " + houston.fps, 712, 20);
-//		g.dispose();
+		
+		
+		g.dispose();
 	} // Ab hier ist Schluss mit Zeichnen
 
 }

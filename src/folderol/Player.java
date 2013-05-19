@@ -11,101 +11,90 @@ import javax.imageio.ImageIO;
 
 public class Player {
 
-	private Rectangle2D bounds;
+	// bounds = "Grenzen" des Player
+	Rectangle2D bounds;
 	private Point2D resetPoint;
 	private Color color;
 
-	private double speed;
-	private double dx;
-	private double dy;
-	private double newX;
-	private double newY;
-	BufferedImage texture = null;
+	final double speed;
+	boolean up, down, left, right;
+	private BufferedImage texture = null;
 
 	public Player() {
-		// setze Farbe des Players
-		setColor(new Color(0, 255, 64));
 		
-		// setze Geschwindigkeit des Players
+		// Setzt Farbe des Player
+		color = new Color(0, 255, 64, 50);
+		
+		// Setzt Geschwindigkeit des Player
 		speed = 128;
 		
-		// Setze den Player hierhin zurück
+		// Setzt Ursprungsposition des Player
 		resetPoint = new Point2D.Double(64, 96);
 		
-		// setze position und größe des Players
-		bounds = new Rectangle2D.Double(resetPoint.getX(), resetPoint.getY(), 32, 32);
+		// Setzt Position und Groeße des Player
+		bounds = new Rectangle2D.Double(resetPoint.getX(), resetPoint.getY(), 28, 28);
 		
-		// lese und setze Textur des Player
+		// Liest und setzt Textur des Player
 		try {
-			texture = ImageIO.read(getClass().getResourceAsStream("../etc/img/german_m1.png")).getSubimage(0, 0, 32, 46);
+			texture = ImageIO.read(getClass().getResourceAsStream("../etc/img/german_m1.png"));
+			texture = texture.getSubimage(0, 0, 32, 46);
 		} catch (IOException e) {e.printStackTrace();}
 	}
 	
 	
 	
-
+	// Zeichnet den spieler 
 	public void drawObjects(Graphics2D g) {
 		g.setColor(color);
-		// g.fillRect((int) bounds.getX(), (int) bounds.getY(), (int) bounds.getWidth(), (int) bounds.getHeight());
-		g.drawImage(texture, (int) bounds.getX(), (int) bounds.getY()-14, null);
+		g.drawRect((int) bounds.getX(), (int) bounds.getY(), (int) bounds.getWidth(), (int) bounds.getHeight());
+		g.drawImage(texture, (int) bounds.getX()-2, (int) bounds.getY()-18, null);
 	}
 
-	public Color getColor() {
-		return color;
-	}
-
-	public void setColor(Color color) {
-		this.color = color;
-	}
-
+	// Versetzt den Player an gewuenschte Stelle
 	void setPosition(double x, double y) {
 		bounds.setRect(x, y, bounds.getWidth(), bounds.getHeight());
 	}
 
+	// Setzt den Player an seine Ursprungsposition zurueck
 	void resetPosition() {
 		setPosition(resetPoint.getX(), resetPoint.getY());
 	}
 
+	// Veraendert die Ursprungsposition
 	void setResetPosition(double x, double y) {
 		resetPoint.setLocation(x, y);
 	}
-
-	void move(long delta) {
-		// Wenn dx oder dy ungleich 0 sind, dann bewege dich
-		if (dx != 0 || dy != 0) {
-			newX = bounds.getX() + dx * (delta / 1e9);
-			newY = bounds.getY() + dy * (delta / 1e9);
-			bounds.setRect(newX, newY, bounds.getWidth(), bounds.getHeight());
-		}
+	
+	// Veraendert die Ursprungsposition
+	public void setResetPosition(Point2D point) {
+		setResetPosition(point.getX(), point.getY());
 	}
 
-	void setMovement(double x, double y) {
-		dx = x * speed;
-		dy = y * speed;
+	// Versetzt den Player um dX in der Horizontalen und dY in der Vertikalen
+	void move(double dX, double dY) {
+		bounds.setRect(bounds.getX() + dX, bounds.getY() + dY, bounds.getWidth(), bounds.getHeight());
 	}
 
-	void setXMovement(double x) {
-		dx = x * speed;
-	}
-
-	void setYMovement(double y) {
-		dy = y * speed;
-	}
-
+	// Gibt die aktuelle horizontale Position zurueck
 	double getX() {
 		return bounds.getX();
 	}
 
+	// Gibt die aktuelle vertikale Position zurueck
 	double getY() {
 		return bounds.getY();
 	}
 
+	// Gibt die Breite des Player zurueck
 	double getWidth() {
 		return bounds.getWidth();
 	}
 
+	// Gibt die Hoehe des Player zurueck
 	double getHeight() {
 		return bounds.getHeight();
 	}
 
+
+	
 }
