@@ -1,6 +1,5 @@
 package folderol;
 
-import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
@@ -51,11 +50,13 @@ public class Map {
 		walkable.put(8, true); // Start
 		walkable.put(9, true); // Ziel
 		walkable.put(1, true); // Wand
+		walkable.put(7, true); // Falle
 		walkable.put(0, false); // Booden
 		try {
 			texture.put(8, ImageIO.read(new File("./src/etc/img/start.png")));
 			texture.put(9, ImageIO.read(new File("./src/etc/img/finish.png")));
 			texture.put(1, ImageIO.read(new File("./src/etc/img/wall.png")));
+			texture.put(7, ImageIO.read(new File("./src/etc/img/trap.png")));
 			texture.put(0, ImageIO.read(new File("./src/etc/img/ground.png")));
 		} catch (IOException e) {e.printStackTrace();}
 	}

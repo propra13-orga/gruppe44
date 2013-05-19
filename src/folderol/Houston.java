@@ -149,7 +149,7 @@ public class Houston implements ActionListener, Runnable {
 	private void initializeCrap() {
 		
 		last = System.nanoTime();
-		preferredFps = 30;
+		preferredFps = 35;
 		map = new Map(0, 20, 24);
 		player = new Player();
 		logic = new Logic(this);

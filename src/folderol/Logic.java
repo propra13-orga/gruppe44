@@ -52,6 +52,7 @@ public class Logic {
 	
 	// Regelt den Wechsel zur naechsten Karte
 	private void nextMap() {
+		player.up = player.down = player.left = player.right = false;
 		int mapNumber;
 		if ((mapNumber = map.getMapNumber())+1 < map.getCountOfMaps())
 			setupNewMap(mapNumber+1);
@@ -129,8 +130,13 @@ public class Logic {
 	// Ermittelt, ob sich der Player auf einer Speziellen Kachel befindet, und leitet entsprechende Massnahmen ein
 	private void detectSpecialTiles() {
 		if (player.left || player.right || player.up || player.down) {
-			if ((map.mapArray[(int) Math.floor((player.getY() + (player.getHeight()/2))/32)-1][(int) Math.floor((player.getX() + (player.getWidth()/2))/32)]) == 9) { 
+			int value;
+			value = (map.mapArray[(int) Math.floor((player.getY() + (player.getHeight()/2))/32)-1][(int) Math.floor((player.getX() + (player.getWidth()/2))/32)]);
+			if (value == 9){
 				nextMap();
+			}
+			if (value == 7) { 
+				setupNewMap(0);
 			}
 		}
 	}
