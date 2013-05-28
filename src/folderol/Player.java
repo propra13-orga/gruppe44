@@ -5,6 +5,7 @@ import java.awt.Graphics2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
@@ -38,7 +39,7 @@ public class Player {
 		
 		// Liest und setzt Textur des Player
 		try {
-			texture = ImageIO.read(getClass().getResourceAsStream("../etc/img/german_m1.png"));
+			texture = ImageIO.read(new File("./res/img/german_m1.png"));
 			texture = texture.getSubimage(0, 0, 32, 46);
 		} catch (IOException e) {e.printStackTrace();}
 	}
@@ -105,13 +106,13 @@ public class Player {
 	public void changeTexture(int a){
 		if(a == 0){
 			try {
-				texture = ImageIO.read(getClass().getResourceAsStream("../etc/img/german_m1.png"));
+				texture = ImageIO.read(new File("./res/img/german_m1.png"));
 				texture = texture.getSubimage(0, 0, 32, 46);
 			} catch (IOException e) {e.printStackTrace();}
 		}
 		if (a == 1 ){
 			try {
-				texture = ImageIO.read(getClass().getResourceAsStream("../etc/img/german_f2.png"));
+			texture = ImageIO.read(new File("./res/img/german_f2.png"));
 				texture = texture.getSubimage(0, 0, 32, 46);
 			} catch (IOException e) {e.printStackTrace();}
 		}

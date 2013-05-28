@@ -34,9 +34,9 @@ public class Map {
 		
 		// Setzt Pfade zu den jeweiligen Kartendateien ins Array mapUrls
 		mapUrls = new String[3];
-		mapUrls[0] = "./src/etc/maps/map01.txt";
-		mapUrls[1] = "./src/etc/maps/map02.txt";
-		mapUrls[2] = "./src/etc/maps/map03.txt";
+		mapUrls[0] = "./res/maps/map01.txt";
+		mapUrls[1] = "./res/maps/map02.txt";
+		mapUrls[2] = "./res/maps/map03.txt";
 		// Erstellt das Array mapArray, in dem die eingelesen Karte stehen wird
 		mapArray = new int[rows][cols];
 		
@@ -53,11 +53,11 @@ public class Map {
 		walkable.put(7, true); // Falle
 		walkable.put(0, false); // Booden
 		try {
-			texture.put(8, ImageIO.read(new File("./src/etc/img/start.png")));
-			texture.put(9, ImageIO.read(new File("./src/etc/img/finish.png")));
-			texture.put(1, ImageIO.read(new File("./src/etc/img/wall.png")));
-			texture.put(7, ImageIO.read(new File("./src/etc/img/trap.png")));
-			texture.put(0, ImageIO.read(new File("./src/etc/img/ground.png")));
+			texture.put(8, ImageIO.read(new File("./res/img/start.png")));
+			texture.put(9, ImageIO.read(new File("./res/img/finish.png")));
+			texture.put(1, ImageIO.read(new File("./res/img/wall.png")));
+			texture.put(7, ImageIO.read(new File("./res/img/trap.png")));
+			texture.put(0, ImageIO.read(new File("./res/img/ground.png")));
 		} catch (IOException e) {e.printStackTrace();}
 	}
 	
