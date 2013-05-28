@@ -19,9 +19,11 @@ public class Player {
 	final double speed;
 	boolean up, down, left, right;
 	private BufferedImage texture = null;
-
+		String figur;
+	int playernumber;
+	//int a = 0;
 	public Player() {
-		
+
 		// Setzt Farbe des Player
 		color = new Color(0, 255, 64, 50);
 		
@@ -95,6 +97,25 @@ public class Player {
 		return bounds.getHeight();
 	}
 
-
+	public BufferedImage getTexture(){
+		return texture;
+		
+	}
+	
+	public void changeTexture(int a){
+		if(a == 0){
+			try {
+				texture = ImageIO.read(getClass().getResourceAsStream("../etc/img/german_m1.png"));
+				texture = texture.getSubimage(0, 0, 32, 46);
+			} catch (IOException e) {e.printStackTrace();}
+		}
+		if (a == 1 ){
+			try {
+				texture = ImageIO.read(getClass().getResourceAsStream("../etc/img/german_f2.png"));
+				texture = texture.getSubimage(0, 0, 32, 46);
+			} catch (IOException e) {e.printStackTrace();}
+		}
+		System.out.println("irgendwas");
+	}
 	
 }
