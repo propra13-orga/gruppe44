@@ -40,7 +40,7 @@ public class Map {
 		// Erstellt das Array mapArray, in dem die eingelesen Karte stehen wird
 		mapArray = new int[rows][cols];
 		
-		// ititializeHashMaps();
+		// initializeHashMaps();
 		initializeMap();		
 	}
 	
@@ -51,7 +51,7 @@ public class Map {
 		walkable.put(9, true); // Ziel
 		walkable.put(1, true); // Wand
 		walkable.put(7, true); // Falle
-		walkable.put(0, false); // Booden
+		walkable.put(0, false); // Boden
 		try {
 			texture.put(8, ImageIO.read(new File("./res/img/start.png")));
 			texture.put(9, ImageIO.read(new File("./res/img/finish.png")));
@@ -99,11 +99,7 @@ public class Map {
 		for (int row = 0; row < rows; row++) {
 			for (int col = 0; col < cols; col++) {
 				value = mapArray[row][col];
-				// g.fillRect(col * 32, row * 32 + 32, 32, 32);
 				g.drawImage(texture.get(value), col * 32, row * 32 + 32, null);
-				// g.drawRect(col * 32 + 32, row * 32 + 32, 32 - 1, 32 - 1);
-				// g.setColor(Color.BLACK);
-				// g.drawString("" + value, col * 32, row * 32 + 32 + 12);
 			}
 		}
 	}

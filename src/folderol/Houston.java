@@ -14,33 +14,18 @@ package folderol;
 
 
 
-import java.awt.BorderLayout;
 import java.awt.CardLayout;
-import java.awt.Color;
-import java.awt.Container;
 import java.awt.Dimension;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.ItemEvent;
-import java.awt.image.BufferedImage;
-import java.io.IOException;
-
-import javax.imageio.ImageIO;
 import javax.swing.ActionMap;
 import javax.swing.InputMap;
 import javax.swing.JButton;
-
 import javax.swing.ButtonGroup;
-import javax.swing.Icon;
-import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
-import javax.swing.JTextArea;
-import javax.swing.JTextField;
 import javax.swing.KeyStroke;
 
 public class Houston implements ActionListener, Runnable {
@@ -69,7 +54,7 @@ public class Houston implements ActionListener, Runnable {
 	// Kontainer fuer die "Unterfenster" card1, card2, ...
 	private JPanel cards;
 	// "Unterfenster", die das Startmenue, Einstellungen, etc. beinhalten 
-	private JPanel card1, card2, card3, card4, card5, card7;
+	private JPanel card1, card2, card3, card4, card5, card6;
 	// CardLayout ermoeglicht erst diese Darstellung der unterschiedlichen
 	// Fensterinhalte auf unterschiedlichen "Karten"
 	private CardLayout cl;
@@ -95,7 +80,7 @@ public class Houston implements ActionListener, Runnable {
 	c4b1, //zurueck ins Spiel
 	c4b2, //zum Hauptmenue
 	c5b1, //zum Hauptmenue
-	c7b1; // weiter
+	c6b1; //weiter
 	
 	
 	String text;
@@ -107,7 +92,7 @@ public class Houston implements ActionListener, Runnable {
 	final static String GAME = "GAME";
 	final static String INGAMEMENU = "INGAMEMENU";
 	final static String CREDITS = "CREDITS";
-	final static String WEITER = "WEITER";
+	final static String INTRODUCTION = "INTRODUCTION";
 	
 	
 
@@ -143,7 +128,8 @@ public class Houston implements ActionListener, Runnable {
 		// Card 5 - CREDITS
 		card5 = card5();
 		
-		card7 = card7();
+		// Card 6 - INTRODUCTION
+		card6 = card6();
 
 		// Erstellt ein neues Cards-Panel und fuege alle Card-Panel hinzu
 		cl = new CardLayout();
@@ -154,9 +140,9 @@ public class Houston implements ActionListener, Runnable {
 		cards.add(card3, GAME);
 		cards.add(card4, INGAMEMENU);
 		cards.add(card5, CREDITS);
-		cards.add(card7, WEITER);
+		cards.add(card6, INTRODUCTION);
 
-		// Erstellt das Hauptfenster und fuege die Cards hinzu
+		// Erstellt das Hauptfenster und fuegt die Cards hinzu
 		frame = buildFrame("Folderol", cards);
 		
 		// Setzt Card, die als erstes angezeigt werden soll
@@ -165,11 +151,6 @@ public class Houston implements ActionListener, Runnable {
 		currentCard = STARTMENU;
 		
 		// Startet den Game-Loop
-
-		
-
-		// Okay, let's do the loop, yeah come on baby let's do the loop
-		// and it goes like this ...
 
 
 		Thread th = new Thread(this);
@@ -191,7 +172,11 @@ public class Houston implements ActionListener, Runnable {
 
 	@Override
 	public void run() {
-		// GameLoop (noch in Arbeit)
+		// GameLoop
+		
+		// Okay, let's do the loop, yeah come on baby let's do the loop
+		// and it goes like this ...
+		
 		while(frame.isVisible()) {
 		
 			if (gameIsRunning) {
@@ -201,8 +186,6 @@ public class Houston implements ActionListener, Runnable {
 				// Zeichnet die "Leinwand" in card4 neu
 				card3.repaint();
 			}
-			
-			
 			
 			try {
 				Thread.sleep(1000 / preferredFps);
@@ -266,12 +249,10 @@ public class Houston implements ActionListener, Runnable {
 		c2b1 = new JButton("-> Hauptmenue");
 		c2b1.setBounds(284, 360, 200, 40);
 		c2b1.addActionListener(this);
-		//JLabel label = new JLabel("Eine Unnsinnige Story für das Spiel hier später noch einfügen");
-		weiblich = new JRadioButton("fuer Frau");
+		weiblich = new JRadioButton("Spielerin");
 		card2.add(weiblich);
 		weiblich.addActionListener(this);
-		//ImageIcon icon = createImageIcon("./src/etc/img/german_m1.png", "beh");
-		maenlich = new JRadioButton ("fuer Mann");
+		maenlich = new JRadioButton ("Spieler");
 		card2.add(maenlich);
 		maenlich.addActionListener(this);
 		ButtonGroup g = new ButtonGroup();
@@ -280,11 +261,6 @@ public class Houston implements ActionListener, Runnable {
 		weiblich.setBounds(284, 300, 210, 40);
 		maenlich.setBounds(284, 250, 210, 40);
 		maenlich.setSelected(true);
-//		Container container = new Container();
-//		container.add(maenlich);
-//		container.add(weiblich);
-//		card2.add(label);
-//		label.setVisible(true);
 		
 		card2.add(c2b1);
 		return card2;
@@ -327,24 +303,18 @@ public class Houston implements ActionListener, Runnable {
 		return card5;
 	}
 	
-	private JPanel card7(){
-		card7 = new JPanel(null);
-		c7b1 = new JButton ("-> Weiter");
-		c7b1.addActionListener(this);
+	//Baut das Introductionfenster
+	private JPanel card6(){
+		card6 = new JPanel();
+		c6b1 = new JButton ("-> Weiter");
+		c6b1.addActionListener(this);
 		
-		c7b1.setBounds(284, 300, 200, 40);
-		JLabel label = new JLabel("Eine Unnsinnige Story für das Spiel hier später noch einfügen");
-//		JRadioButton weiblich = new JRadioButton("fuer Frau", true);
-//		card7.add(weiblich);
-//		ImageIcon icon = createImageIcon("./src/etc/img/german_m1.png", "beh");
-//		JRadioButton meanlich = new JRadioButton ("fuer Mann", icon, true);
-//		card7.add(meanlich);
-		card7.add(label);
+		c6b1.setBounds(284, 300, 200, 40);
+		JLabel label = new JLabel("Eine Story für das Spiel wird hier später noch eingefügt. ");
+		card6.add(label);
 		label.setVisible(true);
-	    card7.add(c7b1);
-		return card7;
-		
-		
+	    card6.add(c6b1);
+		return card6;
 	}
 
 	
@@ -352,7 +322,7 @@ public class Houston implements ActionListener, Runnable {
 	void changeAppearance(boolean gameOver, boolean gameIsRunning, String name) {
 		// Setzt die aktuelle Card auf die neue Card
 		currentCard = name;
-		// Aendert moeglicherweise, ob das Spie noch laeuft
+		// Aendert moeglicherweise, ob das Spiel noch laeuft
 		this.gameIsRunning = gameIsRunning;
 		// Aendert moeglicherweise, ob das Spiel beendet wurde
 		this.gameOver = gameOver;
@@ -436,12 +406,7 @@ public class Houston implements ActionListener, Runnable {
 		am.put("releasedDown", new Actions.releasedDown(this));
 		am.put("releasedLeft", new Actions.releasedLeft(this));
 		am.put("releasedRight", new Actions.releasedRight(this));
-	}
-	
-
-
-
-		
+	}	
 	
 	@Override
 	public void actionPerformed(ActionEvent e) {
@@ -452,8 +417,8 @@ public class Houston implements ActionListener, Runnable {
 		
 		// Kuemmert sich um die Events der einzelnen Menu Buttons
 		if (buttonClicked == c1b1) {
-			changeAppearance(WEITER);
-		}else if(buttonClicked == c7b1){
+			changeAppearance(INTRODUCTION);
+		}else if(buttonClicked == c6b1){
 			changeAppearance(false, true, GAME);
 			logic.setupNewMap(0);
 		} else if (buttonClicked == c1b2) {

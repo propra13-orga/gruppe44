@@ -1,7 +1,5 @@
 package folderol;
 
-import java.awt.Color;
-import java.awt.Graphics2D;
 import java.awt.geom.Point2D;
 
 public class Logic {
@@ -66,7 +64,6 @@ public class Logic {
 	void controlPlayerMovement() {
 		dX = dY = 0;
 		getPlayerCorners();
-		// detectIntersection(); // entfernen, zusammen mit der Methode
 		
 		// Bewegung nach Links
 		if (player.left && !player.right) {
@@ -113,14 +110,14 @@ public class Logic {
 		bottomRight.setLocation(player.getX() + player.getWidth(), player.getY() + player.getHeight());
 	}
 	
-	// Ermittelt, ob die, durch horizontale Bewegung dX, erechnete neue Position des Spielers in einer Wand liegt oder nicht
+	// Ermittelt, ob die, durch horizontale Bewegung dX, errechnete neue Position des Spielers in einer Wand liegt oder nicht
 	private int isValidXMovement(Point2D pointTop, Point2D pointBottom, double dX) {
 		if ((map.mapArray[(int) Math.floor(pointTop.getY()/32)-1][(int) Math.floor((pointTop.getX()+dX)/32)] == 1)) return 1;
 		else if ((map.mapArray[(int) Math.floor(pointBottom.getY()/32)-1][(int) Math.floor((pointBottom.getX()+dX)/32)] == 1)) return 1;
 		return 0;
 	}
 
-	// Ermittelt, ob die, durch vertikale Bewegung dY, erechnete neue Position des Spielers in einer Wand liegt oder nicht
+	// Ermittelt, ob die, durch vertikale Bewegung dY, errechnete neue Position des Spielers in einer Wand liegt oder nicht
 	private int isValidYMovement(Point2D pointLeft, Point2D pointRight, double dY2) {
 		if ((map.mapArray[(int) Math.floor((pointLeft.getY()+dY)/32)-1][(int) Math.floor(pointLeft.getX()/32)] == 1)) return 1;
 		else if ((map.mapArray[(int) Math.floor((pointRight.getY()+dY)/32)-1][(int) Math.floor(pointRight.getX()/32)] == 1)) return 1;
@@ -140,44 +137,4 @@ public class Logic {
 			}
 		}
 	}
-	
-	
-
-
-//	private void detectIntersection() {
-//		r = y = gr = b = false;
-//		
-//		if((map.mapArray[(int) Math.floor(topLeft.getY()/32)-1][(int) Math.floor(topLeft.getX()/32)] == 1)) {
-//			r = true;
-//		}
-//		if((map.mapArray[(int) Math.floor(topRight.getY()/32)-1][(int) Math.floor(topRight.getX()/32)] == 1)) {
-//			y = true;
-//		}
-//		if((map.mapArray[(int) Math.floor(bottomLeft.getY()/32)-1][(int) Math.floor(bottomLeft.getX()/32)] == 1)) {
-//			gr = true;
-//		}
-//		if((map.mapArray[(int) Math.floor(bottomRight.getY()/32)-1][(int) Math.floor(bottomRight.getX()/32)] == 1)) {
-//			b = true;
-//		}
-//	}
-
-	public void drawObjects(Graphics2D g) {
-		
-		g.setColor(Color.RED);
-		g.drawRect( (int) (Math.floor(topLeft.getX()/32))*32, (int) (Math.floor(topLeft.getY()/32))*32, 32, 32);
-		if(r) g.drawString("r", 600, 20);
-		
-		g.setColor(Color.YELLOW);
-		g.drawRect( (int) (Math.floor(topRight.getX()/32))*32, (int) (Math.floor(topRight.getY()/32))*32, 32, 32);
-		if(y) g.drawString("y", 620, 20);
-		
-		g.setColor(Color.GREEN);
-		g.drawRect( (int) (Math.floor(bottomLeft.getX()/32))*32, (int) (Math.floor(bottomLeft.getY()/32))*32, 32, 32);
-		if(gr) g.drawString("gr", 640, 20);
-		
-		g.setColor(Color.BLUE);
-		g.drawRect( (int) (Math.floor(bottomRight.getX()/32))*32, (int) (Math.floor(bottomRight.getY()/32))*32, 32, 32);
-		if(b) g.drawString("b", 660, 20);
-	}
-
 }

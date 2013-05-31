@@ -31,7 +31,6 @@ public class GamePanel extends JPanel {
 	@Override
 	protected void paintComponent(Graphics gr) {
 		Graphics2D g = (Graphics2D) gr;
-		// g.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
 
 		// Hier wird gezeichnet
 		
@@ -39,14 +38,11 @@ public class GamePanel extends JPanel {
 		g.setColor(bgColor);
 		g.fillRect(0, 0, houston.width, houston.height);
 
-		// Zeichne die Karte
+		// Zeichnet die Karte
 		map.drawObjects(g);
 
-		// Zeichne den Player
+		// Zeichnet den Player
 		player.drawObjects(g);
-		
-		// Zeichnet Helfer zum Verstaendnis der Kollisionserkennung
-		// houston.logic.drawObjects(g);
 		
 		// Zeichnet Konsolenausgaben
 		g.setColor(Color.BLACK);
@@ -57,8 +53,6 @@ public class GamePanel extends JPanel {
 		
 		// Zeichnet die aktuellen FPS (Frames Per Second)
 		g.drawString("FPS: " + houston.fps, 712, 20);
-		
-		
 		g.dispose();
 	} // Ab hier ist Schluss mit Zeichnen
 

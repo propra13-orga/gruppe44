@@ -22,7 +22,6 @@ public class Player {
 	private BufferedImage texture = null;
 		String figur;
 	int playernumber;
-	//int a = 0;
 	public Player() {
 
 		// Setzt Farbe des Player
@@ -34,7 +33,7 @@ public class Player {
 		// Setzt Ursprungsposition des Player
 		resetPoint = new Point2D.Double(64, 96);
 		
-		// Setzt Position und Groeße des Player
+		// Setzt Position und Groesse des Player
 		bounds = new Rectangle2D.Double(resetPoint.getX(), resetPoint.getY(), 28, 28);
 		
 		// Liest und setzt Textur des Player
@@ -43,8 +42,6 @@ public class Player {
 			texture = texture.getSubimage(0, 0, 32, 46);
 		} catch (IOException e) {e.printStackTrace();}
 	}
-	
-	
 	
 	// Zeichnet den spieler 
 	public void drawObjects(Graphics2D g) {
@@ -100,7 +97,6 @@ public class Player {
 
 	public BufferedImage getTexture(){
 		return texture;
-		
 	}
 	
 	public void changeTexture(int a){
