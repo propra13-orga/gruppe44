@@ -10,12 +10,6 @@ package folderol;
  * 7 = Trap/Falle
  * p = Player/Spieler
  * 
- * für Umlaute bitte:
- * Ä,ä \u00c4, \u00e4
- *Ö, ö \u00d6, \u00f6
- *Ü, ü \u00dc, \u00fc
- *ß \u00df
- *® \u00ae
 */
 
 
@@ -82,10 +76,10 @@ public class Houston implements ActionListener, Runnable {
 	c1b2, //Einstellungen
 	c1b3, //Mitwirkende
 	c1b4, //Beenden
-	c2b1, //zum Hauptmen\u00fc
+	c2b1, //zum Hauptmenue
 	c4b1, //zurueck ins Spiel
-	c4b2, //zum Hauptmen\u00fc
-	c5b1, //zum Hauptmen\u00fc
+	c4b2, //zum Hauptmenue
+	c5b1, //zum Hauptmenue
 	c6b1; //weiter
 	
 	
@@ -220,7 +214,7 @@ public class Houston implements ActionListener, Runnable {
 		return frame;
 	}
 
-	// Baut das Hauptmen\u00fc
+	// Baut das Hauptmenue
 	private JPanel card1() {
 		card1 = new JPanel(null);
 		// card1.add(new JLabel(STARTMENU));
@@ -252,7 +246,7 @@ public class Houston implements ActionListener, Runnable {
 		card2 = new JPanel(null);
 		// card2.add(new JLabel(SETTINGS));
 
-		c2b1 = new JButton("-> Hauptmen\u00fc");
+		c2b1 = new JButton("-> Hauptmenue");
 		c2b1.setBounds(284, 360, 200, 40);
 		c2b1.addActionListener(this);
 		weiblich = new JRadioButton("Spielerin");
@@ -285,12 +279,12 @@ public class Houston implements ActionListener, Runnable {
 		card4 = new JPanel(null);
 		// card4.add(new JLabel(INGAMEMENU));
 
-		c4b1 = new JButton("zur\u00fcck ins Spiel");
+		c4b1 = new JButton("zurueck ins Spiel");
 		c4b1.addActionListener(this);
 		c4b1.setBounds(284, 300, 200, 40);
 		card4.add(c4b1);
 
-		c4b2 = new JButton("-> Hauptmen\u00fc");
+		c4b2 = new JButton("-> Hauptmenue");
 		c4b2.addActionListener(this);
 		c4b2.setBounds(284, 360, 200, 40);
 		card4.add(c4b2);
@@ -300,22 +294,9 @@ public class Houston implements ActionListener, Runnable {
 	// Baut das Mitwirkendenfenster
 	private JPanel card5() {
 		card5 = new JPanel(null);
-		JLabel picsandy = new JLabel(new ImageIcon("./res/img/sandy.png"));
-		JLabel picjana = new JLabel(new ImageIcon("./res/img/jana.png"));
-		JLabel picphil = new JLabel(new ImageIcon("./res/img/phil.png"));
-		JLabel picphilipp = new JLabel(new ImageIcon("./res/img/philipp.png"));
-		JLabel picdavid = new JLabel(new ImageIcon("./res/img/david.png"));
-		picsandy.setBounds(29, 200, 130, 130);
-		picjana.setBounds(174, 200, 130, 130);
-		picphil.setBounds(319, 200, 130, 130);
-		picphilipp.setBounds(464, 200, 130, 130);
-		picdavid.setBounds(609, 200, 130, 130);
-		card5.add(picsandy);
-		card5.add(picjana);
-		card5.add(picphil);
-		card5.add(picphilipp);
-		card5.add(picdavid);
-		c5b1 = new JButton("-> Hauptmen\u00fc");
+		// card5.add(new JLabel(CREDITS));
+
+		c5b1 = new JButton("-> Hauptmenue");
 		c5b1.addActionListener(this);
 		c5b1.setBounds(284, 420, 200, 40);
 		card5.add(c5b1);
