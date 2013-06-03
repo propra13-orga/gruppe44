@@ -10,3 +10,4 @@ tmp/**/*
 *.launch
 *.class
 .DS_Store
+*.*~
