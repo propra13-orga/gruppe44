@@ -25,6 +25,7 @@ import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.ActionMap;
+import javax.swing.ImageIcon;
 import javax.swing.InputMap;
 import javax.swing.JButton;
 import javax.swing.ButtonGroup;
@@ -150,6 +151,7 @@ public class Houston implements ActionListener, Runnable {
 
 		// Erstellt das Hauptfenster und fuegt die Cards hinzu
 		frame = buildFrame("Folderol", cards);
+		frame.pack();
 		
 		// Setzt Card, die als erstes angezeigt werden soll
 		// STARTMENU; SETTINGS; GAME; INGAMEMENU
