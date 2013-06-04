@@ -10,13 +10,13 @@ package folderol;
  * 7 = Trap/Falle
  * p = Player/Spieler
  * 
- * für Umlaute bitte:
- * Ä,ä \u00c4, \u00e4
- *Ö, ö \u00d6, \u00f6
- *Ü, ü \u00dc, \u00fc
- *ß \u00df
- *® \u00ae
+ * Ã„, Ã¤ \u00c4, \u00e4
+ * Ã–, Ã¶ \u00d6, \u00f6
+ * Ãœ, Ã¼ \u00dc, \u00fc
+ * ÃŸ \u00df
+ * Â® \u00ae 
 */
+
 
 
 
@@ -331,7 +331,7 @@ public class Houston implements ActionListener, Runnable {
 		c6b1.addActionListener(this);
 		
 		c6b1.setBounds(284, 300, 200, 40);
-		JLabel label = new JLabel("Eine Story für das Spiel wird hier später noch eingefügt. ");
+		JLabel label = new JLabel("Eine Story f\u00fcr das Spiel wird hier sp\u00e4ter noch eingef\u00fcgt. ");
 		card6.add(label);
 		label.setVisible(true);
 	    card6.add(c6b1);
