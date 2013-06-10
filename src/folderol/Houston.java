@@ -34,6 +34,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.KeyStroke;
+import java.awt.BorderLayout;
 
 public class Houston implements ActionListener, Runnable {
 
@@ -61,7 +62,7 @@ public class Houston implements ActionListener, Runnable {
 	// Kontainer fuer die "Unterfenster" card1, card2, ...
 	private JPanel cards;
 	// "Unterfenster", die das Startmenue, Einstellungen, etc. beinhalten 
-	private JPanel card1, card2, card3, card4, card5, card6;
+	private JPanel card1, card2, card3, card4, card5, card6, card7;
 	// CardLayout ermoeglicht erst diese Darstellung der unterschiedlichen
 	// Fensterinhalte auf unterschiedlichen "Karten"
 	private CardLayout cl;
@@ -76,9 +77,13 @@ public class Houston implements ActionListener, Runnable {
 	Map map;
 	// In der Logik werden Berechnungen zur Laufzeit getaetigt
 	Logic logic;
+	//Item fuer Leben
+	Healthpack healthpack;
+	//Item fuer Mana
+	Manatrank manatrank;
 	
 	// Die im Menue vorhandenen Knoepfe
-	private JButton 
+	JButton 
 	c1b1, //Neues Spiel
 	c1b2, //Einstellungen
 	c1b3, //Mitwirkende
@@ -87,7 +92,15 @@ public class Houston implements ActionListener, Runnable {
 	c4b1, //zurueck ins Spiel
 	c4b2, //zum Hauptmen\u00fc
 	c5b1, //zum Hauptmen\u00fc
-	c6b1; //weiter
+	c6b1, //weiter
+	c7b1, //Healthpack
+	c7b2, //Manatrank
+	c7b3; //zurueck ins Spie
+	
+	private JLabel 
+	c7b4, //fuer die Ausgabe im Shop
+	c7b5, //fuer Icon Club Mate im Shop
+	c7b6; //fuer Icon Killepitsch im Shop
 	
 	
 	String text;
@@ -100,7 +113,8 @@ public class Houston implements ActionListener, Runnable {
 	final static String INGAMEMENU = "INGAMEMENU";
 	final static String CREDITS = "CREDITS";
 	final static String INTRODUCTION = "INTRODUCTION";
-	
+	final static String SHOP = "SHOP";
+		
 	
 
 	// ------------------------------------------------------------
@@ -137,6 +151,9 @@ public class Houston implements ActionListener, Runnable {
 		
 		// Card 6 - INTRODUCTION
 		card6 = card6();
+		
+		// Card 7 - SHOP
+		card7 = card7();
 
 		// Erstellt ein neues Cards-Panel und fuege alle Card-Panel hinzu
 		cl = new CardLayout();
@@ -148,6 +165,7 @@ public class Houston implements ActionListener, Runnable {
 		cards.add(card4, INGAMEMENU);
 		cards.add(card5, CREDITS);
 		cards.add(card6, INTRODUCTION);
+		cards.add(card7, SHOP);
 
 		// Erstellt das Hauptfenster und fuegt die Cards hinzu
 		frame = buildFrame("Folderol", cards);
@@ -173,8 +191,10 @@ public class Houston implements ActionListener, Runnable {
 		last = System.nanoTime();
 		preferredFps = 35;
 		map = new Map(0, 20, 24);
-		player = new Player();
+		player = new Player(this);
 		logic = new Logic(this);
+		healthpack = new Healthpack(this);
+		manatrank = new Manatrank(this);
 	}
 	
 
@@ -193,6 +213,8 @@ public class Houston implements ActionListener, Runnable {
 				logic.doGameUpdates(delta);
 				// Zeichnet die "Leinwand" in card4 neu
 				card3.repaint();
+				//prueft immer wieder ob Spieler noch lebt
+				player.health();
 			}
 			
 			try {
@@ -327,15 +349,57 @@ public class Houston implements ActionListener, Runnable {
 	//Baut das Introductionfenster
 	private JPanel card6(){
 		card6 = new JPanel();
-		c6b1 = new JButton ("-> Weiter");
+		card6.setLayout(new BorderLayout());
+		card6.add(new JLabel("<html>Willkommen in unserem Spiel!<p/>Eine Story für das Spiel wird hier später noch eingefügt.</html>"), BorderLayout.PAGE_START);
+		card6.add(c6b1 = new JButton ("-> Weiter"), BorderLayout.PAGE_END);
 		c6b1.addActionListener(this);
-		
-		c6b1.setBounds(284, 300, 200, 40);
-		JLabel label = new JLabel("Eine Story f\u00fcr das Spiel wird hier sp\u00e4ter noch eingef\u00fcgt. ");
-		card6.add(label);
-		label.setVisible(true);
-	    card6.add(c6b1);
 		return card6;
+	}
+	
+	//Baut denShop
+	private JPanel card7(){
+		card7 = new JPanel();
+		//card7.repaint();
+		c7b1 = new JButton("Healthpack - 40€");
+		c7b1.addActionListener(this);
+		c7b1.setBounds(284, 300, 200, 40);
+		ImageIcon healthpack = new ImageIcon ("./res/img/health.png");
+		c7b1.setIcon(healthpack);
+
+		c7b2 = new JButton("Manatrank - 100 €");
+		c7b2.addActionListener(this);
+		c7b2.setBounds(284, 500, 200, 40);
+		ImageIcon manatrank = new ImageIcon ("./res/img/mana.png");
+		c7b2.setIcon(manatrank);
+			
+		c7b3 = new JButton("zur\u00fcck ins Spiel");
+		c7b3.addActionListener(this);
+		c7b3.setBounds(520, 600, 200, 40);
+		
+		c7b4 = new JLabel ("");
+		c7b4.setBounds (287, 590 ,200,50);
+		c7b4.setVisible(true);
+		
+		c7b5 = new JLabel(new ImageIcon("./res/img/Club_mate.png"));
+		 c7b5.setBounds(70,190,200,149);
+		 c7b4.setVisible(true);
+		 c7b6 = new JLabel(new ImageIcon("./res/img/Killepitsch.png"));
+		 c7b6.setBounds(70,391,200,149);
+		 c7b4.setVisible(true);
+		
+		JLabel Background = new JLabel(new ImageIcon("./res/img/regal.png"));
+		Background.setLayout(null);
+		Background.setBounds(0, 0, 768, 672);
+		Background.add(c7b1);
+		Background.add(c7b2);
+		Background.add(c7b3);
+		Background.add(c7b4);
+		Background.add(c7b5);
+		Background.add(c7b6);
+		  
+		
+		card7.add(Background);
+		return card7;
 	}
 
 	
@@ -372,6 +436,9 @@ public class Houston implements ActionListener, Runnable {
 		// Definiert die benoetigten Tastendruecke
 		KeyStroke esc = KeyStroke.getKeyStroke("ESCAPE");
 		KeyStroke r = KeyStroke.getKeyStroke("R");
+		KeyStroke h = KeyStroke.getKeyStroke("H");
+		KeyStroke j = KeyStroke.getKeyStroke("J");
+		KeyStroke m = KeyStroke.getKeyStroke("M");
 		KeyStroke w = KeyStroke.getKeyStroke("W");
 		KeyStroke s = KeyStroke.getKeyStroke("S");
 		KeyStroke a = KeyStroke.getKeyStroke("A");
@@ -384,6 +451,9 @@ public class Houston implements ActionListener, Runnable {
 		// Entfernt alle Tastenzuweisungen in der InputMap
 		im.remove(KeyStroke.getKeyStroke("ESCAPE"));
 		im.remove(r);
+		im.remove(h);
+		im.remove(j);
+		im.remove(m);
 		im.remove(w);
 		im.remove(s);
 		im.remove(a);
@@ -405,6 +475,9 @@ public class Houston implements ActionListener, Runnable {
 		// Aktiviert/registriert die Bewegungstasten und die Resettaste
 		if (gameIsRunning) {
 			im.put(r, "resetPlayer");
+			im.put(h, "useHealthpack");
+			im.put(j, "shop");
+			im.put(m, "useManatrank");
 			im.put(w, "moveUp");
 			im.put(s, "moveDown");
 			im.put(a, "moveLeft");
@@ -419,6 +492,9 @@ public class Houston implements ActionListener, Runnable {
 		am.put("jumpToIngamemenu", new Actions.jumpToIngamemenu(this));
 		am.put("jumpToGame", new Actions.jumpToGame(this));
 		am.put("resetPlayer", new Actions.resetPlayer(this));
+		am.put("useHealthpack", new Actions.useHealthpack(this));
+		am.put("useManatrank", new Actions.useManatrank(this));
+		am.put("shop", new Actions.shop(this));
 		am.put("moveUp", new Actions.moveUp(this));
 		am.put("moveDown", new Actions.moveDown(this));
 		am.put("moveLeft", new Actions.moveLeft(this));
@@ -439,29 +515,79 @@ public class Houston implements ActionListener, Runnable {
 		// Kuemmert sich um die Events der einzelnen Menu Buttons
 		if (buttonClicked == c1b1) {
 			changeAppearance(INTRODUCTION);
+		
 		}else if(buttonClicked == c6b1){
 			changeAppearance(false, true, GAME);
 			logic.setupNewMap(0);
+			healthpack.resetHealthpack();
+			manatrank.resetManatrank();
+		
 		} else if (buttonClicked == c1b2) {
 			changeAppearance(SETTINGS);
+		
 		} else if (buttonClicked == c1b3) {
 			changeAppearance(CREDITS);
+		
 		} else if (buttonClicked == c1b4) {
 			System.exit(0);
+		
 		} else if (buttonClicked == c2b1) {
 			changeAppearance(STARTMENU);
+		
 		} else if (buttonClicked == c4b1) {
 			changeAppearance(true, GAME);
+		
 		} else if (buttonClicked == c4b2) {
 			changeAppearance(true, false, STARTMENU);
+			player.resetItems();
+		
 		} else if (buttonClicked == c5b1) {
 			changeAppearance(STARTMENU);
+		
 		} else if (buttonClicked == maenlich) {
 			player.changeTexture(0);
 			
 		} else if (buttonClicked == weiblich) {
 			 player.changeTexture(1);
-		}
+		
+		//macht den Button im Shop nicht klickbar, wenn zu wenig Geld oder 3 Items im Inventar
+		}else if(buttonClicked == c7b1){
+			if (healthpack.maximalItems == 3){
+				c7b4.setText("Du besitzt bereits zu viele Healthpack!");
+			
+			}else{if(player.money >=40){
+				player.money = player.money - 40;
+				healthpack.gripped = true;
+				healthpack.maximalItems++;
+				c7b1.setEnabled(true);
+				c7b4.setText("Du hast ein Healthpack gekauft!");
+			}}
+			//macht den Button wieder klickbar
+			if (player.money < 40 || healthpack.maximalItems == 3 ){
+				c7b1.setEnabled(false);
+			}
+			
+			//same procedure here
+		} else if(buttonClicked == c7b2){
+			
+			if (manatrank.maximalItems == 3){
+				c7b4.setText("Du besitzt bereits zu viele Manatrank!");
+			}
+			else{ if (player.money >= 100){
+				player.money = player.money -100;
+				manatrank.gripped = true;
+				manatrank.maximalItems++;
+				c7b4.setText("Du hast einen Manatrank gekauft!");
+			}}
+		
+
+			if (player.money < 100 || manatrank.maximalItems == 3){
+				c7b2.setEnabled(false);
+			}
+		
+		} else if(buttonClicked == c7b3){
+			c7b4.setText(" ");
+			changeAppearance(true, GAME);
+		}	
 	}
-	
 }

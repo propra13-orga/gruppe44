@@ -13,6 +13,7 @@ public class Logic {
 	
 	private long delta;
 	private double dX, dY;
+	public int value;
 	
 
 	public Logic(Houston houston) {
@@ -125,16 +126,17 @@ public class Logic {
 	}
 
 	// Ermittelt, ob sich der Player auf einer Speziellen Kachel befindet, und leitet entsprechende Massnahmen ein
-	private void detectSpecialTiles() {
+	public int detectSpecialTiles() {
 		if (player.left || player.right || player.up || player.down) {
-			int value;
 			value = (map.mapArray[(int) Math.floor((player.getY() + (player.getHeight()/2))/32)-1][(int) Math.floor((player.getX() + (player.getWidth()/2))/32)]);
 			if (value == 9){
 				nextMap();
 			}
 			if (value == 7) { 
 				setupNewMap(0);
+				player.health = player.health -25;
 			}
 		}
+		return value;
 	}
 }

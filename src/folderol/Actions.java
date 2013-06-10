@@ -59,7 +59,73 @@ public class Actions {
 		}
 
 	}
+	
+	static class useHealthpack extends AbstractAction {
 
+		private static final long serialVersionUID = 1L;
+		private Houston houston;
+
+		public useHealthpack(Houston houston) {
+			this.houston = houston;
+		}
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+	
+			houston.healthpack.useH = true;
+			houston.healthpack.useHealthpack();
+		}
+
+	}	
+	
+	static class useManatrank extends AbstractAction {
+
+		private static final long serialVersionUID = 1L;
+		private Houston houston;
+
+		public useManatrank(Houston houston) {
+			this.houston = houston;
+		}
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+	
+			houston.manatrank.useM = true;
+			houston.manatrank.useManatrank();
+		}
+	}
+	
+	static class shop extends AbstractAction {
+
+		private static final long serialVersionUID = 1L;
+		private Houston houston;
+
+		public shop(Houston houston) {
+			this.houston = houston;
+		}
+		public void actionPerformed(ActionEvent e) {
+			if(houston.logic.detectSpecialTiles()==5){
+			houston.player.up = false;
+			houston.player.down = false;
+			houston.player.left = false;
+			houston.player.right = false;
+			if (houston.player.money < 40 || houston.healthpack.maximalItems == 3 ){
+				houston.c7b1.setEnabled(false);
+				
+			}else if((houston.healthpack.maximalItems < 3) && houston.player.money >= 40 )
+				{ houston.c7b1.setEnabled(true);}
+			houston.changeAppearance(false, true, "SHOP");
+			
+			if (houston.player.money < 100 || houston.manatrank.maximalItems == 3){
+				houston.c7b2.setEnabled(false);
+			}else if(houston.manatrank.maximalItems < 3 && houston.player.money >= 100){
+				houston.c7b2.setEnabled(true);}
+			
+			}
+		}
+
+	}
+	
 	static class moveUp extends AbstractAction {
 
 		private static final long serialVersionUID = 1L;

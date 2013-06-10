@@ -47,9 +47,13 @@ public class GamePanel extends JPanel {
 		// Zeichnet Konsolenausgaben
 		g.setColor(Color.BLACK);
 		g.setFont(font);
-		g.drawString("Konsolenausgaben hier", 16, 20);
+		g.drawString("Leben: " + player.health + "  Geld: " + player.money + "  Mana: " + (int) player.mana + 
+				" m: " + houston.manatrank.maximalItems + " h: " + houston.healthpack.maximalItems, 16, 20);
+		if(houston.logic.value == 5){
+			g.drawString("M\u00f6chtest du zum Shop?", 450, 20);
+		}		
 		// Zeichnet die gerundete aktuelle Position des Player
-		g.drawString("Pos " + "x:"+(int)player.getX()+" y:"+(int)player.getY(), 208, 20);
+		g.drawString("Pos " + "x:"+(int)player.getX()+" y:"+(int)player.getY(), 300, 20);
 		
 		// Zeichnet die aktuellen FPS (Frames Per Second)
 		g.drawString("FPS: " + houston.fps, 712, 20);

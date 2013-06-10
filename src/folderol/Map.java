@@ -51,12 +51,14 @@ public class Map {
 		walkable.put(9, true); // Ziel
 		walkable.put(1, true); // Wand
 		walkable.put(7, true); // Falle
+		walkable.put(5, true); // Shop
 		walkable.put(0, false); // Boden
 		try {
 			texture.put(8, ImageIO.read(new File("./res/img/start.png")));
 			texture.put(9, ImageIO.read(new File("./res/img/finish.png")));
 			texture.put(1, ImageIO.read(new File("./res/img/wall.png")));
 			texture.put(7, ImageIO.read(new File("./res/img/trap.png")));
+			texture.put(5, ImageIO.read(new File("./res/img/grass.png")));
 			texture.put(0, ImageIO.read(new File("./res/img/ground.png")));
 		} catch (IOException e) {e.printStackTrace();}
 	}

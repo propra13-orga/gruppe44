@@ -22,7 +22,14 @@ public class Player {
 	private BufferedImage texture = null;
 		String figur;
 	int playernumber;
-	public Player() {
+	int health;
+	int money;
+	double mana;
+	Houston houston;
+	Healthpack healthpack;
+	public Player(Houston houston) {
+		this.houston = houston;
+		this.healthpack = houston.healthpack;
 
 		// Setzt Farbe des Player
 		color = new Color(0, 255, 64, 50);
@@ -35,6 +42,9 @@ public class Player {
 		
 		// Setzt Position und Groesse des Player
 		bounds = new Rectangle2D.Double(resetPoint.getX(), resetPoint.getY(), 28, 28);
+		
+		//setzt die Werte Leben, Mana und Geld des Spielers
+		resetItems();
 		
 		// Liest und setzt Textur des Player
 		try {
@@ -98,7 +108,7 @@ public class Player {
 	public BufferedImage getTexture(){
 		return texture;
 	}
-	
+	 // Setzt die Bilder des Spielers je nach Auswahl in den Einstellungen
 	public void changeTexture(int a){
 		if(a == 0){
 			try {
@@ -112,7 +122,20 @@ public class Player {
 				texture = texture.getSubimage(0, 0, 32, 46);
 			} catch (IOException e) {e.printStackTrace();}
 		}
-		System.out.println("irgendwas");
 	}
+	public void resetItems(){
+		health = 100;
+		money = 200;
+		mana = 100;
+	}
+	
+	//prueft, ob Spieler noch lebt und geht bei Tod ins Startmenu
+	public void health(){
+		if(health <= 0){
+			houston.changeAppearance(Houston.STARTMENU);	
+			health = 100;
+		}
+	}
+	
 	
 }
