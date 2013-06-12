@@ -13,17 +13,19 @@ public class GamePanel extends JPanel {
 	private Houston houston;
 	private Player player;
 	private Map map;
+	private Infobar infobar;
 	
-	private Font font;
+	private Font plainFont;
 	private Color bgColor;
 	
 	public GamePanel(Houston houston) {
-		this.houston = houston;
-		this.player = houston.player;
-		this.map = houston.map;
+		this.houston	= houston;
+		this.player		= houston.player;
+		this.map		= houston.map;
+		this.infobar	= new Infobar(houston, 0, -32);
 		
 		// Setzt die Schrift fuer die Konsolenausgaben
-		font = new Font("Arial", Font.BOLD, 12);
+		plainFont = new Font("Arial", Font.PLAIN, 12);
 		// Setzt die Hintergrundfarbe
 		bgColor = new Color(240, 240, 240);
 	}
@@ -31,12 +33,15 @@ public class GamePanel extends JPanel {
 	@Override
 	protected void paintComponent(Graphics gr) {
 		Graphics2D g = (Graphics2D) gr;
+		// Verschiebt den Ursprungspunkt
+		g.translate(0, 32);
+		g.setFont(plainFont);
 
-		// Hier wird gezeichnet
+		// Ab hier wird gezeichnet
 		
 		// Zeichnet den Hintergrund
 		g.setColor(bgColor);
-		g.fillRect(0, 0, houston.width, houston.height);
+		g.fillRect(0, -32, houston.width, houston.height);
 
 		// Zeichnet die Karte
 		map.drawObjects(g);
@@ -45,17 +50,9 @@ public class GamePanel extends JPanel {
 		player.drawObjects(g);
 		
 		// Zeichnet Informationen in der Informationsleiste
-		g.setColor(Color.BLACK);
-		g.setFont(font);
-		g.drawString("Konsolenausgaben", 16, 20);
-		// Zeichnet die gerundete aktuelle Position des Player
-		g.drawString("Pos  " + "x:"+(int)player.getX()+" y:"+(int)player.getY(), 208, 20);
-		// Zeichnet Karteninformationen
-		g.drawString("Map  "+map.getLevelNumber()+" - "+map.getMapNumber(), 340, 20);
-		// Zeichnet die aktuellen FPS (Frames Per Second)
-		g.drawString("FPS: " + houston.fps, 712, 20);
+		infobar.drawObjects(g);
 		
 		g.dispose();
 	} // Ab hier ist Schluss mit Zeichnen
-
+	
 }

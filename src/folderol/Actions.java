@@ -193,4 +193,52 @@ public class Actions {
 
 	}
 
+	static class useHealthpack extends AbstractAction {
+
+		private static final long serialVersionUID = 1L;
+		private Houston houston;
+
+		public useHealthpack(Houston houston) {
+			this.houston = houston;
+		}
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			houston.inventory.useHealthPack();
+		}
+
+	}
+
+	static class useManatrank extends AbstractAction {
+
+		private static final long serialVersionUID = 1L;
+		private Houston houston;
+
+		public useManatrank(Houston houston) {
+			this.houston = houston;
+		}
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			houston.inventory.useManaPotion();
+		}
+	}
+
+	static class enterShop extends AbstractAction {
+
+		private static final long serialVersionUID = 1L;
+		private Houston houston;
+
+		public enterShop(Houston houston) {
+			this.houston = houston;
+		}
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			if (houston.logic.value == 5) {
+				houston.shop.aktivateValidBuyButtons();
+				houston.changeAppearance(false, "SHOP");
+			}
+		}
+	}
 }

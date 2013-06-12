@@ -61,7 +61,7 @@ public class Houston implements ActionListener, Runnable {
 	// Kontainer fuer die "Unterfenster" card1, card2, ...
 	private JPanel cards;
 	// "Unterfenster", die das Startmenue, Einstellungen, etc. beinhalten 
-	private JPanel card1, card2, card3, card4, card5, card6;
+	private JPanel card1, card2, card3, card4, card5, card6, card7;
 	// CardLayout ermoeglicht erst diese Darstellung der unterschiedlichen
 	// Fensterinhalte auf unterschiedlichen "Karten"
 	private CardLayout cl;
@@ -74,9 +74,18 @@ public class Houston implements ActionListener, Runnable {
 	Map map;
 	// In der Logik werden Berechnungen zur Laufzeit getaetigt
 	Logic logic;
+	// Das Inventar hält Items, die z.B. eingesammelt werden
+	Inventory inventory;
+	// Im Shop können Items gekauft werden
+	Shop shop;
+	
+	//Item fuer Leben
+	// Healthpack healthpack;
+	//Item fuer Mana
+	// Manatrank manatrank;
 	
 	// Die im Menue vorhandenen Knoepfe
-	private JButton 
+	JButton 
 	c1b1, //Neues Spiel
 	c1b2, //Einstellungen
 	c1b3, //Mitwirkende
@@ -85,9 +94,15 @@ public class Houston implements ActionListener, Runnable {
 	c4b1, //zurueck ins Spiel
 	c4b2, //zum Hauptmenue
 	c5b1, //zum Hauptmenue
-	c6b1; //weiter	
-	// Spielerauswahl
-	JRadioButton maenlich, weiblich;
+	c6b1, //weiter
+	c7b1, //Healthpack
+	c7b2, //Manatrank
+	c7b3; //zurueck ins Spiel
+
+	//Spielerauswahl
+	private JRadioButton maenlich, weiblich;
+	
+	// Knoepfe zur Kartenauswahl fuer Testzwecke
 	private JButton 
 	c6level1,
 	c6level2,
@@ -99,6 +114,10 @@ public class Houston implements ActionListener, Runnable {
 	c6level8,
 	c6level9;
 	
+	private JLabel 
+	c7l4, //fuer die Ausgabe im Shop
+	c7l5, //fuer Icon Club Mate im Shop
+	c7b6; //fuer Icon Killepitsch im Shop
 
 	// Diese Strings identifizieren jeweils eins der Card Panel
 	// Sind hilfreich z.B. beim Wechsel von einer Karte auf eine Andere
@@ -108,9 +127,9 @@ public class Houston implements ActionListener, Runnable {
 	final static String INGAMEMENU = "INGAMEMENU";
 	final static String CREDITS = "CREDITS";
 	final static String INTRODUCTION = "INTRODUCTION";
+	final static String SHOP = "SHOP";
+		
 	
-	
-
 	// ------------------------------------------------------------
 	public static void main(String[] args) {
 		new Houston(768, 672);
@@ -126,38 +145,29 @@ public class Houston implements ActionListener, Runnable {
 		this.width = width;
 		this.height = height;
 		
-		// Im Folgenden wird alles rund ums Fenster aufgebaut und verknuepft
-		
-		// Card 1 - STARTMENU
-		card1 = card1();
+		// Erstellt die einzelnen Card-Panel
+		card1 = card1(); // STARTMENU
+		card2 = card2(); // SETTINGS
+		card3 = card3(); // GAME
+		card4 = card4(); // INGAMEMENU
+		card5 = card5(); // CREDITS
+		card6 = card6(); // INTRODUCTION		
+		card7 = card7(); // SHOP
 
-		// Card 2 - SETTINGS
-		card2 = card2();
-
-		// Card 3 - GAME
-		card3 = card3();
-
-		// Card 4 - INGAMEMENU
-		card4 = card4();
-
-		// Card 5 - CREDITS
-		card5 = card5();
-		
-		// Card 6 - INTRODUCTION
-		card6 = card6();
-
-		// Erstellt ein neues Cards-Panel und fuege alle Card-Panel hinzu
+		// Erstellt ein neues Cards-Panel ...
 		cl = new CardLayout();
 		cards = new JPanel(cl);
 		cards.setPreferredSize(new Dimension(this.width, this.height));
+		// ... und fuegt alle Card-Panel hinzu
 		cards.add(card1, STARTMENU);
 		cards.add(card2, SETTINGS);
 		cards.add(card3, GAME);
 		cards.add(card4, INGAMEMENU);
 		cards.add(card5, CREDITS);
 		cards.add(card6, INTRODUCTION);
+		cards.add(card7, SHOP);
 
-		// Erstellt das Hauptfenster und fuegt die Cards hinzu
+		// Erstellt das Hauptfenster und fuegt Cards hinzu
 		frame = buildFrame("Folderol", cards);
 		frame.pack();
 		
@@ -167,22 +177,22 @@ public class Houston implements ActionListener, Runnable {
 		currentCard = STARTMENU;
 		
 		// Startet den Game-Loop
-
-
 		Thread th = new Thread(this);
 		th.start();
-		
 	}
 	
 	
 	// Hier wird vor Spielbeginn alles moegliche initialisiert
 	private void initializeCrap() {
-		
 		last = System.nanoTime();
 		preferredFps = 35;
 		map = new Map(0, 0, 20, 24);
 		player = new Player();
 		logic = new Logic(this);
+		// healthpack = new Healthpack(this);
+		// manatrank = new Manatrank(this);
+		inventory = new Inventory(this);
+		shop = new Shop(this);
 	}
 	
 
@@ -230,10 +240,9 @@ public class Houston implements ActionListener, Runnable {
 		return frame;
 	}
 
-	// Baut das Hauptmen\u00fc
+	// Baut das Hauptmenue
 	private JPanel card1() {
 		card1 = new JPanel(null);
-		// card1.add(new JLabel(STARTMENU));
 		
 		c1b1 = new JButton("Neues Spiel");
 		c1b1.addActionListener(this);
@@ -260,25 +269,27 @@ public class Houston implements ActionListener, Runnable {
 	// Baut das Einstellungsfenster
 	private JPanel card2() {
 		card2 = new JPanel(null);
-		// card2.add(new JLabel(SETTINGS));
 
 		c2b1 = new JButton("-> Hauptmen\u00fc");
 		c2b1.setBounds(284, 360, 200, 40);
 		c2b1.addActionListener(this);
-		weiblich = new JRadioButton("Spielerin");
-		card2.add(weiblich);
-		weiblich.addActionListener(this);
-		maenlich = new JRadioButton ("Spieler");
-		card2.add(maenlich);
-		maenlich.addActionListener(this);
-		ButtonGroup g = new ButtonGroup();
-		g.add(weiblich);
-		g.add(maenlich);
-		weiblich.setBounds(284, 300, 210, 40);
-		maenlich.setBounds(284, 250, 210, 40);
-		maenlich.setSelected(true);
-		
 		card2.add(c2b1);
+
+		maenlich = new JRadioButton("Spieler");
+		maenlich.setBounds(284, 250, 210, 40);
+		maenlich.addActionListener(this);
+		card2.add(maenlich);
+		maenlich.setSelected(true);
+
+		weiblich = new JRadioButton("Spielerin");
+		weiblich.setBounds(284, 300, 210, 40);
+		weiblich.addActionListener(this);
+		card2.add(weiblich);
+
+		ButtonGroup g = new ButtonGroup();
+		g.add(maenlich);
+		g.add(weiblich);
+
 		return card2;
 	}
 	
@@ -286,7 +297,6 @@ public class Houston implements ActionListener, Runnable {
 	private JPanel card3() {
 		// gamePanel fungiert als die Leinwand fuer das eigentliche Spiel 
 		gamePanel = new GamePanel(this);
-		
 		return gamePanel;
 	}
 
@@ -311,20 +321,25 @@ public class Houston implements ActionListener, Runnable {
 	private JPanel card5() {
 		card5 = new JPanel(null);
 		JLabel picsandy = new JLabel(new ImageIcon("./res/img/sandy.png"));
-		JLabel picjana = new JLabel(new ImageIcon("./res/img/jana.png"));
-		JLabel picphil = new JLabel(new ImageIcon("./res/img/phil.png"));
-		JLabel picphilipp = new JLabel(new ImageIcon("./res/img/philipp.png"));
-		JLabel picdavid = new JLabel(new ImageIcon("./res/img/david.png"));
 		picsandy.setBounds(29, 200, 130, 130);
-		picjana.setBounds(174, 200, 130, 130);
-		picphil.setBounds(319, 200, 130, 130);
-		picphilipp.setBounds(464, 200, 130, 130);
-		picdavid.setBounds(609, 200, 130, 130);
 		card5.add(picsandy);
+
+		JLabel picjana = new JLabel(new ImageIcon("./res/img/jana.png"));
+		picjana.setBounds(174, 200, 130, 130);
 		card5.add(picjana);
+
+		JLabel picphil = new JLabel(new ImageIcon("./res/img/phil.png"));
+		picphil.setBounds(319, 200, 130, 130);
 		card5.add(picphil);
+
+		JLabel picphilipp = new JLabel(new ImageIcon("./res/img/philipp.png"));
+		picphilipp.setBounds(464, 200, 130, 130);
 		card5.add(picphilipp);
+
+		JLabel picdavid = new JLabel(new ImageIcon("./res/img/david.png"));
+		picdavid.setBounds(609, 200, 130, 130);
 		card5.add(picdavid);
+
 		c5b1 = new JButton("-> Hauptmen\u00fc");
 		c5b1.addActionListener(this);
 		c5b1.setBounds(284, 420, 200, 40);
@@ -381,13 +396,56 @@ public class Houston implements ActionListener, Runnable {
 		JLabel label = new JLabel("Eine Story f\u00fcr das Spiel wird hier sp\u00e4ter noch eingef\u00fcgt. ");
 		label.setBounds(184, 200, 400, 100);
 		card6.add(label);
-		
 		return card6;
 	}
-
 	
+	//Baut denShop
+	private JPanel card7(){
+		card7 = new JPanel();
+		//card7.repaint();
+		c7b1 = new JButton("Healthpack - 40 CP");
+		c7b1.addActionListener(this);
+		c7b1.setBounds(284, 300, 200, 40);
+		ImageIcon healthpack = new ImageIcon ("./res/img/health.png");
+		c7b1.setIcon(healthpack);
+
+		c7b2 = new JButton("Manatrank - 100 CP");
+		c7b2.addActionListener(this);
+		c7b2.setBounds(284, 500, 200, 40);
+		ImageIcon manatrank = new ImageIcon ("./res/img/mana.png");
+		c7b2.setIcon(manatrank);
+			
+		c7b3 = new JButton("zur\u00fcck ins Spiel");
+		c7b3.addActionListener(this);
+		c7b3.setBounds(520, 600, 200, 40);
+		
+		c7l4 = new JLabel ("");
+		c7l4.setBounds (287, 590 ,200,50);
+		c7l4.setVisible(true);
+		
+		c7l5 = new JLabel(new ImageIcon("./res/img/Club_mate.png"));
+		c7l5.setBounds(70, 190, 200, 149);
+		c7l4.setVisible(true);
+		c7b6 = new JLabel(new ImageIcon("./res/img/Killepitsch.png"));
+		c7b6.setBounds(70, 391, 200, 149);
+		c7l4.setVisible(true);
+		
+		JLabel Background = new JLabel(new ImageIcon("./res/img/regal.png"));
+		Background.setLayout(null);
+		Background.setBounds(0, 0, 768, 672);
+		Background.add(c7b1);
+		Background.add(c7b2);
+		Background.add(c7b3);
+		Background.add(c7l4);
+		Background.add(c7l5);
+		Background.add(c7b6);
+		  
+		card7.add(Background);
+		return card7;
+	}
+
 	// Wechselt die Card und weist die entsprechenden Tastendruecke zu
-	void changeAppearance(boolean gameOver, boolean gameIsRunning, String name) {
+	public void changeAppearance(boolean gameOver, boolean gameIsRunning, String name) {
 		// Setzt die aktuelle Card auf die neue Card
 		currentCard = name;
 		// Aendert moeglicherweise, ob das Spiel noch laeuft
@@ -400,11 +458,11 @@ public class Houston implements ActionListener, Runnable {
 		cl.show(cards, name);
 	}
 	
-	void changeAppearance(boolean gameIsRunning, String name) {
+	public void changeAppearance(boolean gameIsRunning, String name) {
 		changeAppearance(gameOver, gameIsRunning, name);
 	}
 	
-	void changeAppearance(String name) {
+	public void changeAppearance(String name) {
 		changeAppearance(gameOver, gameIsRunning, name);
 	}
 	
@@ -415,9 +473,12 @@ public class Houston implements ActionListener, Runnable {
 		InputMap im = cards.getInputMap();
 		// Holt die ActionMap, um neue Aktionen zu registrieren
 		ActionMap am = cards.getActionMap();
-		
+
 		// Definiert die benoetigten Tastendruecke
 		KeyStroke esc = KeyStroke.getKeyStroke("ESCAPE");
+		KeyStroke h = KeyStroke.getKeyStroke("H");
+		KeyStroke j = KeyStroke.getKeyStroke("J");
+		KeyStroke m = KeyStroke.getKeyStroke("M");
 		KeyStroke r = KeyStroke.getKeyStroke("R");
 		KeyStroke w = KeyStroke.getKeyStroke("W");
 		KeyStroke s = KeyStroke.getKeyStroke("S");
@@ -427,9 +488,12 @@ public class Houston implements ActionListener, Runnable {
 		KeyStroke rs = KeyStroke.getKeyStroke("released S");
 		KeyStroke ra = KeyStroke.getKeyStroke("released A");
 		KeyStroke rd = KeyStroke.getKeyStroke("released D");
-		
+
 		// Entfernt alle Tastenzuweisungen in der InputMap
 		im.remove(KeyStroke.getKeyStroke("ESCAPE"));
+		im.remove(h);
+		im.remove(j);
+		im.remove(m);
 		im.remove(r);
 		im.remove(w);
 		im.remove(s);
@@ -439,7 +503,7 @@ public class Houston implements ActionListener, Runnable {
 		im.remove(rs);
 		im.remove(ra);
 		im.remove(rd);
-		
+
 		// Aktiviert das Wechseln zwischen GAME und INGAMEMENU mit "Escape"
 		if (gameOver == false) {
 			if (currentCard == GAME) {
@@ -451,6 +515,9 @@ public class Houston implements ActionListener, Runnable {
 
 		// Aktiviert/registriert die Bewegungstasten und die Resettaste
 		if (gameIsRunning) {
+			im.put(h, "useHealthpack");
+			im.put(j, "enterShop");
+			im.put(m, "useManatrank");
 			im.put(r, "resetPlayer");
 			im.put(w, "moveUp");
 			im.put(s, "moveDown");
@@ -461,10 +528,13 @@ public class Houston implements ActionListener, Runnable {
 			im.put(ra, "releasedLeft");
 			im.put(rd, "releasedRight");
 		}
-		
+
 		// "Verbindet" die Tastendruecke mit einer jeweiligen Action
 		am.put("jumpToIngamemenu", new Actions.jumpToIngamemenu(this));
 		am.put("jumpToGame", new Actions.jumpToGame(this));
+		am.put("useHealthpack", new Actions.useHealthpack(this));
+		am.put("useManatrank", new Actions.useManatrank(this));
+		am.put("enterShop", new Actions.enterShop(this));
 		am.put("resetPlayer", new Actions.resetPlayer(this));
 		am.put("moveUp", new Actions.moveUp(this));
 		am.put("moveDown", new Actions.moveDown(this));
@@ -474,21 +544,22 @@ public class Houston implements ActionListener, Runnable {
 		am.put("releasedDown", new Actions.releasedDown(this));
 		am.put("releasedLeft", new Actions.releasedLeft(this));
 		am.put("releasedRight", new Actions.releasedRight(this));
-	}	
-	
+	}
+
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		
 		// Ermittelt die Quelle des Tastendrucks
 		Object buttonClicked = e.getSource();
-//		JButton buttonClicked = (JButton) e.getSource();
 		
 		// Kuemmert sich um die Events der einzelnen Menu Buttons
 		if (buttonClicked == c1b1) {
 			changeAppearance(INTRODUCTION);
-		}else if(buttonClicked == c6b1){
+			player.resetHealthManaMoney(100, 100, 200);
+		} else if (buttonClicked == c6b1) {
 			changeAppearance(false, true, GAME);
 			logic.setupNewGame(0, 0);
+			inventory.clear();
 		} else if (buttonClicked == c1b2) {
 			changeAppearance(SETTINGS);
 		} else if (buttonClicked == c1b3) {
@@ -538,7 +609,16 @@ public class Houston implements ActionListener, Runnable {
 		} else if (buttonClicked == c6level9) {
 			changeAppearance(false, true, GAME);
 			logic.setupNewGame(2, 2);
+		
+		// Kuemmert sich um die Kaufbutton im Shop
+		} else if (buttonClicked == c7b1) {
+			shop.buyHealthPack();
+		} else if (buttonClicked == c7b2) {
+			shop.buyManaPotion();
+		} else if (buttonClicked == c7b3) {
+			// c7l4.setText("");
+			changeAppearance(true, GAME);
 		}
+		
 	}
-	
 }

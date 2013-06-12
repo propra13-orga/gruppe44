@@ -52,58 +52,75 @@ public class Map {
 		initializeMap();		
 	}
 	
+	// Zeichnet die Karte
+	public void drawObjects(Graphics2D g) {
+		
+		int value;
+		
+		for (int row = 0; row < rows; row++) {
+			for (int col = 0; col < cols; col++) {
+				value = mapArray[row][col];
+				g.drawImage(texture.get(value), col * 32, row * 32, null);
+			}
+		}
+	}
+	
 	// Fuellt 2 HashMaps mit den Informationen "begehbar" und "textur"
 	// zu jedem entsprechenden Karten-Kacheltyp
 	private void ititializeHashMaps() {
-		walkable.put(8, true); // Start
-		walkable.put(9, true); // Ziel
-		walkable.put(1, true); // Wand
-		walkable.put(7, true); // Falle
-		walkable.put(0, false); // Boden
+		walkable.put(8, true);	// Start
+		walkable.put(9, true);	// Ziel
+		walkable.put(1, false);	// Wand
+		walkable.put(2, true);	// Begehbare-Wand
+		walkable.put(7, true); 	// Falle
+		walkable.put(5, true);	// Shop
+		walkable.put(0, true);	// Boden
 		try {
 			texture.put(8, ImageIO.read(new File("./res/img/start.png")));
 			texture.put(9, ImageIO.read(new File("./res/img/finish.png")));
 			texture.put(1, ImageIO.read(new File("./res/img/wall.png")));
 			texture.put(2, ImageIO.read(new File("./res/img/wall.png")));
 			texture.put(7, ImageIO.read(new File("./res/img/trap.png")));
+			texture.put(5, ImageIO.read(new File("./res/img/grass.png")));
 			texture.put(0, ImageIO.read(new File("./res/img/ground.png")));
 		} catch (IOException e) {e.printStackTrace();}
 	}
 	
 	// Gibt die aktuelle Kartennummer zurueck
-	int getMapNumber() {
+	public int getMapNumber() {
 		return mapNumber;
 	}
 	
 	// Gibt die aktuelle Levelnummer zurueck
-	int getLevelNumber() {
+	public int getLevelNumber() {
 		return levelNumber;
 	}
 	
 	// Gibt die Anzahl an Level zurueck
-	int getCountOfLevel() {
+	public int getCountOfLevel() {
 		return mapUrls.length;
 	}
 	
 	// Gibt die Anzahl an Karten in bestimmtem Level zurueck
-	int getCountOfMapsByLevel(int level) {
+	public int getCountOfMapsByLevel(int level) {
 		return mapUrls[level].length;
 	}
 	
-	int getCountOfMapsByLevel() {
+	// Gibt die Anzahl an Karten im aktuellen Level zurueck
+	public int getCountOfMapsByLevel() {
 		return getCountOfMapsByLevel(levelNumber);
 	}
 
 	// Erneuert/ersetzt die aktuelle Karte durch die Karte,
 	// die durch mapNumber referenzierte ist
-	void renewMap(int levelNumber, int mapNumber) {
+	public void renewMap(int levelNumber, int mapNumber) {
 		this.levelNumber = levelNumber;
 		this.mapNumber = mapNumber;
 		initializeMap();
 	}
 	
 	// Laedt die aktuelle Karte neu
-	void renewMap() {
+	public void renewMap() {
 		renewMap(levelNumber, mapNumber);
 	}
 
@@ -113,19 +130,6 @@ public class Map {
 		mapUrl = mapUrls[levelNumber][mapNumber];
 		readMapFile();
 		assignFileContentToMapArray();
-	}
-
-	// Zeichnet die Karte
-	public void drawObjects(Graphics2D g) {
-		
-		int value;
-		
-		for (int row = 0; row < rows; row++) {
-			for (int col = 0; col < cols; col++) {
-				value = mapArray[row][col];
-				g.drawImage(texture.get(value), col * 32, row * 32 + 32, null);
-			}
-		}
 	}
 
 	// Laedt die durch mapUrl spezifizierte Datei und speichert ihren
@@ -172,7 +176,7 @@ public class Map {
 		for (int row = 0; row < rows; row++) {
 			for (int col = 0; col < cols; col++) {
 				if (mapArray[row][col] == 8) {
-					return (new Point2D.Double(col*32, (row+1)*32));
+					return (new Point2D.Double(col*32, row*32));
 				}
 			}
 		}
