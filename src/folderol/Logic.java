@@ -7,13 +7,10 @@ public class Logic {
 	Houston houston;
 	Player player;
 	Map map;
-	
+
 	Point2D topLeft, topRight, bottomLeft, bottomRight;
-	boolean r, y, gr, b;
-	
 	private long delta;
 	private double dX, dY;
-	
 
 	public Logic(Houston houston) {
 		this.houston = houston;
@@ -25,20 +22,20 @@ public class Logic {
 		topRight = new Point2D.Double();
 		bottomLeft = new Point2D.Double();
 		bottomRight = new Point2D.Double();
-		
 	}
 
 	
-	void setupNewMap(int mapNumber) {
-		map.renewMap(mapNumber);
+	void setupNewGame(int levelNumber, int mapNumber) {
+		map.renewMap(levelNumber, mapNumber);
+		
 		// Sucht und setzt die Ursprungsposition des Player
 		Point2D spawn = new Point2D.Double();
 		if ((spawn = map.singleSearch(8)) != null)
 			player.setResetPosition(spawn);
+		
 		// Setzt den Player auf seine Ursprungsposition
 		player.resetPosition();
 	}
-
 
 	// Berechnet z.B. alle Bewegungen und Kollisionen im Spiel
 	void doGameUpdates(long delta) {
@@ -50,15 +47,22 @@ public class Logic {
 	
 	// Regelt den Wechsel zur naechsten Karte
 	private void nextMap() {
-		player.up = player.down = player.left = player.right = false;
-		int mapNumber;
-		if ((mapNumber = map.getMapNumber())+1 < map.getCountOfMaps())
-			setupNewMap(mapNumber+1);
-		else {
-			houston.changeAppearance(true, false, "STARTMENU");
+		// Haelt den Spieler an
+		player.stop();
+
+		if (map.getMapNumber() < (map.getCountOfMapsByLevel() - 1)) {
+			// Naechste Karte
+			setupNewGame(map.getLevelNumber(), (map.getMapNumber() + 1));
+		} else {
+			if (map.getLevelNumber() < (map.getCountOfLevel() - 1)) {
+				// Naechstes Level
+				setupNewGame((map.getLevelNumber() + 1), 0);
+			} else {
+				// Spiel gewonnen
+				houston.changeAppearance(true, false, "STARTMENU");
+			}
 		}
 	}
-
 
 	// Setzt die Tastendruecke um in die Bewegung des Player
 	void controlPlayerMovement() {
@@ -101,7 +105,6 @@ public class Logic {
 	}
 	
 
-
 	// Ermittelt die Koordinaten der 4 Eckpunkte des Player
 	private void getPlayerCorners() {
 		topLeft.setLocation(player.getX(), player.getY());
@@ -129,12 +132,16 @@ public class Logic {
 		if (player.left || player.right || player.up || player.down) {
 			int value;
 			value = (map.mapArray[(int) Math.floor((player.getY() + (player.getHeight()/2))/32)-1][(int) Math.floor((player.getX() + (player.getWidth()/2))/32)]);
-			if (value == 9){
+			if (value == 7) { 
+				playerDies();
+			} else if (value == 9){
 				nextMap();
 			}
-			if (value == 7) { 
-				setupNewMap(0);
-			}
 		}
+	}
+
+	private void playerDies() {
+		// Zurueck zur ersten Karte des aktuellen Level
+		setupNewGame(map.getLevelNumber(), 0);
 	}
 }

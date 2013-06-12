@@ -17,26 +17,34 @@ public class Map {
 	private int cols;
 	int[][] mapArray;
 
-	private int mapNumber;
+	private int levelNumber, mapNumber;
 	private String mapUrl;
-	private String[] mapUrls;
+	private String[][] mapUrls;
 	private BufferedReader fileContents;
 	private HashMap<Integer, BufferedImage> texture =  new HashMap<Integer, BufferedImage>();
 	private HashMap<Integer, Boolean> walkable =  new HashMap<Integer, Boolean>();
 	
 	
-	public Map(int mapNumber, int rows, int cols) {
+	public Map(int levelNumber, int mapNumber, int rows, int cols) {
 		// Setzt die Zeilen- und Spaltenanzahl
 		this.rows = rows;
 		this.cols = cols;
+		// Setzt die initiale Levelnummer
+		this.levelNumber = levelNumber;
 		// Setzt die initiale Kartennummer
 		this.mapNumber = mapNumber;
 		
 		// Setzt Pfade zu den jeweiligen Kartendateien ins Array mapUrls
-		mapUrls = new String[3];
-		mapUrls[0] = "./res/maps/map01.txt";
-		mapUrls[1] = "./res/maps/map02.txt";
-		mapUrls[2] = "./res/maps/map03.txt";
+		mapUrls = new String[3][3];
+		mapUrls[0][0] = "./res/maps/map01_01.txt";
+		mapUrls[0][1] = "./res/maps/map01_02.txt";
+		mapUrls[0][2] = "./res/maps/map01_03.txt";
+		mapUrls[1][0] = "./res/maps/map02_01.txt";
+		mapUrls[1][1] = "./res/maps/map02_02.txt";
+		mapUrls[1][2] = "./res/maps/map02_03.txt";
+		mapUrls[2][0] = "./res/maps/map03_01.txt";
+		mapUrls[2][1] = "./res/maps/map03_02.txt";
+		mapUrls[2][2] = "./res/maps/map03_03.txt";
 		// Erstellt das Array mapArray, in dem die eingelesen Karte stehen wird
 		mapArray = new int[rows][cols];
 		
@@ -56,6 +64,7 @@ public class Map {
 			texture.put(8, ImageIO.read(new File("./res/img/start.png")));
 			texture.put(9, ImageIO.read(new File("./res/img/finish.png")));
 			texture.put(1, ImageIO.read(new File("./res/img/wall.png")));
+			texture.put(2, ImageIO.read(new File("./res/img/wall.png")));
 			texture.put(7, ImageIO.read(new File("./res/img/trap.png")));
 			texture.put(0, ImageIO.read(new File("./res/img/ground.png")));
 		} catch (IOException e) {e.printStackTrace();}
@@ -66,27 +75,42 @@ public class Map {
 		return mapNumber;
 	}
 	
-	// Gibt die Anzahl der Karten zurueck
-	int getCountOfMaps() {
+	// Gibt die aktuelle Levelnummer zurueck
+	int getLevelNumber() {
+		return levelNumber;
+	}
+	
+	// Gibt die Anzahl an Level zurueck
+	int getCountOfLevel() {
 		return mapUrls.length;
+	}
+	
+	// Gibt die Anzahl an Karten in bestimmtem Level zurueck
+	int getCountOfMapsByLevel(int level) {
+		return mapUrls[level].length;
+	}
+	
+	int getCountOfMapsByLevel() {
+		return getCountOfMapsByLevel(levelNumber);
 	}
 
 	// Erneuert/ersetzt die aktuelle Karte durch die Karte,
 	// die durch mapNumber referenzierte ist
-	void renewMap(int mapNumber) {
+	void renewMap(int levelNumber, int mapNumber) {
+		this.levelNumber = levelNumber;
 		this.mapNumber = mapNumber;
 		initializeMap();
 	}
 	
 	// Laedt die aktuelle Karte neu
 	void renewMap() {
-		renewMap(mapNumber);
+		renewMap(levelNumber, mapNumber);
 	}
 
 	// Baut eine aktuelle/neue Karte auf
 	private void initializeMap() {
 		ititializeHashMaps();
-		mapUrl = mapUrls[mapNumber];
+		mapUrl = mapUrls[levelNumber][mapNumber];
 		readMapFile();
 		assignFileContentToMapArray();
 	}
@@ -143,6 +167,7 @@ public class Map {
 		}
 	}
 
+	// Sucht und uebergibt eine Position im mapArray mit dem Wert value
 	public Point2D singleSearch(int value) {
 		for (int row = 0; row < rows; row++) {
 			for (int col = 0; col < cols; col++) {

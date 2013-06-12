@@ -18,10 +18,7 @@ public class Actions {
 		public void actionPerformed(ActionEvent e) {
 			// System.out.println("ESC -> Ingamemenu");
 			houston.changeAppearance(false, false, "INGAMEMENU");
-			houston.player.up = false;
-			houston.player.down = false;
-			houston.player.left = false;
-			houston.player.right = false;
+			houston.player.stop();
 		}
 
 	}
@@ -54,7 +51,7 @@ public class Actions {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			// System.out.println("pressedUp");
+			// System.out.println("resetPlayer");
 			houston.player.resetPosition();
 		}
 

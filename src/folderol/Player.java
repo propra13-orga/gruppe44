@@ -20,8 +20,8 @@ public class Player {
 	final double speed;
 	boolean up, down, left, right;
 	private BufferedImage texture = null;
-		String figur;
 	int playernumber;
+
 	public Player() {
 
 		// Setzt Farbe des Player
@@ -36,17 +36,14 @@ public class Player {
 		// Setzt Position und Groesse des Player
 		bounds = new Rectangle2D.Double(resetPoint.getX(), resetPoint.getY(), 28, 28);
 		
-		// Liest und setzt Textur des Player
-		try {
-			texture = ImageIO.read(new File("./res/img/german_m1.png"));
-			texture = texture.getSubimage(0, 0, 32, 46);
-		} catch (IOException e) {e.printStackTrace();}
+		// Setzt die Textur des Player
+		changeTexture(0);
 	}
 	
 	// Zeichnet den spieler 
 	public void drawObjects(Graphics2D g) {
 		g.setColor(color);
-		g.drawRect((int) bounds.getX(), (int) bounds.getY(), (int) bounds.getWidth(), (int) bounds.getHeight());
+		// g.drawRect((int) bounds.getX(), (int) bounds.getY(), (int) bounds.getWidth(), (int) bounds.getHeight());
 		g.drawImage(texture, (int) bounds.getX()-2, (int) bounds.getY()-18, null);
 	}
 
@@ -74,6 +71,10 @@ public class Player {
 	void move(double dX, double dY) {
 		bounds.setRect(bounds.getX() + dX, bounds.getY() + dY, bounds.getWidth(), bounds.getHeight());
 	}
+	
+	void stop() {
+		up = down = left = right = false;
+	}
 
 	// Gibt die aktuelle horizontale Position zurueck
 	double getX() {
@@ -99,20 +100,17 @@ public class Player {
 		return texture;
 	}
 	
-	public void changeTexture(int a){
-		if(a == 0){
-			try {
+	public void changeTexture(int value){
+		try {
+			if (value == 0) {
 				texture = ImageIO.read(new File("./res/img/german_m1.png"));
 				texture = texture.getSubimage(0, 0, 32, 46);
-			} catch (IOException e) {e.printStackTrace();}
-		}
-		if (a == 1 ){
-			try {
-			texture = ImageIO.read(new File("./res/img/german_f2.png"));
+			}
+			if (value == 1) {
+				texture = ImageIO.read(new File("./res/img/german_f2.png"));
 				texture = texture.getSubimage(0, 0, 32, 46);
-			} catch (IOException e) {e.printStackTrace();}
-		}
-		System.out.println("irgendwas");
+			}
+		} catch (IOException e) {e.printStackTrace();}
 	}
 	
 }

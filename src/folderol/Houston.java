@@ -65,8 +65,6 @@ public class Houston implements ActionListener, Runnable {
 	// CardLayout ermoeglicht erst diese Darstellung der unterschiedlichen
 	// Fensterinhalte auf unterschiedlichen "Karten"
 	private CardLayout cl;
-	JRadioButton weiblich;
-	JRadioButton maenlich;
 	
 	// Spielfenster, Spielleinwand, hier wird drauf gezeichnet
 	GamePanel gamePanel;
@@ -83,14 +81,24 @@ public class Houston implements ActionListener, Runnable {
 	c1b2, //Einstellungen
 	c1b3, //Mitwirkende
 	c1b4, //Beenden
-	c2b1, //zum Hauptmen\u00fc
+	c2b1, //zum Hauptmenue
 	c4b1, //zurueck ins Spiel
-	c4b2, //zum Hauptmen\u00fc
-	c5b1, //zum Hauptmen\u00fc
-	c6b1; //weiter
+	c4b2, //zum Hauptmenue
+	c5b1, //zum Hauptmenue
+	c6b1; //weiter	
+	// Spielerauswahl
+	JRadioButton maenlich, weiblich;
+	private JButton 
+	c6level1,
+	c6level2,
+	c6level3,
+	c6level4,
+	c6level5,
+	c6level6, 
+	c6level7,
+	c6level8,
+	c6level9;
 	
-	
-	String text;
 
 	// Diese Strings identifizieren jeweils eins der Card Panel
 	// Sind hilfreich z.B. beim Wechsel von einer Karte auf eine Andere
@@ -172,7 +180,7 @@ public class Houston implements ActionListener, Runnable {
 		
 		last = System.nanoTime();
 		preferredFps = 35;
-		map = new Map(0, 20, 24);
+		map = new Map(0, 0, 20, 24);
 		player = new Player();
 		logic = new Logic(this);
 	}
@@ -326,15 +334,54 @@ public class Houston implements ActionListener, Runnable {
 	
 	//Baut das Introductionfenster
 	private JPanel card6(){
-		card6 = new JPanel();
+		card6 = new JPanel(null);
 		c6b1 = new JButton ("-> Weiter");
 		c6b1.addActionListener(this);
-		
 		c6b1.setBounds(284, 300, 200, 40);
+		card6.add(c6b1);
+		
+		// Button fuer Testzwecke		
+		c6level1 = new JButton("Map 1");
+		c6level1.addActionListener(this);
+		c6level1.setBounds(100, 400, 80, 20);
+		card6.add(c6level1);
+		c6level2 = new JButton("Map 2");
+		c6level2.addActionListener(this);
+		c6level2.setBounds(100, 430, 80, 20);
+		card6.add(c6level2);
+		c6level3 = new JButton("Map 3");
+		c6level3.addActionListener(this);
+		c6level3.setBounds(100, 460, 80, 20);
+		card6.add(c6level3);
+		c6level4 = new JButton("Map 4");
+		c6level4.addActionListener(this);
+		c6level4.setBounds(200, 400, 80, 20);
+		card6.add(c6level4);
+		c6level5 = new JButton("Map 5");
+		c6level5.addActionListener(this);
+		c6level5.setBounds(200, 430, 80, 20);
+		card6.add(c6level5);
+		c6level6 = new JButton("Map 6");
+		c6level6.addActionListener(this);
+		c6level6.setBounds(200, 460, 80, 20);
+		card6.add(c6level6);
+		c6level7 = new JButton("Map 7");
+		c6level7.addActionListener(this);
+		c6level7.setBounds(300, 400, 80, 20);
+		card6.add(c6level7);
+		c6level8 = new JButton("Map 8");
+		c6level8.addActionListener(this);
+		c6level8.setBounds(300, 430, 80, 20);
+		card6.add(c6level8);
+		c6level9 = new JButton("Map 9");
+		c6level9.addActionListener(this);
+		c6level9.setBounds(300, 460, 80, 20);
+		card6.add(c6level9);
+		
 		JLabel label = new JLabel("Eine Story f\u00fcr das Spiel wird hier sp\u00e4ter noch eingef\u00fcgt. ");
+		label.setBounds(184, 200, 400, 100);
 		card6.add(label);
-		label.setVisible(true);
-	    card6.add(c6b1);
+		
 		return card6;
 	}
 
@@ -441,7 +488,7 @@ public class Houston implements ActionListener, Runnable {
 			changeAppearance(INTRODUCTION);
 		}else if(buttonClicked == c6b1){
 			changeAppearance(false, true, GAME);
-			logic.setupNewMap(0);
+			logic.setupNewGame(0, 0);
 		} else if (buttonClicked == c1b2) {
 			changeAppearance(SETTINGS);
 		} else if (buttonClicked == c1b3) {
@@ -456,11 +503,41 @@ public class Houston implements ActionListener, Runnable {
 			changeAppearance(true, false, STARTMENU);
 		} else if (buttonClicked == c5b1) {
 			changeAppearance(STARTMENU);
+		
+		// Kuemmert sich um die Auswahl des Spielers
 		} else if (buttonClicked == maenlich) {
 			player.changeTexture(0);
-			
 		} else if (buttonClicked == weiblich) {
 			 player.changeTexture(1);
+
+		// Auswahl der einzelnen Level zu Testzwecken
+		} else if (buttonClicked == c6level1) {
+			changeAppearance(false, true, GAME);
+			logic.setupNewGame(0, 0);
+		} else if (buttonClicked == c6level2) {
+			changeAppearance(false, true, GAME);
+			logic.setupNewGame(0, 1);
+		} else if (buttonClicked == c6level3) {
+			changeAppearance(false, true, GAME);
+			logic.setupNewGame(0, 2);
+		} else if (buttonClicked == c6level4) {
+			changeAppearance(false, true, GAME);
+			logic.setupNewGame(1, 0);
+		} else if (buttonClicked == c6level5) {
+			changeAppearance(false, true, GAME);
+			logic.setupNewGame(1, 1);
+		} else if (buttonClicked == c6level6) {
+			changeAppearance(false, true, GAME);
+			logic.setupNewGame(1, 2);
+		} else if (buttonClicked == c6level7) {
+			changeAppearance(false, true, GAME);
+			logic.setupNewGame(2, 0);
+		} else if (buttonClicked == c6level8) {
+			changeAppearance(false, true, GAME);
+			logic.setupNewGame(2, 1);
+		} else if (buttonClicked == c6level9) {
+			changeAppearance(false, true, GAME);
+			logic.setupNewGame(2, 2);
 		}
 	}
 	

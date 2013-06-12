@@ -44,15 +44,17 @@ public class GamePanel extends JPanel {
 		// Zeichnet den Player
 		player.drawObjects(g);
 		
-		// Zeichnet Konsolenausgaben
+		// Zeichnet Informationen in der Informationsleiste
 		g.setColor(Color.BLACK);
 		g.setFont(font);
-		g.drawString("Konsolenausgaben hier", 16, 20);
+		g.drawString("Konsolenausgaben", 16, 20);
 		// Zeichnet die gerundete aktuelle Position des Player
-		g.drawString("Pos " + "x:"+(int)player.getX()+" y:"+(int)player.getY(), 208, 20);
-		
+		g.drawString("Pos  " + "x:"+(int)player.getX()+" y:"+(int)player.getY(), 208, 20);
+		// Zeichnet Karteninformationen
+		g.drawString("Map  "+map.getLevelNumber()+" - "+map.getMapNumber(), 340, 20);
 		// Zeichnet die aktuellen FPS (Frames Per Second)
 		g.drawString("FPS: " + houston.fps, 712, 20);
+		
 		g.dispose();
 	} // Ab hier ist Schluss mit Zeichnen
 
