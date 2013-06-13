@@ -224,12 +224,12 @@ public class Actions {
 		}
 	}
 
-	static class enterShop extends AbstractAction {
+	static class interact extends AbstractAction {
 
 		private static final long serialVersionUID = 1L;
 		private Houston houston;
 
-		public enterShop(Houston houston) {
+		public interact(Houston houston) {
 			this.houston = houston;
 		}
 
@@ -238,6 +238,13 @@ public class Actions {
 			if (houston.logic.value == 5) {
 				houston.shop.aktivateValidBuyButtons();
 				houston.changeAppearance(false, "SHOP");
+			}
+			else if (houston.logic.value == 3){
+				houston.player.stop();
+				// Hier koennte, fuer spezielle NPC eine Abfrage stehen ob storyCounter erhoeht wird
+				//Text einfuegen, der in storyText steht
+			
+			
 			}
 		}
 	}

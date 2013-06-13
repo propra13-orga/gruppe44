@@ -7,6 +7,7 @@ public class Logic {
 	Houston houston;
 	Player player;
 	Map map;
+	Story story;
 
 	Point2D topLeft, topRight, bottomLeft, bottomRight;
 	private long delta;
@@ -17,6 +18,7 @@ public class Logic {
 		this.houston	= houston;
 		this.player		= houston.player;
 		this.map		= houston.map;
+		this.story		= houston.story;
 		
 		// Die 4 Punkte stehen fuer die 4 Ecken des Player
 		topLeft			= new Point2D.Double();
@@ -28,6 +30,7 @@ public class Logic {
 	
 	void setupNewGame(int levelNumber, int mapNumber) {
 		map.renewMap(levelNumber, mapNumber);
+		story.renewStory(levelNumber, mapNumber);
 		
 		// Sucht und setzt die Ursprungsposition des Player
 		Point2D spawn = new Point2D.Double();

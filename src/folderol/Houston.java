@@ -79,6 +79,8 @@ public class Houston implements ActionListener, Runnable {
 	// Im Shop können Items gekauft werden
 	Shop shop;
 	
+	Story story;
+	
 	//Item fuer Leben
 	// Healthpack healthpack;
 	//Item fuer Mana
@@ -189,6 +191,7 @@ public class Houston implements ActionListener, Runnable {
 		map = new Map(0, 0, 20, 24);
 		player = new Player();
 		logic = new Logic(this);
+		story = new Story(0, 0, 0);
 		// healthpack = new Healthpack(this);
 		// manatrank = new Manatrank(this);
 		inventory = new Inventory(this);
@@ -477,7 +480,7 @@ public class Houston implements ActionListener, Runnable {
 		// Definiert die benoetigten Tastendruecke
 		KeyStroke esc = KeyStroke.getKeyStroke("ESCAPE");
 		KeyStroke h = KeyStroke.getKeyStroke("H");
-		KeyStroke j = KeyStroke.getKeyStroke("J");
+		KeyStroke e = KeyStroke.getKeyStroke("E");
 		KeyStroke m = KeyStroke.getKeyStroke("M");
 		KeyStroke r = KeyStroke.getKeyStroke("R");
 		KeyStroke w = KeyStroke.getKeyStroke("W");
@@ -492,7 +495,7 @@ public class Houston implements ActionListener, Runnable {
 		// Entfernt alle Tastenzuweisungen in der InputMap
 		im.remove(KeyStroke.getKeyStroke("ESCAPE"));
 		im.remove(h);
-		im.remove(j);
+		im.remove(e);
 		im.remove(m);
 		im.remove(r);
 		im.remove(w);
@@ -516,7 +519,7 @@ public class Houston implements ActionListener, Runnable {
 		// Aktiviert/registriert die Bewegungstasten und die Resettaste
 		if (gameIsRunning) {
 			im.put(h, "useHealthpack");
-			im.put(j, "enterShop");
+			im.put(e, "interact");
 			im.put(m, "useManatrank");
 			im.put(r, "resetPlayer");
 			im.put(w, "moveUp");
@@ -534,7 +537,7 @@ public class Houston implements ActionListener, Runnable {
 		am.put("jumpToGame", new Actions.jumpToGame(this));
 		am.put("useHealthpack", new Actions.useHealthpack(this));
 		am.put("useManatrank", new Actions.useManatrank(this));
-		am.put("enterShop", new Actions.enterShop(this));
+		am.put("interact", new Actions.interact(this));
 		am.put("resetPlayer", new Actions.resetPlayer(this));
 		am.put("moveUp", new Actions.moveUp(this));
 		am.put("moveDown", new Actions.moveDown(this));
