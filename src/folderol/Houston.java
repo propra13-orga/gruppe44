@@ -17,18 +17,14 @@ package folderol;
  * ® \u00ae 
 */
 
-
-
-
 import java.awt.CardLayout;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
 import javax.swing.ActionMap;
-import javax.swing.ImageIcon;
 import javax.swing.InputMap;
 import javax.swing.JButton;
-import javax.swing.ButtonGroup;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -61,13 +57,11 @@ public class Houston implements ActionListener, Runnable {
 	// Kontainer fuer die "Unterfenster" card1, card2, ...
 	private JPanel cards;
 	// "Unterfenster", die das Startmenue, Einstellungen, etc. beinhalten 
-	private JPanel card1, card2, card3, card4, card5, card6, card7;
+	private JPanel card1, card2, gamePanel, card4, card5, card6, card7;
 	// CardLayout ermoeglicht erst diese Darstellung der unterschiedlichen
 	// Fensterinhalte auf unterschiedlichen "Karten"
 	private CardLayout cl;
 	
-	// Spielfenster, Spielleinwand, hier wird drauf gezeichnet
-	GamePanel gamePanel;
 	// Durch den Spieler gesteuerter Charakter
 	Player player;
 	// Die Karte
@@ -81,10 +75,6 @@ public class Houston implements ActionListener, Runnable {
 	
 	Story story;
 	
-	//Item fuer Leben
-	// Healthpack healthpack;
-	//Item fuer Mana
-	// Manatrank manatrank;
 	
 	// Die im Menue vorhandenen Knoepfe
 	JButton 
@@ -102,24 +92,13 @@ public class Houston implements ActionListener, Runnable {
 	c7b3; //zurueck ins Spiel
 
 	//Spielerauswahl
-	private JRadioButton maenlich, weiblich;
+	JRadioButton maenlich, weiblich;
 	
 	// Knoepfe zur Kartenauswahl fuer Testzwecke
-	private JButton 
-	c6level1,
-	c6level2,
-	c6level3,
-	c6level4,
-	c6level5,
-	c6level6, 
-	c6level7,
-	c6level8,
-	c6level9;
-	
-	private JLabel 
-	c7l4, //fuer die Ausgabe im Shop
-	c7l5, //fuer Icon Club Mate im Shop
-	c7b6; //fuer Icon Killepitsch im Shop
+	JButton c6map1, c6map2, c6map3, c6map4, c6map5, c6map6, c6map7, c6map8, c6map9;
+
+	// Label fuer die Ausgabe im Shop
+	JLabel c7l4, c7l5, c7l6, c7l7, c7l8, c7l9, c7l10, c7l11;
 
 	// Diese Strings identifizieren jeweils eins der Card Panel
 	// Sind hilfreich z.B. beim Wechsel von einer Karte auf eine Andere
@@ -148,13 +127,13 @@ public class Houston implements ActionListener, Runnable {
 		this.height = height;
 		
 		// Erstellt die einzelnen Card-Panel
-		card1 = card1(); // STARTMENU
-		card2 = card2(); // SETTINGS
-		card3 = card3(); // GAME
-		card4 = card4(); // INGAMEMENU
-		card5 = card5(); // CREDITS
-		card6 = card6(); // INTRODUCTION		
-		card7 = card7(); // SHOP
+		card1 = new MenuCards.card1(this);	// STARTMENU
+		card2 = new MenuCards.card2(this);	// SETTINGS
+		gamePanel = new GamePanel(this);	// GAME
+		card4 = new MenuCards.card4(this);	// INGAMEMENU
+		card5 = new MenuCards.card5(this);	// CREDITS
+		card6 = new MenuCards.card6(this);	// INTRODUCTION
+		card7 = new MenuCards.card7(this);	// SHOP
 
 		// Erstellt ein neues Cards-Panel ...
 		cl = new CardLayout();
@@ -163,7 +142,7 @@ public class Houston implements ActionListener, Runnable {
 		// ... und fuegt alle Card-Panel hinzu
 		cards.add(card1, STARTMENU);
 		cards.add(card2, SETTINGS);
-		cards.add(card3, GAME);
+		cards.add(gamePanel, GAME);
 		cards.add(card4, INGAMEMENU);
 		cards.add(card5, CREDITS);
 		cards.add(card6, INTRODUCTION);
@@ -174,7 +153,6 @@ public class Houston implements ActionListener, Runnable {
 		frame.pack();
 		
 		// Setzt Card, die als erstes angezeigt werden soll
-		// STARTMENU; SETTINGS; GAME; INGAMEMENU
 		cl.show(cards, STARTMENU);
 		currentCard = STARTMENU;
 		
@@ -191,9 +169,7 @@ public class Houston implements ActionListener, Runnable {
 		map = new Map(0, 0, 20, 24);
 		player = new Player();
 		logic = new Logic(this);
-		story = new Story(0, 0, 0);
-		// healthpack = new Healthpack(this);
-		// manatrank = new Manatrank(this);
+		// story = new Story(0, 0, 0);
 		inventory = new Inventory(this);
 		shop = new Shop(this);
 	}
@@ -213,15 +189,13 @@ public class Houston implements ActionListener, Runnable {
 				// Berechnet z.B. Bewegungen im Spiel
 				logic.doGameUpdates(delta);
 				// Zeichnet die "Leinwand" in card4 neu
-				card3.repaint();
+				gamePanel.repaint();
 			}
-			
 			try {
 				Thread.sleep(1000 / preferredFps);
 			} catch (InterruptedException e) {}
 		}
 	}
-	
 	
 	// Berechnet FPS und Delta
 	private void computeDelta() {
@@ -242,211 +216,7 @@ public class Houston implements ActionListener, Runnable {
 		frame.setVisible(true);
 		return frame;
 	}
-
-	// Baut das Hauptmenue
-	private JPanel card1() {
-		card1 = new JPanel(null);
-		
-		c1b1 = new JButton("Neues Spiel");
-		c1b1.addActionListener(this);
-		c1b1.setBounds(284, 300, 200, 40);
-		card1.add(c1b1);
-
-		c1b2 = new JButton("Einstellungen");
-		c1b2.addActionListener(this);
-		c1b2.setBounds(284, 360, 200, 40);
-		card1.add(c1b2);
-
-		c1b3 = new JButton("Mitwirkende");
-		c1b3.addActionListener(this);
-		c1b3.setBounds(284, 420, 200, 40);
-		card1.add(c1b3);
-
-		c1b4 = new JButton("Beenden");
-		c1b4.addActionListener(this);
-		c1b4.setBounds(284, 480, 200, 40);
-		card1.add(c1b4);
-		return card1;
-	}
 	
-	// Baut das Einstellungsfenster
-	private JPanel card2() {
-		card2 = new JPanel(null);
-
-		c2b1 = new JButton("-> Hauptmen\u00fc");
-		c2b1.setBounds(284, 360, 200, 40);
-		c2b1.addActionListener(this);
-		card2.add(c2b1);
-
-		maenlich = new JRadioButton("Spieler");
-		maenlich.setBounds(284, 250, 210, 40);
-		maenlich.addActionListener(this);
-		card2.add(maenlich);
-		maenlich.setSelected(true);
-
-		weiblich = new JRadioButton("Spielerin");
-		weiblich.setBounds(284, 300, 210, 40);
-		weiblich.addActionListener(this);
-		card2.add(weiblich);
-
-		ButtonGroup g = new ButtonGroup();
-		g.add(maenlich);
-		g.add(weiblich);
-
-		return card2;
-	}
-	
-	// Baut das Spielfenster
-	private JPanel card3() {
-		// gamePanel fungiert als die Leinwand fuer das eigentliche Spiel 
-		gamePanel = new GamePanel(this);
-		return gamePanel;
-	}
-
-	// Baut das Spielmenue
-	private JPanel card4() {
-		card4 = new JPanel(null);
-		// card4.add(new JLabel(INGAMEMENU));
-
-		c4b1 = new JButton("zur\u00fcck ins Spiel");
-		c4b1.addActionListener(this);
-		c4b1.setBounds(284, 300, 200, 40);
-		card4.add(c4b1);
-
-		c4b2 = new JButton("-> Hauptmen\u00fc");
-		c4b2.addActionListener(this);
-		c4b2.setBounds(284, 360, 200, 40);
-		card4.add(c4b2);
-		return card4;
-	}
-
-	// Baut das Mitwirkendenfenster
-	private JPanel card5() {
-		card5 = new JPanel(null);
-		JLabel picsandy = new JLabel(new ImageIcon("./res/img/sandy.png"));
-		picsandy.setBounds(29, 200, 130, 130);
-		card5.add(picsandy);
-
-		JLabel picjana = new JLabel(new ImageIcon("./res/img/jana.png"));
-		picjana.setBounds(174, 200, 130, 130);
-		card5.add(picjana);
-
-		JLabel picphil = new JLabel(new ImageIcon("./res/img/phil.png"));
-		picphil.setBounds(319, 200, 130, 130);
-		card5.add(picphil);
-
-		JLabel picphilipp = new JLabel(new ImageIcon("./res/img/philipp.png"));
-		picphilipp.setBounds(464, 200, 130, 130);
-		card5.add(picphilipp);
-
-		JLabel picdavid = new JLabel(new ImageIcon("./res/img/david.png"));
-		picdavid.setBounds(609, 200, 130, 130);
-		card5.add(picdavid);
-
-		c5b1 = new JButton("-> Hauptmen\u00fc");
-		c5b1.addActionListener(this);
-		c5b1.setBounds(284, 420, 200, 40);
-		card5.add(c5b1);
-		return card5;
-	}
-	
-	//Baut das Introductionfenster
-	private JPanel card6(){
-		card6 = new JPanel(null);
-		c6b1 = new JButton ("-> Weiter");
-		c6b1.addActionListener(this);
-		c6b1.setBounds(284, 300, 200, 40);
-		card6.add(c6b1);
-		
-		// Button fuer Testzwecke		
-		c6level1 = new JButton("Map 1");
-		c6level1.addActionListener(this);
-		c6level1.setBounds(100, 400, 80, 20);
-		card6.add(c6level1);
-		c6level2 = new JButton("Map 2");
-		c6level2.addActionListener(this);
-		c6level2.setBounds(100, 430, 80, 20);
-		card6.add(c6level2);
-		c6level3 = new JButton("Map 3");
-		c6level3.addActionListener(this);
-		c6level3.setBounds(100, 460, 80, 20);
-		card6.add(c6level3);
-		c6level4 = new JButton("Map 4");
-		c6level4.addActionListener(this);
-		c6level4.setBounds(200, 400, 80, 20);
-		card6.add(c6level4);
-		c6level5 = new JButton("Map 5");
-		c6level5.addActionListener(this);
-		c6level5.setBounds(200, 430, 80, 20);
-		card6.add(c6level5);
-		c6level6 = new JButton("Map 6");
-		c6level6.addActionListener(this);
-		c6level6.setBounds(200, 460, 80, 20);
-		card6.add(c6level6);
-		c6level7 = new JButton("Map 7");
-		c6level7.addActionListener(this);
-		c6level7.setBounds(300, 400, 80, 20);
-		card6.add(c6level7);
-		c6level8 = new JButton("Map 8");
-		c6level8.addActionListener(this);
-		c6level8.setBounds(300, 430, 80, 20);
-		card6.add(c6level8);
-		c6level9 = new JButton("Map 9");
-		c6level9.addActionListener(this);
-		c6level9.setBounds(300, 460, 80, 20);
-		card6.add(c6level9);
-		
-		JLabel label = new JLabel("Eine Story f\u00fcr das Spiel wird hier sp\u00e4ter noch eingef\u00fcgt. ");
-		label.setBounds(184, 200, 400, 100);
-		card6.add(label);
-		return card6;
-	}
-	
-	//Baut denShop
-	private JPanel card7(){
-		card7 = new JPanel();
-		//card7.repaint();
-		c7b1 = new JButton("Healthpack - 40 CP");
-		c7b1.addActionListener(this);
-		c7b1.setBounds(284, 300, 200, 40);
-		ImageIcon healthpack = new ImageIcon ("./res/img/health.png");
-		c7b1.setIcon(healthpack);
-
-		c7b2 = new JButton("Manatrank - 100 CP");
-		c7b2.addActionListener(this);
-		c7b2.setBounds(284, 500, 200, 40);
-		ImageIcon manatrank = new ImageIcon ("./res/img/mana.png");
-		c7b2.setIcon(manatrank);
-			
-		c7b3 = new JButton("zur\u00fcck ins Spiel");
-		c7b3.addActionListener(this);
-		c7b3.setBounds(520, 600, 200, 40);
-		
-		c7l4 = new JLabel ("");
-		c7l4.setBounds (287, 590 ,200,50);
-		c7l4.setVisible(true);
-		
-		c7l5 = new JLabel(new ImageIcon("./res/img/Club_mate.png"));
-		c7l5.setBounds(70, 190, 200, 149);
-		c7l4.setVisible(true);
-		c7b6 = new JLabel(new ImageIcon("./res/img/Killepitsch.png"));
-		c7b6.setBounds(70, 391, 200, 149);
-		c7l4.setVisible(true);
-		
-		JLabel Background = new JLabel(new ImageIcon("./res/img/regal.png"));
-		Background.setLayout(null);
-		Background.setBounds(0, 0, 768, 672);
-		Background.add(c7b1);
-		Background.add(c7b2);
-		Background.add(c7b3);
-		Background.add(c7l4);
-		Background.add(c7l5);
-		Background.add(c7b6);
-		  
-		card7.add(Background);
-		return card7;
-	}
-
 	// Wechselt die Card und weist die entsprechenden Tastendruecke zu
 	public void changeAppearance(boolean gameOver, boolean gameIsRunning, String name) {
 		// Setzt die aktuelle Card auf die neue Card
@@ -468,7 +238,6 @@ public class Houston implements ActionListener, Runnable {
 	public void changeAppearance(String name) {
 		changeAppearance(gameOver, gameIsRunning, name);
 	}
-	
 	
 	// Weist, je nach angezeigtem Panel (Card), die entsprechenden Tastendruecke zu
 	private void mapActions() {
@@ -518,9 +287,9 @@ public class Houston implements ActionListener, Runnable {
 
 		// Aktiviert/registriert die Bewegungstasten und die Resettaste
 		if (gameIsRunning) {
-			im.put(h, "useHealthpack");
+			im.put(h, "useHealthPack");
 			im.put(e, "interact");
-			im.put(m, "useManatrank");
+			im.put(m, "useManaPotion");
 			im.put(r, "resetPlayer");
 			im.put(w, "moveUp");
 			im.put(s, "moveDown");
@@ -535,8 +304,8 @@ public class Houston implements ActionListener, Runnable {
 		// "Verbindet" die Tastendruecke mit einer jeweiligen Action
 		am.put("jumpToIngamemenu", new Actions.jumpToIngamemenu(this));
 		am.put("jumpToGame", new Actions.jumpToGame(this));
-		am.put("useHealthpack", new Actions.useHealthpack(this));
-		am.put("useManatrank", new Actions.useManatrank(this));
+		am.put("useHealthPack", new Actions.useHealthPack(this));
+		am.put("useManaPotion", new Actions.useManaPotion(this));
 		am.put("interact", new Actions.interact(this));
 		am.put("resetPlayer", new Actions.resetPlayer(this));
 		am.put("moveUp", new Actions.moveUp(this));
@@ -558,11 +327,11 @@ public class Houston implements ActionListener, Runnable {
 		// Kuemmert sich um die Events der einzelnen Menu Buttons
 		if (buttonClicked == c1b1) {
 			changeAppearance(INTRODUCTION);
-			player.resetHealthManaMoney(100, 100, 200);
 		} else if (buttonClicked == c6b1) {
-			changeAppearance(false, true, GAME);
-			logic.setupNewGame(0, 0);
+			player.resetHealthManaMoney(100, 100, 200);
 			inventory.clear();
+			logic.setupNewGame(0, 0);
+			changeAppearance(false, true, GAME);
 		} else if (buttonClicked == c1b2) {
 			changeAppearance(SETTINGS);
 		} else if (buttonClicked == c1b3) {
@@ -585,31 +354,31 @@ public class Houston implements ActionListener, Runnable {
 			 player.changeTexture(1);
 
 		// Auswahl der einzelnen Level zu Testzwecken
-		} else if (buttonClicked == c6level1) {
-			changeAppearance(false, true, GAME);
+		} else if (buttonClicked == c6map1) {
 			logic.setupNewGame(0, 0);
-		} else if (buttonClicked == c6level2) {
+			changeAppearance(false, true, GAME);
+		} else if (buttonClicked == c6map2) {
 			changeAppearance(false, true, GAME);
 			logic.setupNewGame(0, 1);
-		} else if (buttonClicked == c6level3) {
+		} else if (buttonClicked == c6map3) {
 			changeAppearance(false, true, GAME);
 			logic.setupNewGame(0, 2);
-		} else if (buttonClicked == c6level4) {
+		} else if (buttonClicked == c6map4) {
 			changeAppearance(false, true, GAME);
 			logic.setupNewGame(1, 0);
-		} else if (buttonClicked == c6level5) {
+		} else if (buttonClicked == c6map5) {
 			changeAppearance(false, true, GAME);
 			logic.setupNewGame(1, 1);
-		} else if (buttonClicked == c6level6) {
+		} else if (buttonClicked == c6map6) {
 			changeAppearance(false, true, GAME);
 			logic.setupNewGame(1, 2);
-		} else if (buttonClicked == c6level7) {
+		} else if (buttonClicked == c6map7) {
 			changeAppearance(false, true, GAME);
 			logic.setupNewGame(2, 0);
-		} else if (buttonClicked == c6level8) {
+		} else if (buttonClicked == c6map8) {
 			changeAppearance(false, true, GAME);
 			logic.setupNewGame(2, 1);
-		} else if (buttonClicked == c6level9) {
+		} else if (buttonClicked == c6map9) {
 			changeAppearance(false, true, GAME);
 			logic.setupNewGame(2, 2);
 		
@@ -619,9 +388,8 @@ public class Houston implements ActionListener, Runnable {
 		} else if (buttonClicked == c7b2) {
 			shop.buyManaPotion();
 		} else if (buttonClicked == c7b3) {
-			// c7l4.setText("");
 			changeAppearance(true, GAME);
 		}
-		
+
 	}
 }

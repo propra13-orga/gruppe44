@@ -35,10 +35,7 @@ public class Story {
 
 		try {
 			initializeStory();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		} catch (IOException e) {e.printStackTrace();}
 	}
 
 	private void initializeStory() throws IOException {

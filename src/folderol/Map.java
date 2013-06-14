@@ -90,22 +90,22 @@ public class Map {
 	public int getMapNumber() {
 		return mapNumber;
 	}
-	
+
 	// Gibt die aktuelle Levelnummer zurueck
 	public int getLevelNumber() {
 		return levelNumber;
 	}
-	
+
 	// Gibt die Anzahl an Level zurueck
 	public int getCountOfLevel() {
 		return mapUrls.length;
 	}
-	
+
 	// Gibt die Anzahl an Karten in bestimmtem Level zurueck
 	public int getCountOfMapsByLevel(int level) {
 		return mapUrls[level].length;
 	}
-	
+
 	// Gibt die Anzahl an Karten im aktuellen Level zurueck
 	public int getCountOfMapsByLevel() {
 		return getCountOfMapsByLevel(levelNumber);
@@ -118,7 +118,7 @@ public class Map {
 		this.mapNumber = mapNumber;
 		initializeMap();
 	}
-	
+
 	// Laedt die aktuelle Karte neu
 	public void renewMap() {
 		renewMap(levelNumber, mapNumber);
@@ -176,11 +176,11 @@ public class Map {
 		for (int row = 0; row < rows; row++) {
 			for (int col = 0; col < cols; col++) {
 				if (mapArray[row][col] == 8) {
-					return (new Point2D.Double(col*32, row*32));
+					return (new Point2D.Double(col * 32, row * 32));
 				}
 			}
 		}
 		return null;
 	}
-	
+
 }

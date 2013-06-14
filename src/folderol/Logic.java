@@ -27,16 +27,15 @@ public class Logic {
 		bottomRight		= new Point2D.Double();
 	}
 
-	
 	void setupNewGame(int levelNumber, int mapNumber) {
 		map.renewMap(levelNumber, mapNumber);
-		story.renewStory(levelNumber, mapNumber);
-		
+		// story.renewStory(levelNumber, mapNumber);
+
 		// Sucht und setzt die Ursprungsposition des Player
 		Point2D spawn = new Point2D.Double();
 		if ((spawn = map.singleSearch(8)) != null)
 			player.setResetPosition(spawn);
-		
+
 		// Setzt den Player auf seine Ursprungsposition
 		player.resetPosition();
 	}
@@ -44,12 +43,12 @@ public class Logic {
 	// Berechnet z.B. alle Bewegungen und Kollisionen im Spiel
 	void doGameUpdates(long delta) {
 		this.delta = delta;
-		
+
 		controlPlayerMovement();
 		detectSpecialTiles();
 		checkIfIsStillAlive();
 	}
-	
+
 	// Regelt den Wechsel zur naechsten Karte
 	private void nextMap() {
 		// Haelt den Spieler an
@@ -151,11 +150,11 @@ public class Logic {
 		// Zurueck zur ersten Karte des aktuellen Level
 		setupNewGame(map.getLevelNumber(), 0);
 	}
-	
-	private void checkIfIsStillAlive(){
-		if(player.getHealth() <= 0){
-			houston.changeAppearance(Houston.STARTMENU);
+
+	private void checkIfIsStillAlive() {
+		if (player.getHealth() <= 0) {
+			houston.changeAppearance(true, false, "STARTMENU");
 		}
 	}
-	
+
 }

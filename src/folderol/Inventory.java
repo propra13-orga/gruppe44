@@ -12,7 +12,6 @@ public class Inventory {
 	healthPerPortion	= 20,
 	manaPerPortion		= 45;
 	
-
 	public Inventory(Houston houston) {
 		this.houston = houston;
 		this.player = houston.player;
@@ -57,7 +56,7 @@ public class Inventory {
 	public void useHealthPack() {
 		if (healthPack > 0) {
 			subHealthPack();
-			if (player.getHealth() <= (player.maxHealth-healthPerPortion)) {
+			if (player.getHealth() <= (player.maxHealth - healthPerPortion)) {
 				player.increaseHealth(healthPerPortion);
 			} else {
 				player.setHealth(player.maxHealth);
@@ -69,12 +68,12 @@ public class Inventory {
 	public void useManaPotion() {
 		if (manaPotion > 0) {
 			subManaPotion();
-			if (player.getMana() <= (player.maxHealth-manaPerPortion)) {
+			if (player.getMana() <= (player.maxHealth - manaPerPortion)) {
 				player.increaseMana(manaPerPortion);
 			} else {
 				player.setMana(player.maxHealth);
 			}
 		}
 	}
-	
+
 }

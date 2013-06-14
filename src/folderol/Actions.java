@@ -193,12 +193,12 @@ public class Actions {
 
 	}
 
-	static class useHealthpack extends AbstractAction {
+	static class useHealthPack extends AbstractAction {
 
 		private static final long serialVersionUID = 1L;
 		private Houston houston;
 
-		public useHealthpack(Houston houston) {
+		public useHealthPack(Houston houston) {
 			this.houston = houston;
 		}
 
@@ -209,12 +209,12 @@ public class Actions {
 
 	}
 
-	static class useManatrank extends AbstractAction {
+	static class useManaPotion extends AbstractAction {
 
 		private static final long serialVersionUID = 1L;
 		private Houston houston;
 
-		public useManatrank(Houston houston) {
+		public useManaPotion(Houston houston) {
 			this.houston = houston;
 		}
 
@@ -222,6 +222,7 @@ public class Actions {
 		public void actionPerformed(ActionEvent e) {
 			houston.inventory.useManaPotion();
 		}
+
 	}
 
 	static class interact extends AbstractAction {
@@ -236,16 +237,16 @@ public class Actions {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			if (houston.logic.value == 5) {
-				houston.shop.aktivateValidBuyButtons();
+				houston.shop.resetShopView();
 				houston.changeAppearance(false, "SHOP");
-			}
-			else if (houston.logic.value == 3){
+			} else if (houston.logic.value == 3) {
 				houston.player.stop();
 				// Hier koennte, fuer spezielle NPC eine Abfrage stehen ob storyCounter erhoeht wird
-				//Text einfuegen, der in storyText steht
-			
+				// Text einfuegen, der in storyText steht
 			
 			}
 		}
+
 	}
+	
 }
