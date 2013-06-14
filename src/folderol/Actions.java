@@ -18,7 +18,6 @@ public class Actions {
 		public void actionPerformed(ActionEvent e) {
 			// System.out.println("ESC -> Ingamemenu");
 			houston.changeAppearance(false, false, "INGAMEMENU");
-			houston.player.stop();
 		}
 
 	}

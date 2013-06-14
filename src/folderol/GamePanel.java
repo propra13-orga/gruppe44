@@ -14,6 +14,7 @@ public class GamePanel extends JPanel {
 	private Player player;
 	private Map map;
 	private Infobar infobar;
+	private EnemyLogic enemyLogic;
 	
 	private Font plainFont;
 	private Color bgColor;
@@ -23,6 +24,7 @@ public class GamePanel extends JPanel {
 		this.player		= houston.player;
 		this.map		= houston.map;
 		this.infobar	= new Infobar(houston, 0, -32);
+		this.enemyLogic = houston.enemyLogic;
 		
 		// Setzt die Schrift fuer die Konsolenausgaben
 		plainFont = new Font("Arial", Font.PLAIN, 12);
@@ -45,6 +47,16 @@ public class GamePanel extends JPanel {
 
 		// Zeichnet die Karte
 		map.drawObjects(g);
+		
+		// Zeichnet die Gegner
+		for (int i=0; i<enemyLogic.allEnemysRight.size(); i++){
+			enemyLogic.enemy = enemyLogic.allEnemysRight.get(i);
+			enemyLogic.enemy.drawObjects(g);
+		}
+		for (int i=0; i<enemyLogic.allEnemysUp.size(); i++){
+			enemyLogic.enemy = enemyLogic.allEnemysUp.get(i);
+			enemyLogic.enemy.drawObjects(g);
+		}
 
 		// Zeichnet den Player
 		player.drawObjects(g);

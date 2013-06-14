@@ -7,6 +7,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import javax.imageio.ImageIO;
@@ -74,6 +75,8 @@ public class Map {
 		walkable.put(2, true);	// Begehbare-Wand
 		walkable.put(7, true); 	// Falle
 		walkable.put(5, true);	// Shop
+		walkable.put(6, true);	// GegnerHorizontal
+		walkable.put(4, true);	// GegnerVertikal
 		walkable.put(0, true);	// Boden
 		try {
 			texture.put(8, ImageIO.read(new File("./res/img/start.png")));
@@ -82,6 +85,8 @@ public class Map {
 			texture.put(2, ImageIO.read(new File("./res/img/wall.png")));
 			texture.put(7, ImageIO.read(new File("./res/img/trap.png")));
 			texture.put(5, ImageIO.read(new File("./res/img/grass.png")));
+			texture.put(6, ImageIO.read(new File("./res/img/ground.png")));
+			texture.put(4, ImageIO.read(new File("./res/img/ground.png")));
 			texture.put(0, ImageIO.read(new File("./res/img/ground.png")));
 		} catch (IOException e) {e.printStackTrace();}
 	}
@@ -183,4 +188,15 @@ public class Map {
 		return null;
 	}
 
+	public ArrayList<Point2D> multiSearch(int value) {
+		ArrayList<Point2D> enemyPositions  = new ArrayList<Point2D>( );
+		for (int row = 0; row < rows; row++) {
+			for (int col = 0; col < cols; col++) {
+				if (mapArray[row][col] == value){
+					enemyPositions.add(new Point2D.Double(col*32, row*32));
+				}
+			}
+		}
+		return enemyPositions;
+	}
 }

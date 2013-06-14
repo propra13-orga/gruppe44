@@ -28,8 +28,11 @@ public class Logic {
 	}
 
 	void setupNewGame(int levelNumber, int mapNumber) {
+
+		player.resetHealthManaMoney(100, 100, 200);
+		houston.inventory.clear();
 		map.renewMap(levelNumber, mapNumber);
-		// story.renewStory(levelNumber, mapNumber);
+//		story.renewStory(levelNumber, mapNumber);
 
 		// Sucht und setzt die Ursprungsposition des Player
 		Point2D spawn = new Point2D.Double();
@@ -38,15 +41,27 @@ public class Logic {
 
 		// Setzt den Player auf seine Ursprungsposition
 		player.resetPosition();
+		houston.enemyLogic.allEnemysRight.clear();
+		houston.enemyLogic.allEnemysUp.clear();
+		houston.enemyLogic.setSpawnPosition();
 	}
 
 	// Berechnet z.B. alle Bewegungen und Kollisionen im Spiel
 	void doGameUpdates(long delta) {
 		this.delta = delta;
 
-		controlPlayerMovement();
-		detectSpecialTiles();
 		checkIfIsStillAlive();
+		controlCharacterMovement(player);
+		playerEnemyCollisionDetection();
+		detectSpecialTiles();
+		for (int i=0; i<houston.enemyLogic.allEnemysRight.size(); i++){
+			houston.enemyLogic.enemy = houston.enemyLogic.allEnemysRight.get(i);
+			controlEnemyMovement(houston.enemyLogic.enemy);
+		}
+		for (int i=0; i<houston.enemyLogic.allEnemysUp.size(); i++){
+			houston.enemyLogic.enemy = houston.enemyLogic.allEnemysUp.get(i);
+			controlEnemyMovement(houston.enemyLogic.enemy);
+		}
 	}
 
 	// Regelt den Wechsel zur naechsten Karte
@@ -69,35 +84,35 @@ public class Logic {
 	}
 
 	// Setzt die Tastendruecke um in die Bewegung des Player
-	private void controlPlayerMovement() {
+	private void controlCharacterMovement(Movable character) {
 		dX = dY = 0;
-		getPlayerCorners();
+		getCharacterCorners(character);
 		
 		// Bewegung nach Links
-		if (player.left && !player.right) {
-			dX = -player.speed * (delta / 1e9);
+		if (character.left && !character.right) {
+			dX = -character.speed * (delta / 1e9);
 			if (isValidXMovement(topLeft, bottomLeft, dX) == 1) {
 				dX = 0;
 			}
 			
 		// Bewegung nach Rechts
-		} else if (player.right && !player.left) {
-			dX = player.speed * (delta / 1e9);
+		} else if (character.right && !character.left) {
+			dX = character.speed * (delta / 1e9);
 			if (isValidXMovement(topRight, bottomRight, dX) == 1) {
 				dX = 0;
 			}
 		}
 		
 		// Bewegung nach Oben
-		if (player.up && !player.down) {
-			dY = -player.speed * (delta / 1e9);
+		if (character.up && !character.down) {
+			dY = -character.speed * (delta / 1e9);
 			if (isValidYMovement(topLeft, topRight, dY) == 1) {
 				dY = 0;
 			}
 			
 		// Bewegung nach Unten
-		} else if (player.down && !player.up) {
-			dY = player.speed * (delta / 1e9);
+		} else if (character.down && !character.up) {
+			dY = character.speed * (delta / 1e9);
 			if (isValidYMovement(bottomLeft, bottomRight, dY) == 1) {
 				dY = 0;
 			}
@@ -105,16 +120,78 @@ public class Logic {
 		
 		// Bewegt den Spieler falls notwendig
 		if (dX != 0 || dY != 0)
-			player.move(dX, dY);
+			character.move(dX, dY);
 	}
 	
+	private void controlEnemyMovement(Movable character) {
+		dX = dY = 0;
+		getCharacterCorners(character);
+
+		
+		// Bewegung nach Links
+		if (character.left && !character.right) {
+			dX = -character.speed * (delta / 1e9);
+			if (isValidXMovement(topLeft, bottomLeft, dX) == 1) {
+				character.left = false;
+				character.right = true;
+				dX = 0;
+			}
+			
+		// Bewegung nach Rechts
+		} else if (character.right && !character.left) {
+			dX = character.speed * (delta / 1e9);
+			if (isValidXMovement(topRight, bottomRight, dX) == 1) {
+				character.left = true;
+				character.right = false;
+				dX = 0;
+			}
+		}
+		
+		// Bewegung nach Oben
+		if (character.up && !character.down) {
+			dY = -character.speed * (delta / 1e9);
+			if (isValidYMovement(topLeft, topRight, dY) == 1) {
+				dY = 0;
+				character.down = true;
+				character.up = false;
+			}
+			
+		// Bewegung nach Unten
+		} else if (character.down && !character.up) {
+			dY = character.speed * (delta / 1e9);
+			if (isValidYMovement(bottomLeft, bottomRight, dY) == 1) {
+				dY = 0;
+				character.down = false;
+				character.up = true;
+			}
+		}
+		
+		// Bewegt den Spieler falls notwendig
+		if (dX != 0 || dY != 0)
+			character.move(dX, dY);
+	}
+	
+	private void playerEnemyCollisionDetection (){
+		if(!houston.enemyLogic.allEnemysRight.isEmpty() || !houston.enemyLogic.allEnemysUp.isEmpty()){
+			for (int i=0; i<houston.enemyLogic.allEnemysRight.size(); i++){
+				if(player.bounds.intersects(houston.enemyLogic.allEnemysRight.get(i).bounds)){
+					player.health = player.health -2;
+				}
+			}
+			for (int i=0; i<houston.enemyLogic.allEnemysUp.size(); i++){
+				if(player.bounds.intersects( houston.enemyLogic.allEnemysUp.get(i).bounds)){
+					player.health = player.health -2;
+				}
+			}
+		}
+	}
 
 	// Ermittelt die Koordinaten der 4 Eckpunkte des Player
-	private void getPlayerCorners() {
-		topLeft.setLocation(player.getX(), player.getY());
-		topRight.setLocation(player.getX() + player.getWidth(), player.getY());
-		bottomLeft.setLocation(player.getX(), player.getY() + player.getHeight());
-		bottomRight.setLocation(player.getX() + player.getWidth(), player.getY() + player.getHeight());
+	private void getCharacterCorners(Movable character) {
+		topLeft.setLocation(character.getX(), character.getY());
+		topRight.setLocation(character.getX() + character.getWidth(), character.getY());
+		bottomLeft.setLocation(character.getX(), character.getY() + character.getHeight());
+		bottomRight.setLocation(character.getX() + character.getWidth(), character.getY() + character.getHeight());
 	}
 	
 	// Ermittelt, ob die, durch horizontale Bewegung dX, errechnete neue Position des Spielers in einer Wand liegt oder nicht

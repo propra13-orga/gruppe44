@@ -4,25 +4,16 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
-import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
-public class Player {
+public class Player extends Movable {
 
 	// bounds = "Grenzen" des Player
-	private Rectangle2D bounds;
-	private Point2D resetPoint;
 	private Color color;
-
-	final double speed;
-	boolean up, down, left, right;
-	private BufferedImage texture = null;
-
-	// Werte fuer Health, Mana und Money
-	private int health, mana, money;
+	private int money;
 	// Maximale Werte für Health und Mana
 	final int maxHealth = 100, maxMana = 100;
 
@@ -56,59 +47,6 @@ public class Player {
 				null);
 	}
 
-	// Versetzt den Player an gewuenschte Stelle
-	public void setPosition(double x, double y) {
-		bounds.setRect(x, y, bounds.getWidth(), bounds.getHeight());
-	}
-
-	// Setzt den Player an seine Ursprungsposition zurueck
-	public void resetPosition() {
-		setPosition(resetPoint.getX(), resetPoint.getY());
-	}
-
-	// Veraendert die Ursprungsposition
-	public void setResetPosition(double x, double y) {
-		resetPoint.setLocation(x, y);
-	}
-
-	// Veraendert die Ursprungsposition
-	public void setResetPosition(Point2D point) {
-		setResetPosition(point.getX(), point.getY());
-	}
-
-	// Versetzt den Player um dX in der Horizontalen und dY in der Vertikalen
-	public void move(double dX, double dY) {
-		bounds.setRect(bounds.getX() + dX, bounds.getY() + dY, bounds.getWidth(), bounds.getHeight());
-	}
-	
-	public void stop() {
-		up = down = left = right = false;
-	}
-
-	// Gibt die aktuelle horizontale Position zurueck
-	public double getX() {
-		return bounds.getX();
-	}
-
-	// Gibt die aktuelle vertikale Position zurueck
-	public double getY() {
-		return bounds.getY();
-	}
-
-	// Gibt die Breite des Player zurueck
-	public double getWidth() {
-		return bounds.getWidth();
-	}
-
-	// Gibt die Hoehe des Player zurueck
-	public double getHeight() {
-		return bounds.getHeight();
-	}
-
-	public BufferedImage getTexture() {
-		return texture;
-	}
-
 	// Setzt die Bilder des Spielers je nach Auswahl in den Einstellungen
 	public void changeTexture(int value) {
 		try {
@@ -131,40 +69,6 @@ public class Player {
 		this.health = health;
 		this.mana = mana;
 		this.money = money;
-	}
-
-	// Health
-	public int getHealth() {
-		return health;
-	}
-
-	public void setHealth(int health) {
-		this.health = health;
-	}
-
-	public void increaseHealth(int amountOfHealth) {
-		health += amountOfHealth;
-	}
-
-	public void decreaseHealth(int amountOfHealth) {
-		health -= amountOfHealth;
-	}
-
-	// Mana
-	public int getMana() {
-		return mana;
-	}
-
-	public void setMana(int mana) {
-		this.mana = mana;
-	}
-
-	public void increaseMana(int amountOfMana) {
-		mana += amountOfMana;
-	}
-
-	public void decreaseMana(int amountOfMana) {
-		mana -= amountOfMana;
 	}
 
 	// Money

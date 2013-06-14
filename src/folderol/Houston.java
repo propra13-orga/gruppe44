@@ -6,7 +6,9 @@ package folderol;
  * 9 = Finish/Ziel
  * 1 = Ground/Boden
  * 0 = Wall/Wand
- * e = Enemy/Gegner
+ * 5 = Shop
+ * 6 = Enemy/GegnerRight
+ * 4 = Enemy/GegnerOben
  * 7 = Trap/Falle
  * p = Player/Spieler
  * 
@@ -75,6 +77,7 @@ public class Houston implements ActionListener, Runnable {
 	
 	Story story;
 	
+	EnemyLogic enemyLogic;
 	
 	// Die im Menue vorhandenen Knoepfe
 	JButton 
@@ -164,10 +167,10 @@ public class Houston implements ActionListener, Runnable {
 	
 	// Hier wird vor Spielbeginn alles moegliche initialisiert
 	private void initializeCrap() {
-		last = System.nanoTime();
 		preferredFps = 35;
 		map = new Map(0, 0, 20, 24);
 		player = new Player();
+		enemyLogic = new EnemyLogic(this);
 		logic = new Logic(this);
 		// story = new Story(0, 0, 0);
 		inventory = new Inventory(this);
@@ -227,6 +230,10 @@ public class Houston implements ActionListener, Runnable {
 		this.gameOver = gameOver;
 		// Weist die Tastendruecke zu
 		mapActions();
+		
+		player.stop();
+		
+		last = System.nanoTime();
 		// Waechselt von der aktuellen Card auf die neue Card
 		cl.show(cards, name);
 	}
@@ -328,8 +335,6 @@ public class Houston implements ActionListener, Runnable {
 		if (buttonClicked == c1b1) {
 			changeAppearance(INTRODUCTION);
 		} else if (buttonClicked == c6b1) {
-			player.resetHealthManaMoney(100, 100, 200);
-			inventory.clear();
 			logic.setupNewGame(0, 0);
 			changeAppearance(false, true, GAME);
 		} else if (buttonClicked == c1b2) {
