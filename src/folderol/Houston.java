@@ -23,6 +23,8 @@ import java.awt.CardLayout;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 
 import javax.swing.ActionMap;
 import javax.swing.InputMap;
@@ -59,7 +61,8 @@ public class Houston implements ActionListener, Runnable {
 	// Kontainer fuer die "Unterfenster" card1, card2, ...
 	private JPanel cards;
 	// "Unterfenster", die das Startmenue, Einstellungen, etc. beinhalten 
-	private JPanel card1, card2, gamePanel, card4, card5, card6, card7;
+	public JPanel card1, card2, card4, card5, card6, card7;
+	public GamePanel gamePanel;
 	// CardLayout ermoeglicht erst diese Darstellung der unterschiedlichen
 	// Fensterinhalte auf unterschiedlichen "Karten"
 	private CardLayout cl;
@@ -78,6 +81,7 @@ public class Houston implements ActionListener, Runnable {
 	Story story;
 	
 	EnemyLogic enemyLogic;
+
 	
 	// Die im Menue vorhandenen Knoepfe
 	JButton 
@@ -175,6 +179,7 @@ public class Houston implements ActionListener, Runnable {
 		// story = new Story(0, 0, 0);
 		inventory = new Inventory(this);
 		shop = new Shop(this);
+		
 	}
 	
 
@@ -402,4 +407,5 @@ public class Houston implements ActionListener, Runnable {
 			}
 		}	
 	}
+
 }

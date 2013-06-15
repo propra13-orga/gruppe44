@@ -66,6 +66,10 @@ public abstract class Movable {
 		return bounds.getHeight();
 	}
 	
+	public Point2D getCenterPosition() {
+		return new Point2D.Double(bounds.getCenterX(), bounds.getCenterY());
+	}
+	
 	public void resetHealthManaMoney(int health, int mana, int money){
 		this.health = health;
 		this.mana = mana;
@@ -86,6 +90,7 @@ public abstract class Movable {
 	
 	public void decreaseHealth(int amountOfHealth) {
 		health -= amountOfHealth;
+		onHealthDecreased();
 	}
 	
 	// Mana
@@ -103,5 +108,23 @@ public abstract class Movable {
 	
 	public void decreaseMana(int amountOfMana) {
 		mana -= amountOfMana;
+	}
+	
+	/**
+	 * Event, das aufgerufen wird, wenn das Movable eine Wand trifft.
+	 */
+	public void onHitWall() {
+	}
+	
+	/**
+	 * Event, das aufgerufen wird, wenn das Movable sich bewegt hat.
+	 */
+	public void onMoved() {
+	}
+	
+	/**
+	 * Event, das aufgerufen wird, wenn das Movable Leben abgezogen kriegt.
+	 */
+	public void onHealthDecreased() {
 	}
 }

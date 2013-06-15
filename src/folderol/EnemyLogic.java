@@ -7,13 +7,7 @@ import java.util.ArrayList;
 public class EnemyLogic {
 
 	Houston houston;
-	Enemy enemy;
-	Point2D resetPoint;
-	Rectangle2D bounds;
-	ArrayList<Point2D> enemyPositionsRight;
-	ArrayList<Point2D> enemyPositionsUp;
-	ArrayList<Enemy> allEnemysRight = new ArrayList<Enemy>( );
-	ArrayList<Enemy> allEnemysUp = new ArrayList<Enemy>( );
+	ArrayList<Enemy> enemies = new ArrayList<Enemy>();
 	
 	public EnemyLogic(Houston houston){
 		this.houston = houston;
@@ -21,22 +15,12 @@ public class EnemyLogic {
 	
 	public void setSpawnPosition() {
 		
-			enemyPositionsRight = houston.map.multiSearch(6);
-			
-			for (int i=0; i<enemyPositionsRight.size(); i++){
-				resetPoint = enemyPositionsRight.get(i);
-				enemy = new Enemy(resetPoint, 3);
-				enemy.left = true;
-				allEnemysRight.add(new Enemy(resetPoint, 3));
+			for (Point2D position : houston.map.multiSearch(6)){
+				enemies.add(new Enemy(position, 3));
 			}
 			
-			enemyPositionsUp = houston.map.multiSearch(4);
-			
-			for (int i=0; i<enemyPositionsUp.size(); i++){
-				resetPoint = enemyPositionsUp.get(i);
-				enemy = new Enemy(resetPoint, 0);
-				enemy.up = true;
-				allEnemysUp.add(new Enemy(resetPoint, 0));
+			for (Point2D position : houston.map.multiSearch(4)){
+				enemies.add(new Enemy(position, 0));
 			}
 	}
 	
