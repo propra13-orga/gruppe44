@@ -35,8 +35,7 @@ public class Infobar {
 		g.setColor(Color.GREEN);
 		g.fillRect(96 + xo, 6 + yo, playerHealth, 6);
 		g.setColor(Color.BLACK);
-		g.drawLine(96 + playerHealth + xo, 6 + yo, 96 + playerHealth + xo,
-				12 + yo);
+		g.drawLine(96 + playerHealth + xo, 6 + yo, 96 + playerHealth + xo, 12 + yo);
 
 		// Zeigt Mana an
 		g.setColor(Color.BLACK);
@@ -46,7 +45,7 @@ public class Infobar {
 		g.setColor(Color.RED);
 		g.fillRect(96 + xo, 18 + yo, playerMana, 6);
 		g.setColor(Color.BLACK);
-		g.drawLine(96 + playerMana + xo, 6 + yo, 96 + playerMana + xo, 12 + yo);
+		g.drawLine(96 + playerMana + xo, 18 + yo, 96 + playerMana + xo, 24 + yo);
 
 		// Zeigt Geld an
 		g.setColor(Color.BLACK);
