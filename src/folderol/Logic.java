@@ -28,9 +28,10 @@ public class Logic {
 	}
 
 	void setupNewGame(int levelNumber, int mapNumber) {
-
-		player.resetHealthManaMoney(100, 100, 200);
-		houston.inventory.clear();
+		if (mapNumber == 0 && levelNumber == 0) {
+			player.resetHealthManaMoney(100, 100, 200);
+			houston.inventory.clear();
+		}
 		map.renewMap(levelNumber, mapNumber);
 //		story.renewStory(levelNumber, mapNumber);
 
