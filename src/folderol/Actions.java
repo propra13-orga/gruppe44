@@ -16,10 +16,12 @@ public class Actions {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			// System.out.println("ESC -> Ingamemenu");
-			houston.changeAppearance(false, false, "INGAMEMENU");
+			synchronized (houston) {
+				// System.out.println("ESC -> Ingamemenu");
+				houston.changeAppearance(false, false, "INGAMEMENU");
+			}
+		
 		}
-
 	}
 
 	static class jumpToGame extends AbstractAction {
@@ -33,10 +35,11 @@ public class Actions {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
+			synchronized (houston) {
 			// System.out.println("ESC -> Game");
 			houston.changeAppearance(false, true, "GAME");
+			}
 		}
-
 	}
 
 	static class resetPlayer extends AbstractAction {
@@ -50,10 +53,11 @@ public class Actions {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
+			synchronized (houston) {
 			// System.out.println("resetPlayer");
 			houston.player.resetPosition();
+			}
 		}
-
 	}
 
 	static class moveUp extends AbstractAction {
@@ -67,10 +71,11 @@ public class Actions {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
+			synchronized (houston) {
 			// System.out.println("pressedUp");
 			houston.player.up = true;
+			}
 		}
-
 	}
 
 	static class moveDown extends AbstractAction {
@@ -84,10 +89,11 @@ public class Actions {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
+			synchronized (houston) {
 			// System.out.println("pressedDown");
 			houston.player.down = true;
+			}
 		}
-
 	}
 
 	static class moveLeft extends AbstractAction {
@@ -101,10 +107,11 @@ public class Actions {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
+			synchronized (houston) {
 			// System.out.println("pressedLeft");
 			houston.player.left = true;
+			}
 		}
-
 	}
 
 	static class moveRight extends AbstractAction {
@@ -118,10 +125,11 @@ public class Actions {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
+			synchronized (houston) {
 			// System.out.println("pressedRight");
 			houston.player.right = true;
+			}
 		}
-
 	}
 
 	static class releasedUp extends AbstractAction {
@@ -135,10 +143,11 @@ public class Actions {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
+			synchronized (houston) {
 			// System.out.println("releasedUp");
 			houston.player.up = false;
+			}
 		}
-
 	}
 
 	static class releasedDown extends AbstractAction {
@@ -152,10 +161,11 @@ public class Actions {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
+			synchronized (houston) {
 			// System.out.println("releasedDown");
 			houston.player.down = false;
+			}
 		}
-
 	}
 
 	static class releasedLeft extends AbstractAction {
@@ -169,10 +179,11 @@ public class Actions {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
+			synchronized (houston) {
 			// System.out.println("releasedLeft");
 			houston.player.left = false;
+			}
 		}
-
 	}
 
 	static class releasedRight extends AbstractAction {
@@ -186,10 +197,11 @@ public class Actions {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
+			synchronized (houston) {
 			// System.out.println("releasedRight");
 			houston.player.right = false;
+			}
 		}
-
 	}
 
 	static class useHealthPack extends AbstractAction {
@@ -203,9 +215,10 @@ public class Actions {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
+			synchronized (houston) {
 			houston.inventory.useHealthPack();
+			}
 		}
-
 	}
 
 	static class useManaPotion extends AbstractAction {
@@ -219,9 +232,10 @@ public class Actions {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
+			synchronized (houston) {
 			houston.inventory.useManaPotion();
-		}
-
+			}
+		}		
 	}
 
 	static class interact extends AbstractAction {
@@ -235,6 +249,7 @@ public class Actions {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
+			synchronized (houston) {
 			if (houston.logic.value == 5) {
 				houston.shop.resetShopView();
 				houston.changeAppearance(false, "SHOP");
@@ -244,8 +259,8 @@ public class Actions {
 				// Text einfuegen, der in storyText steht
 			
 			}
+			}
 		}
-
 	}
 	
 }
