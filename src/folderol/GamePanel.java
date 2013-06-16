@@ -23,7 +23,7 @@ public class GamePanel extends JPanel implements MouseListener {
 	private Font plainFont;
 	private Color bgColor;
 	ArrayList<Magic> magics = new ArrayList<Magic> ();
-	private static int infobarSize = 32;
+	private final int infobarSize = 32;
 	
 	public GamePanel(Houston houston) {
 		this.houston	= houston;
@@ -77,43 +77,31 @@ public class GamePanel extends JPanel implements MouseListener {
 	} // Ab hier ist Schluss mit Zeichnen
 	
 	public void mouseClicked(MouseEvent e){
-		synchronized (houston) {
-			boolean isClickInGamepanel = (e.getY() > infobarSize);
-			Point2D clickPosition = new Point2D.Double(e.getX(), e.getY() - infobarSize);
+		boolean isClickInGamepanel = (e.getY() > infobarSize);
+		Point2D clickPosition = new Point2D.Double(e.getX(), e.getY() - infobarSize);
 
-			if (isClickInGamepanel) {
-				if (player.useMana(Magic.getManaCost())) {
-					Magic magic = new Magic(houston, houston.player.getCenterPosition(), clickPosition);
-					magics.add(magic);
-					
-				}
+		if (isClickInGamepanel) {
+			if (player.useMana(Magic.getManaCost())) {
+				Magic magic = new Magic(houston, houston.player.getCenterPosition(), clickPosition);
+				magics.add(magic);
 			}
 		}
 	}
 
 	@Override
 	public void mouseEntered(MouseEvent arg0) {
-		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
 	public void mouseExited(MouseEvent arg0) {
-		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
 	public void mousePressed(MouseEvent arg0) {
-		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
 	public void mouseReleased(MouseEvent arg0) {
-		// TODO Auto-generated method stub
-		
 	}
-	
 	
 }

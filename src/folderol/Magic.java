@@ -12,32 +12,30 @@ import javax.imageio.ImageIO;
 public class Magic extends Movable {
 	
 	public BufferedImage picture;
-	Point2D currentPosition;
+	Point2D centerPosition;
 	Point2D endPosition;
 	Houston houston;
 	boolean shouldBeRemoved = false;
 	int damage = 100;
 	
-	/**
-	 * Konstruktor.
-	 */
 	public Magic(Houston houston, Point2D startPosition, Point2D endPosition) {
 		this.houston = houston;
-		currentPosition = startPosition;
+		centerPosition = startPosition;
 		this.endPosition = endPosition;
 		speed = 300;
 		try {
 			picture = ImageIO.read(new File("./res/img/ungleich.png"));
 		} catch (IOException e){ e.printStackTrace(); }
 		 
-		bounds = new Rectangle2D.Double(currentPosition.getX() - (picture.getWidth() / 2), currentPosition.getY() - (picture.getHeight() / 2), picture.getWidth(), picture.getHeight());
+		bounds = new Rectangle2D.Double(centerPosition.getX() - (picture.getWidth() / 2), centerPosition.getY() - (picture.getHeight() / 2), picture.getWidth(), picture.getHeight());
 		 
 		calculateDirection();
 	}
 	
 	public void move(double dX, double dY) {
 		super.move(dX, dY);
-		currentPosition = getCenterPosition();
+		centerPosition = getCenterPosition();
+		onMoved();
 	}
 	
 	public void drawObjects(Graphics2D g) {
@@ -50,6 +48,7 @@ public class Magic extends Movable {
 			if(bounds.intersects(enemy.bounds)) {
 				enemy.decreaseHealth(damage);
 				shouldBeRemoved = true;
+				enemy.shouldBeRemoved = true;
 			}
 		}
 	}
@@ -60,11 +59,11 @@ public class Magic extends Movable {
 	
 	public void calculateDirection() {
 		
-		// Resette Richtung
+		// Setzt Richtung zurück
 		left = right = up = down = false;
 		
-		double diffX = endPosition.getX() - currentPosition.getX();
-		double diffY = endPosition.getY() - currentPosition.getY();
+		double diffX = endPosition.getX() - centerPosition.getX();
+		double diffY = endPosition.getY() - centerPosition.getY();
 		double distanceX = Math.abs(diffX);
 		double distanceY = Math.abs(diffY);
 		
@@ -89,13 +88,15 @@ public class Magic extends Movable {
 			}
 		}
 	}
-	
-	/**
-	 * Gibt die Mana Kosten an.
-	 */
+
+	// Gibt die Mana Kosten an
 	public static int getManaCost() {
 		return 10;
 	}
 
+	@Override
+	void wallHit() {
+		shouldBeRemoved = true;
+	}
 
 }

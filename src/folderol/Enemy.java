@@ -9,21 +9,14 @@ import javax.imageio.ImageIO;
 
 public class Enemy extends Movable{
 	boolean shouldBeRemoved = false;
+	private int direction;
 	
 	public Enemy (Point2D resetPoint, int direction){
+		this.direction = direction;
+		setDirection();
 		
-		if(direction == 0) {
-			up = true;
-		}if(direction == 3) {
-			right = true;
-		}if(direction == 6) {
-			down = true;
-		}else if(direction == 9) {
-			left = true;
-		}
 		speed = 128;
 		health = 100;
-		
 		bounds = new Rectangle2D.Double(resetPoint.getX(), resetPoint.getY(), 28, 28);
 
 		try {
@@ -39,26 +32,29 @@ public class Enemy extends Movable{
 			g.drawImage(texture, (int) bounds.getX()-2, (int) bounds.getY()-18, null);
 	}
 	
-	public void onHitWall() {
-		// Wechsle die Richtung
-		if (left) {
-			left = false;
-			right = true;
-		} else if (right) {
-			right = false;
-			left = true;
-		} else if (up) {
-			up = false;
-			down = true;
-		} else if (down) {
-			down = false;
-			up = true;
-		}
-	}
-	
 	public void onHealthDecreased() {
 		if (health <= 0) {
 			shouldBeRemoved = true;
 		}
+	}
+	
+	private void turn180() {
+		direction = (direction + 6) % 12;
+		setDirection();
+	}
+	
+	private void setDirection() {
+		switch (direction) {
+		case 0: up = true;		down = false;	break;
+		case 3: right = true;	left = false;	break;
+		case 6: down= true;		up = false;		break;
+		case 9: left = true;	right = false;	break;
+		default: break;
+		}		
+	}
+
+	@Override
+	void wallHit() {
+		turn180();
 	}
 }

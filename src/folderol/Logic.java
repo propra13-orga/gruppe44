@@ -5,12 +5,15 @@ import java.util.ArrayList;
 
 public class Logic {
 	
-	Houston houston;
-	Player player;
-	Map map;
-	Story story;
+	private Houston houston;
+	private Player player;
+	private Map map;
+	private Story story;
 
+	Point2D topLeft, topRight, bottomLeft, bottomRight;
+	double tlX, tlY; // Temporäre Character Ecke
 	private long delta;
+	private double dX, dY;
 	int value;
 
 	public Logic(Houston houston) {
@@ -18,11 +21,15 @@ public class Logic {
 		this.player		= houston.player;
 		this.map		= houston.map;
 		this.story		= houston.story;
+		
+		// 4 Punkte fuer die 4 Ecken des Player
+		topLeft			= new Point2D.Double();
+		topRight		= new Point2D.Double();
+		bottomLeft		= new Point2D.Double();
+		bottomRight		= new Point2D.Double();
 	}
 
-	/**
-	 * Startet ein neues Spiel.
-	 */
+	// Startet ein neues Spiel
 	public void setupNewGame(int levelNumber, int mapNumber) {
 		player.resetHealthManaMoney(100, 100, 200);
 		houston.inventory.clear();
@@ -30,12 +37,10 @@ public class Logic {
 		jumpToLevel(levelNumber, mapNumber);
 	}
 	
-	/**
-	 * Springt zum angegebenen Level.
-	 */
+	// Springt zum angegebenen Level.
 	public void jumpToLevel(int levelNumber, int mapNumber) {
 		map.renewMap(levelNumber, mapNumber);
-//		story.renewStory(levelNumber, mapNumber);
+		// story.renewStory(levelNumber, mapNumber);
 
 		// Sucht und setzt die Ursprungsposition des Player
 		Point2D spawn = new Point2D.Double();
@@ -70,14 +75,14 @@ public class Logic {
 		houston.enemyLogic.enemies = enemies;
 
 		checkIfIsStillAlive();
-		move(player);
+		contrallCharacterMovement(player);
 		playerEnemyCollisionDetection();
 		detectSpecialTiles();
 		for (Enemy enemy : houston.enemyLogic.enemies) {
-			move(enemy);
+			contrallCharacterMovement(enemy);
 		}
 		for (Magic magic : houston.gamePanel.magics) {
-			move(magic);
+			contrallCharacterMovement(magic);
 		}
 	}
 
@@ -101,53 +106,47 @@ public class Logic {
 	}
 
 	// Setzt die Tastendruecke um in die Bewegung des Movable
-	private void move(Movable movable) {
-		
-		// Die Entfernungen in x und y, die das Movable für die Bewegung zurücklegen würde
-		double dX = 0;
-		double dY = 0;
+	private void contrallCharacterMovement(Movable character) {
+		dX = dY = 0;
+		getCharacterCorners(character);
 		
 		// Bewegung nach Links
-		if (movable.left && !movable.right) {
-			dX = -movable.speed * (delta / 1e9);
-			
+		if (character.left && !character.right) {
+			dX = -character.speed * (delta / 1e9);
+			if (isValidXMovement(topLeft, bottomLeft, dX) == 1) {
+				dX = 0;
+				character.wallHit();
+			}
+
 		// Bewegung nach Rechts
-		} else if (movable.right && !movable.left) {
-			dX = movable.speed * (delta / 1e9);
+		} else if (character.right && !character.left) {
+			dX = character.speed * (delta / 1e9);
+			if (isValidXMovement(topRight, bottomRight, dX) == 1) {
+				dX = 0;
+				character.wallHit();
+			}
 		}
-		
+
 		// Bewegung nach Oben
-		if (movable.up && !movable.down) {
-			dY = -movable.speed * (delta / 1e9);
-			
+		if (character.up && !character.down) {
+			dY = -character.speed * (delta / 1e9);
+			if (isValidYMovement(topLeft, topRight, dY) == 1) {
+				dY = 0;
+				character.wallHit();
+			}
+
 		// Bewegung nach Unten
-		} else if (movable.down && !movable.up) {
-			dY = movable.speed * (delta / 1e9);
+		} else if (character.down && !character.up) {
+			dY = character.speed * (delta / 1e9);
+			if (isValidYMovement(bottomLeft, bottomRight, dY) == 1) {
+				dY = 0;
+				character.wallHit();
+			}
 		}
-		
-		// Die 4 Eckpunkte, die das Movable nach der Bewegung hätte
-		double topLeftX = movable.getX() + dX;
-		double topLeftY = movable.getY() + dY;
-		Point2D topLeft = new Point2D.Double(topLeftX, topLeftY);
-		Point2D topRight = new Point2D.Double(topLeftX + movable.getWidth(), topLeftY);
-		Point2D bottomLeft = new Point2D.Double(topLeftX, topLeftY + movable.getHeight());
-		Point2D bottomRight = new Point2D.Double(topLeftX + movable.getWidth(), topLeftY + movable.getHeight());
-		
-		boolean movableHasHitWall = (map.isWall(Map.screenPositionToMapPosition(topLeft)) ||
-				map.isWall(Map.screenPositionToMapPosition(topRight)) ||
-				map.isWall(Map.screenPositionToMapPosition(bottomLeft)) ||
-				map.isWall(Map.screenPositionToMapPosition(bottomRight)));
-		
-		if (movableHasHitWall) {
-			movable.onHitWall();
-			return;
-		}
-		
+
 		// Bewegt den Spieler falls notwendig
-		if (dX != 0 || dY != 0) {
-			movable.move(dX, dY);
-			movable.onMoved();
-		}
+		if (dX != 0 || dY != 0)
+			character.move(dX, dY);
 	}
 	
 	private void playerEnemyCollisionDetection () {
@@ -171,6 +170,30 @@ public class Logic {
 				nextMap();
 			}
 		}
+	}
+	
+	// Ermittelt die Koordinaten der 4 Eckpunkte des Player
+	private void getCharacterCorners(Movable character) {
+		double tlX = character.getX();
+		double tlY = character.getY();
+		topLeft.setLocation(tlX, tlY);
+		topRight.setLocation(tlX + character.getWidth(), tlY);
+		bottomLeft.setLocation(tlX, tlY + character.getHeight());
+		bottomRight.setLocation(tlX + character.getWidth(), tlY + character.getHeight());
+	}
+
+	// Ermittelt, ob die, durch horizontale Bewegung dX, errechnete neue Position des Spielers in einer Wand liegt oder nicht
+	private int isValidXMovement(Point2D pointTop, Point2D pointBottom, double dX) {
+		if ((map.mapArray[(int) Math.floor(pointTop.getY()/32)][(int) Math.floor((pointTop.getX()+dX)/32)] == 1)) return 1;
+		else if ((map.mapArray[(int) Math.floor(pointBottom.getY()/32)][(int) Math.floor((pointBottom.getX()+dX)/32)] == 1)) return 1;
+		return 0;
+	}
+
+	// Ermittelt, ob die, durch vertikale Bewegung dY, errechnete neue Position des Spielers in einer Wand liegt oder nicht
+	private int isValidYMovement(Point2D pointLeft, Point2D pointRight, double dY2) {
+		if ((map.mapArray[(int) Math.floor(pointLeft.getY()+dY)/32][(int) Math.floor(pointLeft.getX()/32)] == 1)) return 1;
+		else if ((map.mapArray[(int) Math.floor(pointRight.getY()+dY)/32][(int) Math.floor(pointRight.getX()/32)] == 1)) return 1;
+		return 0;
 	}
 
 	private void backToLastCheckpoint() {

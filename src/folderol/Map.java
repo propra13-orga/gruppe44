@@ -199,41 +199,5 @@ public class Map {
 		}
 		return enemyPositions;
 	}
-	
-	/**
-	 * Gibt die Größe eines Tiles zurück.
-	 */
-	public static int getTileSize() {
-		return 32;
-	}
-	
-	/**
-	 * Konvertiert eine Kartenposition in eine Bildschirmposition.
-	 */
-	public static Point2D mapPositionToScreenPosition(Point2D pos) {
-		return new Point2D.Double(pos.getX() * getTileSize(), pos.getY() * getTileSize());
-	}
 
-	/**
-	 * Konvertiert eine Bildschirmposition in eine Kartenposition.
-	 */
-	public static Point2D screenPositionToMapPosition(Point2D pos) {
-		return new Point2D.Double(Math.floor(pos.getX() / getTileSize()), Math.floor(pos.getY() / getTileSize()));
-	}
-	
-	/**
-	 * Gibt Tile an Kartenposition pos zurück.
-	 */
-	public int getTile(Point2D pos) {
-		return mapArray[(int) pos.getY()][(int) pos.getX()];
-	}
-	
-	/**
-	 * Sagt ob Kartenposition pos eine Wand ist.
-	 */
-	public boolean isWall(Point2D pos) {
-		return (getTile(pos) == 1);
-	}
-	
-	
 }

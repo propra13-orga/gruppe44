@@ -23,8 +23,6 @@ import java.awt.CardLayout;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 
 import javax.swing.ActionMap;
 import javax.swing.InputMap;
@@ -187,19 +185,14 @@ public class Houston implements ActionListener, Runnable {
 	public void run() {
 		// GameLoop
 		
-		// Okay, let's do the loop, yeah come on baby let's do the loop
-		// and it goes like this ...
-		
-		while(frame.isVisible()) {
-			synchronized (this) {
-				if (gameIsRunning) {
-					computeDelta();
-					// Berechnet z.B. Bewegungen im Spiel
-					logic.doGameUpdates(delta);
-					// Zeichnet die "Leinwand" in card4 neu
-					gamePanel.repaint();
-			
-				}
+		while (frame.isVisible()) {
+			if (gameIsRunning) {
+				computeDelta();
+				// Berechnet z.B. Bewegungen im Spiel
+				logic.doGameUpdates(delta);
+				// Zeichnet die "Leinwand" in card4 neu
+				gamePanel.repaint();
+
 			}
 			try {
 				Thread.sleep(1000 / preferredFps);
@@ -334,78 +327,74 @@ public class Houston implements ActionListener, Runnable {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		synchronized (this) {
-			
-			
-			
-			// Ermittelt die Quelle des Tastendrucks
-			Object buttonClicked = e.getSource();
-			
-			// Kuemmert sich um die Events der einzelnen Menu Buttons
-			if (buttonClicked == c1b1) {
-				changeAppearance(INTRODUCTION);
-			} else if (buttonClicked == c6b1) {
-				logic.setupNewGame(0, 0);
-				changeAppearance(false, true, GAME);
-			} else if (buttonClicked == c1b2) {
-				changeAppearance(SETTINGS);
-			} else if (buttonClicked == c1b3) {
-				changeAppearance(CREDITS);
-			} else if (buttonClicked == c1b4) {
-				System.exit(0);
-			} else if (buttonClicked == c2b1) {
-				changeAppearance(STARTMENU);
-			} else if (buttonClicked == c4b1) {
-				changeAppearance(true, GAME);
-			} else if (buttonClicked == c4b2) {
-				changeAppearance(true, false, STARTMENU);
-			} else if (buttonClicked == c5b1) {
-				changeAppearance(STARTMENU);
-			
+
+		// Ermittelt die Quelle des Tastendrucks
+		Object buttonClicked = e.getSource();
+
+		// Kuemmert sich um die Events der einzelnen Menu Buttons
+		if (buttonClicked == c1b1) {
+			changeAppearance(INTRODUCTION);
+		} else if (buttonClicked == c6b1) {
+			logic.setupNewGame(0, 0);
+			changeAppearance(false, true, GAME);
+		} else if (buttonClicked == c1b2) {
+			changeAppearance(SETTINGS);
+		} else if (buttonClicked == c1b3) {
+			changeAppearance(CREDITS);
+		} else if (buttonClicked == c1b4) {
+			System.exit(0);
+		} else if (buttonClicked == c2b1) {
+			changeAppearance(STARTMENU);
+		} else if (buttonClicked == c4b1) {
+			changeAppearance(true, GAME);
+		} else if (buttonClicked == c4b2) {
+			changeAppearance(true, false, STARTMENU);
+		} else if (buttonClicked == c5b1) {
+			changeAppearance(STARTMENU);
+
 			// Kuemmert sich um die Auswahl des Spielers
-			} else if (buttonClicked == maenlich) {
-				player.changeTexture(0);
-			} else if (buttonClicked == weiblich) {
-				 player.changeTexture(1);
-	
+		} else if (buttonClicked == maenlich) {
+			player.changeTexture(0);
+		} else if (buttonClicked == weiblich) {
+			player.changeTexture(1);
+
 			// Auswahl der einzelnen Level zu Testzwecken
-			} else if (buttonClicked == c6map1) {
-				logic.setupNewGame(0, 0);
-				changeAppearance(false, true, GAME);
-			} else if (buttonClicked == c6map2) {
-				changeAppearance(false, true, GAME);
-				logic.setupNewGame(0, 1);
-			} else if (buttonClicked == c6map3) {
-				changeAppearance(false, true, GAME);
-				logic.setupNewGame(0, 2);
-			} else if (buttonClicked == c6map4) {
-				changeAppearance(false, true, GAME);
-				logic.setupNewGame(1, 0);
-			} else if (buttonClicked == c6map5) {
-				changeAppearance(false, true, GAME);
-				logic.setupNewGame(1, 1);
-			} else if (buttonClicked == c6map6) {
-				changeAppearance(false, true, GAME);
-				logic.setupNewGame(1, 2);
-			} else if (buttonClicked == c6map7) {
-				changeAppearance(false, true, GAME);
-				logic.setupNewGame(2, 0);
-			} else if (buttonClicked == c6map8) {
-				changeAppearance(false, true, GAME);
-				logic.setupNewGame(2, 1);
-			} else if (buttonClicked == c6map9) {
-				changeAppearance(false, true, GAME);
-				logic.setupNewGame(2, 2);
-			
+		} else if (buttonClicked == c6map1) {
+			logic.setupNewGame(0, 0);
+			changeAppearance(false, true, GAME);
+		} else if (buttonClicked == c6map2) {
+			changeAppearance(false, true, GAME);
+			logic.setupNewGame(0, 1);
+		} else if (buttonClicked == c6map3) {
+			changeAppearance(false, true, GAME);
+			logic.setupNewGame(0, 2);
+		} else if (buttonClicked == c6map4) {
+			changeAppearance(false, true, GAME);
+			logic.setupNewGame(1, 0);
+		} else if (buttonClicked == c6map5) {
+			changeAppearance(false, true, GAME);
+			logic.setupNewGame(1, 1);
+		} else if (buttonClicked == c6map6) {
+			changeAppearance(false, true, GAME);
+			logic.setupNewGame(1, 2);
+		} else if (buttonClicked == c6map7) {
+			changeAppearance(false, true, GAME);
+			logic.setupNewGame(2, 0);
+		} else if (buttonClicked == c6map8) {
+			changeAppearance(false, true, GAME);
+			logic.setupNewGame(2, 1);
+		} else if (buttonClicked == c6map9) {
+			changeAppearance(false, true, GAME);
+			logic.setupNewGame(2, 2);
+
 			// Kuemmert sich um die Kaufbutton im Shop
-			} else if (buttonClicked == c7b1) {
-				shop.buyHealthPack();
-			} else if (buttonClicked == c7b2) {
-				shop.buyManaPotion();
-			} else if (buttonClicked == c7b3) {
-				changeAppearance(true, GAME);
-			}
-		}	
+		} else if (buttonClicked == c7b1) {
+			shop.buyHealthPack();
+		} else if (buttonClicked == c7b2) {
+			shop.buyManaPotion();
+		} else if (buttonClicked == c7b3) {
+			changeAppearance(true, GAME);
+		}
 	}
 
 }

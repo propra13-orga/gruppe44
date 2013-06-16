@@ -84,19 +84,18 @@ public class Player extends Movable {
 		money -= amountOfMoney;
 	}
 	
-	/**
-	 * Benutzt Mana, wenn genug Mana vorhanden ist
-	 * 
-	 * @param int amount
-	 * @return boolean Sagt, ob das Mana abgezogen werden konnte
-	 */
+	// Benutzt Mana, wenn genug Mana vorhanden ist
 	public boolean useMana(int amount) {
 		if (mana >= amount) {
 			mana -= amount;
 			return true;
 		}
-		
 		return false;
+	}
+	
+	@Override
+	void wallHit() {
+		// Eierschaukeln
 	}
 
 }
