@@ -1,6 +1,5 @@
 package folderol;
 
-import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
@@ -11,22 +10,16 @@ import javax.imageio.ImageIO;
 
 public class Player extends Movable {
 
-	// bounds = "Grenzen" des Player
-	private Color color;
 	private int money;
 	// Maximale Werte für Health und Mana
-	final int maxHealth = 100, maxMana = 100;
+	public final int maxHealth = 100, maxMana = 100;
 
 	public Player() {
-
-		// Setzt Farbe des Player
-		color = new Color(0, 255, 64, 50);
-
 		// Setzt Geschwindigkeit des Player
 		speed = 128;
 
 		// Setzt Ursprungsposition des Player
-		resetPoint = new Point2D.Double(64, 96);
+		resetPoint = new Point2D.Double(96, 96);
 
 		// Setzt Position und Groesse des Player
 		bounds = new Rectangle2D.Double(resetPoint.getX(), resetPoint.getY(), 28, 28);
@@ -39,12 +32,9 @@ public class Player extends Movable {
 	}
 
 	// Zeichnet den spieler
+	@Override
 	public void drawObjects(Graphics2D g) {
-		g.setColor(color);
-		// g.drawRect((int) bounds.getX(), (int) bounds.getY(), (int)
-		// bounds.getWidth(), (int) bounds.getHeight());
-		g.drawImage(texture, (int) bounds.getX() - 2, (int) bounds.getY() - 18,
-				null);
+		g.drawImage(texture, (int) bounds.getX() - 2, (int) bounds.getY() - 18, null);
 	}
 
 	// Setzt die Bilder des Spielers je nach Auswahl in den Einstellungen
@@ -84,17 +74,8 @@ public class Player extends Movable {
 		money -= amountOfMoney;
 	}
 	
-	// Benutzt Mana, wenn genug Mana vorhanden ist
-	public boolean useMana(int amount) {
-		if (mana >= amount) {
-			mana -= amount;
-			return true;
-		}
-		return false;
-	}
-	
 	@Override
-	void wallHit() {
+	public void onWallHit() {
 		// Eierschaukeln
 	}
 

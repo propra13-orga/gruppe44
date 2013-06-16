@@ -5,8 +5,8 @@ import java.io.FileReader;
 import java.io.IOException;
 
 public class Story {
-	Houston houston;
-	Map map;
+	private Houston houston;
+	private Map map;
 
 	private String storyUrl;
 	private String[] storyUrls;

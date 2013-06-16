@@ -11,18 +11,20 @@ import javax.imageio.ImageIO;
 
 public class Magic extends Movable {
 	
-	public BufferedImage picture;
-	Point2D centerPosition;
-	Point2D endPosition;
-	Houston houston;
-	boolean shouldBeRemoved = false;
-	int damage = 100;
+	private Houston houston;
 	
-	public Magic(Houston houston, Point2D startPosition, Point2D endPosition) {
+	public BufferedImage picture;
+	private Point2D centerPosition;
+	private Point2D endPosition;
+	boolean shouldBeRemoved;
+	
+	public Magic(Houston houston, Point2D centerPosition, Point2D endPosition) {
 		this.houston = houston;
-		centerPosition = startPosition;
+		this.centerPosition = centerPosition;
 		this.endPosition = endPosition;
+		
 		speed = 300;
+		
 		try {
 			picture = ImageIO.read(new File("./res/img/ungleich.png"));
 		} catch (IOException e){ e.printStackTrace(); }
@@ -32,6 +34,7 @@ public class Magic extends Movable {
 		calculateDirection();
 	}
 	
+	@Override
 	public void move(double dX, double dY) {
 		super.move(dX, dY);
 		centerPosition = getCenterPosition();
@@ -42,60 +45,37 @@ public class Magic extends Movable {
 		g.drawImage(picture, (int) bounds.getX(), (int) bounds.getY(), null);
 	}
 	
-	public void onMoved() {
-		calculateDirection();
+	private void onMoved() {
 		for (Enemy enemy : houston.enemyLogic.enemies) {
 			if(bounds.intersects(enemy.bounds)) {
-				enemy.decreaseHealth(damage);
-				shouldBeRemoved = true;
 				enemy.shouldBeRemoved = true;
+				shouldBeRemoved = true;
 			}
 		}
 	}
 	
-	public void onHitWall() {
-		shouldBeRemoved = true;
-	}
-	
-	public void calculateDirection() {
-		
-		// Setzt Richtung zurück
+	private void calculateDirection() {
 		left = right = up = down = false;
 		
-		double diffX = endPosition.getX() - centerPosition.getX();
-		double diffY = endPosition.getY() - centerPosition.getY();
-		double distanceX = Math.abs(diffX);
-		double distanceY = Math.abs(diffY);
-		
-		boolean hasReachedTarget = (distanceX + distanceY < (speed / 35));
-		if (hasReachedTarget) {
-			shouldBeRemoved = true;
-			return;
-		}
-		
-		boolean horizontalDistanceIsBiggerThanVerticalDistance = (distanceX > distanceY);
-		if (horizontalDistanceIsBiggerThanVerticalDistance) {
-			if (diffX < 0) {
-				left = true;
-			} else {
-				right = true;
-			}
-		} else {
-			if (diffY < 0) {
-				up = true;
-			} else {
-				down = true;
-			}
-		}
-	}
+		double differenceX = endPosition.getX() - centerPosition.getX();
+		double differenceY = endPosition.getY() - centerPosition.getY();
 
-	// Gibt die Mana Kosten an
-	public static int getManaCost() {
-		return 10;
+		if (Math.abs(differenceX) > Math.abs(differenceY)) {
+			if (differenceX < 0)
+				left = true;
+			else
+				right = true;
+		} else {
+			if (differenceY < 0)
+				up = true;
+			else
+				down = true;
+		}
+		
 	}
 
 	@Override
-	void wallHit() {
+	public void onWallHit() {
 		shouldBeRemoved = true;
 	}
 

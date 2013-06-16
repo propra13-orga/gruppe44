@@ -31,7 +31,7 @@ public class Infobar {
 		g.setColor(Color.BLACK);
 		g.drawString("Leben :", 16 + xo, 13 + yo);
 		g.drawString("(" + playerHealth + ")", 64 + xo, 13 + yo);
-		g.drawRect(95 + xo, 5 + yo, 101, 7);
+		g.drawRect(95 + xo, 5 + yo, player.maxHealth + 1, 7);
 		g.setColor(Color.GREEN);
 		g.fillRect(96 + xo, 6 + yo, playerHealth, 6);
 		g.setColor(Color.BLACK);
@@ -41,7 +41,7 @@ public class Infobar {
 		g.setColor(Color.BLACK);
 		g.drawString("Mana :", 16 + xo, 26 + yo);
 		g.drawString("(" + playerMana + ")", 64 + xo, 26 + yo);
-		g.drawRect(95 + xo, 17 + yo, 101, 7);
+		g.drawRect(95 + xo, 17 + yo, player.maxMana + 1, 7);
 		g.setColor(Color.RED);
 		g.fillRect(96 + xo, 18 + yo, playerMana, 6);
 		g.setColor(Color.BLACK);

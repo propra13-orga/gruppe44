@@ -219,7 +219,7 @@ public class MenuCards {
 			houston.c7l5.setBounds(284, 200, 200, 149);
 			this.add(houston.c7l5);
 
-			houston.c7b2 = new JButton("Manatrank - 100 CP");
+			houston.c7b2 = new JButton("Manatrank - 80 CP");
 			houston.c7b2.addActionListener(houston);
 			houston.c7b2.setBounds(284, 360, 200, 40);
 			ImageIcon manatrank = new ImageIcon("./res/img/mana.png");

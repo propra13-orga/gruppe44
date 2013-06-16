@@ -16,7 +16,7 @@ public class Map {
 
 	private int rows;
 	private int cols;
-	int[][] mapArray;
+	public int[][] mapArray;
 
 	private int levelNumber, mapNumber;
 	private String mapUrl;

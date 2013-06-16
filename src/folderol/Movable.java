@@ -6,27 +6,31 @@ import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 
 public abstract class Movable {
+
+	// bounds = "Grenzen" des Player
 	Rectangle2D bounds;
 	double speed;
 	boolean up, down, left, right;
-	int health;
-	int mana;
-	int maxHealth, maxMana;
+	int health, mana;
+
 	Point2D resetPoint;
 	BufferedImage texture = null;
-	
+
+	// Zeichnet den Charakter
 	public void drawObjects(Graphics2D g) {
-		 g.drawRect((int) bounds.getX(), (int) bounds.getY(), (int) bounds.getWidth(), (int) bounds.getHeight());
+		g.draw(bounds);
 	}
-	
+
+	// Fuehrt die Bewegung des Charakter aus 
 	public void move(double dX, double dY) {
 		bounds.setRect(bounds.getX() + dX, bounds.getY() + dY, bounds.getWidth(), bounds.getHeight());
 	}
 	
+	// Haelt den Charakter an
 	public void stop() {
 		up = down = left = right = false;
 	}
-	
+
 	// Versetzt den Charakter an gewuenschte Stelle
 	public void setPosition(double x, double y) {
 		bounds.setRect(x, y, bounds.getWidth(), bounds.getHeight());
@@ -41,12 +45,13 @@ public abstract class Movable {
 	public void setResetPosition(double x, double y) {
 		resetPoint.setLocation(x, y);
 	}
-	
+
 	// Veraendert die Ursprungsposition
 	public void setResetPosition(Point2D point) {
 		setResetPosition(point.getX(), point.getY());
 	}
-	
+
+	// Gibt die aktuelle horizontale Position zurueck
 	public double getX() {
 		return bounds.getX();
 	}
@@ -66,49 +71,49 @@ public abstract class Movable {
 		return bounds.getHeight();
 	}
 	
-	// Münze noch werfen, bei Kopf/Zahl löschen
 	public Point2D getCenterPosition() {
 		return new Point2D.Double(bounds.getCenterX(), bounds.getCenterY());
 	}
-	
-	public void resetHealthManaMoney(int health, int mana, int money){
+
+	public void resetHealthManaMoney(int health, int mana, int money) {
 		this.health = health;
 		this.mana = mana;
 	}
-	
+
 	// Health
 	public int getHealth() {
 		return health;
 	}
-	
+
 	public void setHealth(int health) {
 		this.health = health;
 	}
-	
+
 	public void increaseHealth(int amountOfHealth) {
 		health += amountOfHealth;
 	}
-	
+
 	public void decreaseHealth(int amountOfHealth) {
 		health -= amountOfHealth;
 	}
-	
+
 	// Mana
 	public int getMana() {
 		return mana;
 	}
-	
+
 	public void setMana(int mana) {
 		this.mana = mana;
 	}
-	
+
 	public void increaseMana(int amountOfMana) {
 		mana += amountOfMana;
 	}
-	
+
 	public void decreaseMana(int amountOfMana) {
 		mana -= amountOfMana;
 	}
-	
-	abstract void wallHit();
+
+	// Bestimmt, was passieren soll, wenn die Wand berührt wird
+	abstract public void onWallHit();
 }

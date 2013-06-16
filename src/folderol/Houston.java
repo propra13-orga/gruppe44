@@ -75,10 +75,12 @@ public class Houston implements ActionListener, Runnable {
 	Inventory inventory;
 	// Im Shop können Items gekauft werden
 	Shop shop;
-	
+	// Die Geschichte
 	Story story;
-	
+	// Das Gehirn der Gegner
 	EnemyLogic enemyLogic;
+	// Die Logik der Magie
+	MagicLogic magicLogic;
 
 	
 	// Die im Menue vorhandenen Knoepfe
@@ -171,12 +173,15 @@ public class Houston implements ActionListener, Runnable {
 	private void initializeCrap() {
 		preferredFps = 35;
 		map = new Map(0, 0, 20, 24);
+		
 		player = new Player();
-		enemyLogic = new EnemyLogic(this);
-		logic = new Logic(this);
-		// story = new Story(0, 0, 0);
 		inventory = new Inventory(this);
 		shop = new Shop(this);
+		
+		enemyLogic = new EnemyLogic(this);
+		magicLogic = new MagicLogic(this);
+		logic = new Logic(this);
+		// story = new Story(0, 0, 0);
 		
 	}
 	

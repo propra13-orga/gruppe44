@@ -2,12 +2,14 @@ package folderol;
 
 public class Shop {
 
-	Houston houston;
+	private Houston houston;
 	private Player player;
 	private Inventory inventory;
 
 	// Preise fuer die kaufbaren Items
-	final static int priceForHealthPack = 40, priceForManaPotion = 100;
+	final static int 
+	priceForHealthPack = 40,
+	priceForManaPotion = 80;
 
 	public Shop(Houston houston) {
 		this.houston = houston;
