@@ -248,4 +248,22 @@ public class Actions {
 
 	}
 	
+	static class attack extends AbstractAction {
+
+		private static final long serialVersionUID = 1L;
+		private Houston houston;
+
+		public attack(Houston houston) {
+			this.houston = houston;
+		}
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			synchronized (houston) {
+			houston.logic.attack();
+			}
+		}
+		
+	}
+	
 }

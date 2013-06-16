@@ -10,6 +10,7 @@ import javax.imageio.ImageIO;
 
 public class Player extends Movable {
 
+	Rectangle2D attackBox;
 	private int money;
 	// Maximale Werte für Health und Mana
 	public final int maxHealth = 100, maxMana = 100;
@@ -23,6 +24,8 @@ public class Player extends Movable {
 
 		// Setzt Position und Groesse des Player
 		bounds = new Rectangle2D.Double(resetPoint.getX(), resetPoint.getY(), 28, 28);
+		
+		attackBox = new Rectangle2D.Double(resetPoint.getX() - 15,resetPoint.getY() - 15, 48, 48);
 
 		// Setzt die Textur des Player
 		changeTexture(0);
@@ -35,6 +38,12 @@ public class Player extends Movable {
 	@Override
 	public void drawObjects(Graphics2D g) {
 		g.drawImage(texture, (int) bounds.getX() - 2, (int) bounds.getY() - 18, null);
+	}
+	
+	@Override
+	public void move(double dX, double dY) {
+		bounds.setRect(bounds.getX() + dX, bounds.getY() + dY, bounds.getWidth(), bounds.getHeight());
+		attackBox.setRect(attackBox.getX() + dX, attackBox.getY() + dY, attackBox.getWidth(), attackBox.getHeight());
 	}
 
 	// Setzt die Bilder des Spielers je nach Auswahl in den Einstellungen
@@ -79,4 +88,9 @@ public class Player extends Movable {
 		// Eierschaukeln
 	}
 
+	@Override
+	public void setResetPosition(double x, double y) {
+		super.setResetPosition(x, y);
+		attackBox.setRect(x - 10, y - 10, attackBox.getWidth(), attackBox.getHeight());
+	}
 }

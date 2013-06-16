@@ -210,4 +210,11 @@ public class Logic {
 		}
 	}
 
+	public void attack () {
+		for (Enemy enemy : houston.enemyLogic.enemies) {
+			if(player.attackBox.intersects(enemy.bounds)) {
+				enemy.decreaseHealth(100);
+			}
+		}
+	}
 }

@@ -272,6 +272,7 @@ public class Houston implements ActionListener, Runnable {
 		KeyStroke rs = KeyStroke.getKeyStroke("released S");
 		KeyStroke ra = KeyStroke.getKeyStroke("released A");
 		KeyStroke rd = KeyStroke.getKeyStroke("released D");
+		KeyStroke space = KeyStroke.getKeyStroke("SPACE");
 
 		// Entfernt alle Tastenzuweisungen in der InputMap
 		im.remove(KeyStroke.getKeyStroke("ESCAPE"));
@@ -287,6 +288,7 @@ public class Houston implements ActionListener, Runnable {
 		im.remove(rs);
 		im.remove(ra);
 		im.remove(rd);
+		im.remove(space);
 
 		// Aktiviert das Wechseln zwischen GAME und INGAMEMENU mit "Escape"
 		if (gameOver == false) {
@@ -311,6 +313,7 @@ public class Houston implements ActionListener, Runnable {
 			im.put(rs, "releasedDown");
 			im.put(ra, "releasedLeft");
 			im.put(rd, "releasedRight");
+			im.put(space, "attack");
 		}
 
 		// "Verbindet" die Tastendruecke mit einer jeweiligen Action
@@ -328,6 +331,7 @@ public class Houston implements ActionListener, Runnable {
 		am.put("releasedDown", new Actions.releasedDown(this));
 		am.put("releasedLeft", new Actions.releasedLeft(this));
 		am.put("releasedRight", new Actions.releasedRight(this));
+		am.put("attack", new Actions.attack(this));
 	}
 
 	@Override
