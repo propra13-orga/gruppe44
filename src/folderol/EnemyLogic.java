@@ -22,7 +22,7 @@ public class EnemyLogic {
 		}
 	}
 	
-	public void removeEnemies() {
+	public void removeAll() {
 		enemies.clear();
 	}
 	

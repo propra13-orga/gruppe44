@@ -8,7 +8,7 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 
 public class Enemy extends Movable{
-	public boolean shouldBeRemoved;
+	public boolean remove;
 	private int direction;
 	
 	public Enemy (Point2D resetPoint, int direction){

@@ -35,7 +35,7 @@ public class Logic {
 
 	// Startet ein neues Spiel
 	public void setupNewGame(int levelNumber, int mapNumber) {
-		player.resetHealthManaMoney(100, 100, 200);
+		player.resetHealthManaMoney(100, 100, 0);
 		houston.inventory.clear();
 		
 		changeLevel(levelNumber, mapNumber);
@@ -53,35 +53,40 @@ public class Logic {
 
 		// Setzt den Player auf seine Ursprungsposition
 		player.resetPosition();
-		enemyLogic.removeEnemies();
+		enemyLogic.removeAll();
 		enemyLogic.setSpawnPositions();
+		houston.itemLogic.removeAll();
+		houston.itemLogic.setSpawnPositions();
 		
 	}
 
 	// Berechnet z.B. alle Bewegungen und Kollisionen im Spiel
 	public void doGameUpdates(long delta) {
 		this.delta = delta;
-		
+
 		ArrayList<Magic> magics = new ArrayList<Magic>(magicLogic.magics);
 		for (Magic magic : houston.magicLogic.magics) {
-			if(magic.shouldBeRemoved) {
+			if (magic.remove) {
 				magics.remove(magic);
 			}
 		}
 		magicLogic.magics = magics;
-		
-		 ArrayList<Enemy> enemies = new ArrayList<Enemy>(enemyLogic.enemies);
-		 for (Enemy enemy : enemyLogic.enemies) {
-			 if(enemy.shouldBeRemoved) {
-				 enemies.remove(enemy);
-			 }
-		 }
-		 enemyLogic.enemies = enemies;
+
+		ArrayList<Enemy> enemies = new ArrayList<Enemy>(enemyLogic.enemies);
+		for (Enemy enemy : enemyLogic.enemies) {
+			if (enemy.remove) {
+				enemies.remove(enemy);
+			}
+		}
+		enemyLogic.enemies = enemies;
 
 		checkIfIsStillAlive();
 		contrallCharacterMovement(player);
 		playerEnemyCollisionDetection();
 		detectSpecialTiles();
+		
+		houston.itemLogic.doGameUpdates();
+		
 		for (Enemy enemy : enemyLogic.enemies) {
 			contrallCharacterMovement(enemy);
 		}
@@ -167,9 +172,9 @@ public class Logic {
 			
 			// entsprechende Massnahmen
 			if (value == 7) { 
-				player.decreaseHealth(25);
 				backToLastCheckpoint();
-			} else if (value == 9){
+				player.decreaseHealth(25);
+			} else if (value == 9) {
 				nextMap();
 			}
 		}
@@ -211,9 +216,10 @@ public class Logic {
 	}
 
 	public void attack () {
-		for (Enemy enemy : houston.enemyLogic.enemies) {
+		for (Enemy enemy : enemyLogic.enemies) {
 			if(player.attackBox.intersects(enemy.bounds)) {
-				enemy.decreaseHealth(100);
+				enemy.remove = true;
+				player.increaseMoney(10);
 			}
 		}
 	}

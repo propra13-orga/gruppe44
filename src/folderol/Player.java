@@ -10,7 +10,7 @@ import javax.imageio.ImageIO;
 
 public class Player extends Movable {
 
-	Rectangle2D attackBox;
+	public Rectangle2D attackBox;
 	private int money;
 	// Maximale Werte für Health und Mana
 	public final int maxHealth = 100, maxMana = 100;
@@ -25,7 +25,7 @@ public class Player extends Movable {
 		// Setzt Position und Groesse des Player
 		bounds = new Rectangle2D.Double(resetPoint.getX(), resetPoint.getY(), 28, 28);
 		
-		attackBox = new Rectangle2D.Double(resetPoint.getX() - 15,resetPoint.getY() - 15, 48, 48);
+		attackBox = new Rectangle2D.Double(resetPoint.getX() - 10,resetPoint.getY() - 10, 48, 48);
 
 		// Setzt die Textur des Player
 		changeTexture(0);
@@ -80,7 +80,8 @@ public class Player extends Movable {
 	}
 
 	public void decreaseMoney(int amountOfMoney) {
-		money -= amountOfMoney;
+		if (money > 0)
+			money -= amountOfMoney;
 	}
 	
 	@Override

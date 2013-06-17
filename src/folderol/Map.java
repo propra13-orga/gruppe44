@@ -58,10 +58,11 @@ public class Map {
 		
 		int value;
 		
+		
 		for (int row = 0; row < rows; row++) {
 			for (int col = 0; col < cols; col++) {
 				value = mapArray[row][col];
-				g.drawImage(texture.get(value), col * 32, row * 32, null);
+				g.drawImage(texture.get(value), col * 32, row * 32 - texture.get(value).getHeight() + 32 , null);
 			}
 		}
 	}
@@ -88,6 +89,8 @@ public class Map {
 			texture.put(6, ImageIO.read(new File("./res/img/ground.png")));
 			texture.put(4, ImageIO.read(new File("./res/img/ground.png")));
 			texture.put(0, ImageIO.read(new File("./res/img/ground.png")));
+			texture.put(90, ImageIO.read(new File("./res/img/ground.png")));
+			texture.put(91, ImageIO.read(new File("./res/img/ground.png")));
 		} catch (IOException e) {e.printStackTrace();}
 	}
 	

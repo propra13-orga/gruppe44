@@ -16,7 +16,7 @@ public class Magic extends Movable {
 	public BufferedImage picture;
 	private Point2D centerPosition;
 	private Point2D endPosition;
-	boolean shouldBeRemoved;
+	boolean remove;
 	
 	public Magic(Houston houston, Point2D centerPosition, Point2D endPosition) {
 		this.houston = houston;
@@ -48,8 +48,9 @@ public class Magic extends Movable {
 	private void onMoved() {
 		for (Enemy enemy : houston.enemyLogic.enemies) {
 			if(bounds.intersects(enemy.bounds)) {
-				enemy.shouldBeRemoved = true;
-				shouldBeRemoved = true;
+				enemy.remove = true;
+				remove = true;
+				houston.player.increaseMoney(10);
 			}
 		}
 	}
@@ -76,7 +77,7 @@ public class Magic extends Movable {
 
 	@Override
 	public void onWallHit() {
-		shouldBeRemoved = true;
+		remove = true;
 	}
 
 }

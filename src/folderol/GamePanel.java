@@ -17,8 +17,6 @@ public class GamePanel extends JPanel implements MouseListener {
 	private Player player;
 	private Map map;
 	private Infobar infobar;
-	private EnemyLogic enemyLogic;
-	private MagicLogic magicLogic;
 	
 	private Font plainFont;
 	private Color bgColor;
@@ -30,8 +28,6 @@ public class GamePanel extends JPanel implements MouseListener {
 		this.player		= houston.player;
 		this.map		= houston.map;
 		this.infobar	= new Infobar(houston, 0, -heightOfInfobar);
-		this.enemyLogic = houston.enemyLogic;
-		this.magicLogic = houston.magicLogic;
 		
 		// Setzt die Schrift fuer die Konsolenausgaben
 		plainFont = new Font("Arial", Font.PLAIN, 12);
@@ -44,38 +40,41 @@ public class GamePanel extends JPanel implements MouseListener {
 
 	@Override
 	protected void paintComponent(Graphics gr) {
-		synchronized (houston) {
-			Graphics2D g = (Graphics2D) gr;
-			// Verschiebt den Ursprungspunkt
-			g.translate(0, heightOfInfobar);
-			g.setFont(plainFont);
+		Graphics2D g = (Graphics2D) gr;
+		// Verschiebt den Ursprungspunkt
+		g.translate(0, heightOfInfobar);
+		g.setFont(plainFont);
 
-			// Ab hier wird gezeichnet
+		// Ab hier wird gezeichnet
 
-			// Zeichnet den Hintergrund
-			g.setColor(bgColor);
-			g.fillRect(0, -heightOfInfobar, houston.width, houston.height);
+		// Zeichnet den Hintergrund
+		g.setColor(bgColor);
+		g.fillRect(0, -heightOfInfobar, houston.width, houston.height);
 
-			// Zeichnet Informationen in der Informationsleiste
-			infobar.drawObjects(g);
-			
-			// Zeichnet die Karte
-			map.drawObjects(g);
-
-			// Zeichnet die Gegner
-			for (Enemy enemy : enemyLogic.enemies) {
-				enemy.drawObjects(g);
-			}
-
-			// Zeichnet den Player
-			player.drawObjects(g);
-
-			for (Magic magic : magicLogic.magics) {
-				magic.drawObjects(g);
-			}
-
-			g.dispose();
+		// Zeichnet Informationen in der Informationsleiste
+		infobar.drawObjects(g);
+		
+		// Zeichnet die Karte
+		map.drawObjects(g);
+		
+		// Zeichnet Items
+		for (Item item : houston.itemLogic.items) {
+			item.drawObjects(g);
 		}
+
+		// Zeichnet die Gegner
+		for (Enemy enemy : houston.enemyLogic.enemies) {
+			enemy.drawObjects(g);
+		}
+
+		// Zeichnet den Player
+		player.drawObjects(g);
+
+		for (Magic magic : houston.magicLogic.magics) {
+			magic.drawObjects(g);
+		}
+
+		g.dispose();
 	} // Ab hier ist Schluss mit Zeichnen
 
 	public void mouseClicked(MouseEvent e) {

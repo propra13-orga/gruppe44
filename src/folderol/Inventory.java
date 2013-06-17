@@ -29,12 +29,14 @@ public class Inventory {
 
 	// Erhoeht die Anzahl an HealthPack um 1
 	public void addHealthPack() {
-		healthPack++;
+		if (healthPack < 3)
+			healthPack++;
 	}
 
 	// Veringert die Anzahl an HealthPack um 1
 	public void subHealthPack() {
-		healthPack--;
+		if (healthPack > 0)
+			healthPack--;
 	}
 
 	// Gibt die Anzahl an ManaPotion im Inventar zurueck
@@ -44,12 +46,14 @@ public class Inventory {
 
 	// Erhoeht die Anzahl an ManaPotion um 1
 	public void addManaPotion() {
-		manaPotion++;
+		if (manaPotion < 3)
+			manaPotion++;
 	}
 
 	// Veringert die Anzahl an ManaPotion um 1
 	public void subManaPotion() {
-		manaPotion--;
+		if (manaPotion > 0)
+			manaPotion--;
 	}
 
 	// Benutzt ein Healthpack und veraendert entsprechend das Leben des Spielers

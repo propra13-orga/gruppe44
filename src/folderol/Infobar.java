@@ -68,7 +68,7 @@ public class Infobar {
 		g.drawString("Pos " + "x:"+(int)player.getX()+" y:"+(int)player.getY(), 608+xo, 13+yo);
 		
 		// Zeichnet Karteninformationen
-		g.drawString("Map  "+map.getLevelNumber()+" - "+map.getMapNumber(), 700+xo, 26+yo);
+		g.drawString("Map  "+(map.getLevelNumber()+1)+" - "+(map.getMapNumber()+1), 700+xo, 26+yo);
 		
 		// Zeichnet die aktuellen FPS (Frames Per Second)
 		g.drawString("FPS: " + houston.fps, 712 + xo, 13 + yo);

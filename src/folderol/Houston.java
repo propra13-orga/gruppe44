@@ -69,18 +69,20 @@ public class Houston implements ActionListener, Runnable {
 	Player player;
 	// Die Karte
 	Map map;
-	// In der Logik werden Berechnungen zur Laufzeit getaetigt
-	Logic logic;
 	// Das Inventar hält Items, die z.B. eingesammelt werden
 	Inventory inventory;
 	// Im Shop können Items gekauft werden
 	Shop shop;
 	// Die Geschichte
 	Story story;
+	// In der Logik werden Berechnungen zur Laufzeit getaetigt
+	Logic logic;
 	// Das Gehirn der Gegner
 	EnemyLogic enemyLogic;
 	// Die Logik der Magie
 	MagicLogic magicLogic;
+	// Die Logik der Items
+	ItemLogic itemLogic;
 
 	
 	// Die im Menue vorhandenen Knoepfe
@@ -180,6 +182,7 @@ public class Houston implements ActionListener, Runnable {
 		
 		enemyLogic = new EnemyLogic(this);
 		magicLogic = new MagicLogic(this);
+		itemLogic = new ItemLogic(this);
 		logic = new Logic(this);
 		// story = new Story(0, 0, 0);
 		
