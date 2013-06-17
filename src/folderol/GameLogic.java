@@ -49,7 +49,7 @@ public class GameLogic {
 	// Springt zum angegebenen Level.
 	private void changeLevel(int levelNumber, int mapNumber) {
 		map.renewMap(levelNumber, mapNumber);
-		// story.renewStory(levelNumber, mapNumber);
+		story.renewStory(mapNumber);
 
 		playerLogic.onLevelChange();
 		enemyLogic.onLevelChange();

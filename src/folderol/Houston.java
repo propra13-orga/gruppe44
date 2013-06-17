@@ -183,8 +183,8 @@ public class Houston implements ActionListener, Runnable {
 		inventory = new Inventory(this);
 		shop = new Shop(this);
 		
-		logic = new GameLogic(this);
 		story = new Story(0, this);
+		logic = new GameLogic(this);
 	}
 
 	@Override

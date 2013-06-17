@@ -13,7 +13,6 @@ public class Story {
 	private Map map;
 	private GameLogic logic;
 	String storyUrl;
-	private String[] storyUrls;
 	BufferedReader storyBuffer;
 	ArrayList<String> storyText;
 	private int mapNumber;
