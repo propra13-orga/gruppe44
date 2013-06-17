@@ -58,7 +58,7 @@ public class Logic {
 		enemyLogic.setSpawnPositions();
 		houston.itemLogic.removeAll();
 		houston.itemLogic.setSpawnPositions();
-		
+		magicLogic.magics.clear();
 	}
 
 	// Berechnet z.B. alle Bewegungen und Kollisionen im Spiel
@@ -231,8 +231,11 @@ public class Logic {
 	public void attack () {
 		for (Enemy enemy : enemyLogic.enemies) {
 			if(player.attackBox.intersects(enemy.bounds)) {
-				enemy.remove = true;
-				player.increaseMoney(10);
+				enemy.decreaseHealth(5);
+				if(enemy.health <= 0){
+					enemy.remove= true;
+					player.increaseMoney(10);
+				}
 			}
 		}
 	}

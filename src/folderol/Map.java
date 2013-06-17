@@ -91,6 +91,12 @@ public class Map {
 			texture.put(7, ImageIO.read(new File("./res/img/trap.png")));
 			texture.put(8, ImageIO.read(new File("./res/img/start.png")));
 			texture.put(9, ImageIO.read(new File("./res/img/finish.png")));
+			texture.put(30, ImageIO.read(new File("./res/img/ground.png")));
+			texture.put(31, ImageIO.read(new File("./res/img/ground.png")));
+			texture.put(32, ImageIO.read(new File("./res/img/ground.png")));
+			texture.put(33, ImageIO.read(new File("./res/img/ground.png")));
+			texture.put(34, ImageIO.read(new File("./res/img/ground.png")));
+			texture.put(35, ImageIO.read(new File("./res/img/ground.png")));
 			texture.put(90, ImageIO.read(new File("./res/img/ground.png")));
 			texture.put(91, ImageIO.read(new File("./res/img/ground.png")));
 		} catch (IOException e) {e.printStackTrace();}
@@ -185,7 +191,7 @@ public class Map {
 	public Point2D singleSearch(int value) {
 		for (int row = 0; row < rows; row++) {
 			for (int col = 0; col < cols; col++) {
-				if (mapArray[row][col] == 8) {
+				if (mapArray[row][col] == value) {
 					return (new Point2D.Double(col * 32, row * 32));
 				}
 			}
