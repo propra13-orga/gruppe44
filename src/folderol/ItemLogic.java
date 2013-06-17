@@ -34,7 +34,6 @@ public class ItemLogic {
 
 	public void onLevelChange() {
 		items.clear();
-		houston.player.armor = 100;
 
 		itemType = 0;
 		for (Point2D singleItemPosition : houston.map.multiSearch(90 + itemType)) {

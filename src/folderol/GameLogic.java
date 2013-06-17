@@ -190,6 +190,7 @@ public class GameLogic {
 	private void backToLastCheckpoint() {
 		// Zurueck zur ersten Karte des aktuellen Level
 		changeLevel(map.getLevelNumber(), 0);
+		player.armor = 100;
 	}
 
 }
