@@ -15,7 +15,6 @@ public class Enemy extends Movable{
 	
 	public Enemy (Point2D resetPoint, int direction, int enemyType){
 		speed = 128;
-		health = 100;
 		bounds = new Rectangle2D.Double(resetPoint.getX(), resetPoint.getY(), 28, 28);
 
 		this.direction = direction;
