@@ -36,16 +36,19 @@ public class Map {
 		this.mapNumber = mapNumber;
 		
 		// Setzt Pfade zu den jeweiligen Kartendateien ins Array mapUrls
-		mapUrls = new String[3][3];
+		mapUrls = new String[3][4];
 		mapUrls[0][0] = "./res/maps/map01_01.txt";
 		mapUrls[0][1] = "./res/maps/map01_02.txt";
 		mapUrls[0][2] = "./res/maps/map01_03.txt";
+		mapUrls[0][3] = "./res/maps/map01_04.txt";
 		mapUrls[1][0] = "./res/maps/map02_01.txt";
 		mapUrls[1][1] = "./res/maps/map02_02.txt";
 		mapUrls[1][2] = "./res/maps/map02_03.txt";
+		mapUrls[1][3] = "./res/maps/map02_04.txt";
 		mapUrls[2][0] = "./res/maps/map03_01.txt";
 		mapUrls[2][1] = "./res/maps/map03_02.txt";
 		mapUrls[2][2] = "./res/maps/map03_03.txt";
+		mapUrls[2][3] = "./res/maps/map03_04.txt";
 		// Erstellt das Array mapArray, in dem die eingelesen Karte stehen wird
 		mapArray = new int[rows][cols];
 		
