@@ -184,7 +184,7 @@ public class Houston implements ActionListener, Runnable {
 		shop = new Shop(this);
 		
 		logic = new GameLogic(this);
-		// story = new Story(0, 0, 0);
+		story = new Story(0, this);
 	}
 
 	@Override
