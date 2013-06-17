@@ -33,6 +33,7 @@ import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.KeyStroke;
 
+
 public class Houston implements ActionListener, Runnable {
 
 	// Speichert die Hoehe und Breite des Fensterinhalts
@@ -76,7 +77,9 @@ public class Houston implements ActionListener, Runnable {
 	// Die Geschichte
 	Story story;
 	// In der Logik werden Berechnungen zur Laufzeit getaetigt
-	Logic logic;
+	GameLogic logic;
+	// Das unterstützende Gehirn des Player
+	PlayerLogic playerLogic;
 	// Das Gehirn der Gegner
 	EnemyLogic enemyLogic;
 	// Die Logik der Magie
@@ -180,14 +183,9 @@ public class Houston implements ActionListener, Runnable {
 		inventory = new Inventory(this);
 		shop = new Shop(this);
 		
-		enemyLogic = new EnemyLogic(this);
-		magicLogic = new MagicLogic(this);
-		itemLogic = new ItemLogic(this);
-		logic = new Logic(this);
+		logic = new GameLogic(this);
 		// story = new Story(0, 0, 0);
-		
 	}
-	
 
 	@Override
 	public void run() {

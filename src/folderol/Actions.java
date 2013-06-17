@@ -259,7 +259,7 @@ public class Actions {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			houston.logic.attack();
+			houston.playerLogic.attack();
 		}
 
 	}

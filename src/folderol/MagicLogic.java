@@ -3,17 +3,19 @@ package folderol;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 
+
 public class MagicLogic {
 
 	private Houston houston;
 	private Player player;
 	
 	public ArrayList<Magic> magics;
+	private Magic magic;
 	private int manaCost = 5;
 	
 	public MagicLogic(Houston houston) {
-		this.houston = houston;
-		this.player = houston.player;
+		this.houston	= houston;
+		this.player		= houston.player;
 		magics = new ArrayList<Magic>();
 	}
 
@@ -23,5 +25,21 @@ public class MagicLogic {
 			magics.add(new Magic(houston, player.getCenterPosition(), mouseClickPosition));
 		}
 	}
-	
+
+	public void doGameUpdates() {
+		for (int i = magics.size() - 1; i >= 0; i--) {
+			magic = magics.get(i);
+
+			// Filtert die zu löschenden Magics raus
+			if (magic.remove) {
+				magics.remove(i);
+			}
+			houston.logic.controlCharacterMovement(magic);
+		}
+	}
+
+	public void onLevelChange() {
+		magics.clear();
+	}
+
 }

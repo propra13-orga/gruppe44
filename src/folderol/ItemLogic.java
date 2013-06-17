@@ -9,29 +9,33 @@ import java.util.ArrayList;
 import javax.imageio.ImageIO;
 
 public class ItemLogic {
-	
+
 	private Houston houston;
 	public ArrayList<Item> items;
+	private Item item;
 	private int itemType;
 	public ArrayList<BufferedImage> texture;
 
 	public ItemLogic(Houston houston) {
 		this.houston = houston;
-		
+
 		items = new ArrayList<Item>();
-		texture =  new ArrayList<BufferedImage>();
+		texture = new ArrayList<BufferedImage>();
 		initializeTextures();
-		setSpawnPositions();
-	}
-	
-	private void initializeTextures() {
-		try {
-			texture.add(0, ImageIO.read(new File("./res/img/health.png")));
-			texture.add(1, ImageIO.read(new File("./res/img/mana.png")));
-		} catch (IOException e) {e.printStackTrace();}
 	}
 
-	public void setSpawnPositions() {
+	private void initializeTextures() {
+		try {
+			texture.add(0, ImageIO.read(new File("./res/img/tiles/health.png")));
+			texture.add(1, ImageIO.read(new File("./res/img/tiles/mana.png")));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+	public void onLevelChange() {
+		items.clear();
+
 		itemType = 0;
 		for (Point2D singleItemPosition : houston.map.multiSearch(90 + itemType)) {
 			items.add(new Item(this, singleItemPosition, itemType));
@@ -43,24 +47,21 @@ public class ItemLogic {
 	}
 
 	public void doGameUpdates() {
-		ArrayList<Item> items = new ArrayList<Item>(houston.itemLogic.items);
-		for (Item item : houston.itemLogic.items) {
-			if (item.remove) {
-				items.remove(item);
-			}
-		}
-		houston.itemLogic.items = items;
-		
-		checkForIntersection();
-	}
+		for (int i = items.size() - 1; i >= 0; i--) {
+			item = items.get(i);
 
-	private void checkForIntersection() {
-		for (Item item : houston.itemLogic.items) {
-			if(item.bounds.intersects(houston.player.bounds)) {
+			// Filtert die zu löschenden Magics raus
+			if (item.remove) {
+				items.remove(i);
+				continue;
+			}
+			// Prüft, ob das Item sich mit dem Player überschneidet
+			if (item.bounds.intersects(houston.player.bounds)) {
 				item.remove = true;
 				pickUpItem(item.itemType);
 			}
 		}
+
 	}
 
 	private void pickUpItem(int itemType) {
@@ -72,10 +73,6 @@ public class ItemLogic {
 			houston.inventory.addManaPotion();
 			break;
 		}
-	}
-	
-	public void removeAll() {
-		items.clear();
 	}
 
 }

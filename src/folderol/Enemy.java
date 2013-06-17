@@ -20,7 +20,7 @@ public class Enemy extends Movable{
 		setDirection();
 		
 		try {
-			texture = ImageIO.read(new File("./res/img/german_f2.png"));
+			texture = ImageIO.read(new File("./res/img/characters/french_m1.png"));
 			texture = texture.getSubimage(0, 0, 32, 46);
 		} catch (IOException e) {e.printStackTrace();}	
 	}

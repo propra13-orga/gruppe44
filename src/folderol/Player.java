@@ -20,18 +20,15 @@ public class Player extends Movable {
 		speed = 128;
 
 		// Setzt Ursprungsposition des Player
-		resetPoint = new Point2D.Double(96, 96);
+		resetPoint = new Point2D.Double();
 
 		// Setzt Position und Groesse des Player
-		bounds = new Rectangle2D.Double(resetPoint.getX(), resetPoint.getY(), 28, 28);
+		bounds = new Rectangle2D.Double(0, 0, 28, 28);
 		
-		attackBox = new Rectangle2D.Double(resetPoint.getX() - 10,resetPoint.getY() - 10, 48, 48);
+		attackBox = new Rectangle2D.Double(0, 0, 48, 48);
 
 		// Setzt die Textur des Player
 		changeTexture(0);
-
-		// Setzt initial Health, Mana und Money zurueck
-		resetHealthManaMoney(100, 100, 200);
 	}
 
 	// Zeichnet den spieler
@@ -51,11 +48,11 @@ public class Player extends Movable {
 		try {
 			if (value == 0) {
 
-				texture = ImageIO.read(new File("./res/img/german_m1.png"));
+				texture = ImageIO.read(new File("./res/img/characters/german_m1.png"));
 				texture = texture.getSubimage(0, 0, 32, 46);
 			}
 			if (value == 1) {
-				texture = ImageIO.read(new File("./res/img/german_f2.png"));
+				texture = ImageIO.read(new File("./res/img/characters/german_f2.png"));
 				texture = texture.getSubimage(0, 0, 32, 46);
 			}
 		} catch (IOException e) {
@@ -94,4 +91,5 @@ public class Player extends Movable {
 		super.setResetPosition(x, y);
 		attackBox.setRect(x - 10, y - 10, attackBox.getWidth(), attackBox.getHeight());
 	}
+	
 }

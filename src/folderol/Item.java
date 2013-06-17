@@ -5,12 +5,13 @@ import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 
+
 public class Item {
 	
 	public Rectangle2D bounds;
 	public int itemType;
 	private BufferedImage texture;
-	boolean remove;
+	public boolean remove;
 
 	public Item(ItemLogic itemLogic, Point2D singleItemPosition, int itemType) {
 		this.texture = itemLogic.texture.get(itemType);

@@ -100,24 +100,23 @@ public class MenuCards {
 		public card5(Houston houston) {
 			this.setLayout(null);
 
-			JLabel picsandy = new JLabel(new ImageIcon("./res/img/sandy.png"));
+			JLabel picsandy = new JLabel(new ImageIcon("./res/img/credits/sandy.png"));
 			picsandy.setBounds(29, 200, 130, 130);
 			this.add(picsandy);
 
-			JLabel picjana = new JLabel(new ImageIcon("./res/img/jana.png"));
+			JLabel picjana = new JLabel(new ImageIcon("./res/img/credits/jana.png"));
 			picjana.setBounds(174, 200, 130, 130);
 			this.add(picjana);
 
-			JLabel picphil = new JLabel(new ImageIcon("./res/img/phil.png"));
+			JLabel picphil = new JLabel(new ImageIcon("./res/img/credits/phil.png"));
 			picphil.setBounds(319, 200, 130, 130);
 			this.add(picphil);
 
-			JLabel picphilipp = new JLabel(new ImageIcon(
-					"./res/img/philipp.png"));
+			JLabel picphilipp = new JLabel(new ImageIcon("./res/img/credits/philipp.png"));
 			picphilipp.setBounds(464, 200, 130, 130);
 			this.add(picphilipp);
 
-			JLabel picdavid = new JLabel(new ImageIcon("./res/img/david.png"));
+			JLabel picdavid = new JLabel(new ImageIcon("./res/img/credits/david.png"));
 			picdavid.setBounds(609, 200, 130, 130);
 			this.add(picdavid);
 
@@ -196,14 +195,14 @@ public class MenuCards {
 		public card7(Houston houston) {
 			this.setLayout(null);
 			
-			houston.c7l4 = new JLabel(new ImageIcon("./res/img/Club_mate.png"));
+			houston.c7l4 = new JLabel(new ImageIcon("./res/img/shop/Club_mate.png"));
 			houston.c7l4.setBounds(50, 200, 200, 149);
 			this.add(houston.c7l4);
 
 			houston.c7b1 = new JButton("Healthpack - 40 CP");
 			houston.c7b1.addActionListener(houston);
 			houston.c7b1.setBounds(50, 360, 200, 40);
-			ImageIcon healthpack = new ImageIcon("./res/img/health.png");
+			ImageIcon healthpack = new ImageIcon("./res/img/tiles/health.png");
 			houston.c7b1.setIcon(healthpack);
 			this.add(houston.c7b1);
 			
@@ -215,14 +214,14 @@ public class MenuCards {
 			houston.c7l8.setBounds(130, 400, 200, 50);
 			this.add(houston.c7l8);
 			
-			houston.c7l5 = new JLabel(new ImageIcon("./res/img/Killepitsch.png"));
+			houston.c7l5 = new JLabel(new ImageIcon("./res/img/shop/Killepitsch.png"));
 			houston.c7l5.setBounds(284, 200, 200, 149);
 			this.add(houston.c7l5);
 
 			houston.c7b2 = new JButton("Manatrank - 80 CP");
 			houston.c7b2.addActionListener(houston);
 			houston.c7b2.setBounds(284, 360, 200, 40);
-			ImageIcon manatrank = new ImageIcon("./res/img/mana.png");
+			ImageIcon manatrank = new ImageIcon("./res/img/tiles/mana.png");
 			houston.c7b2.setIcon(manatrank);
 			this.add(houston.c7b2);
 			
