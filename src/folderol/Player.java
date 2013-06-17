@@ -14,6 +14,7 @@ public class Player extends Movable {
 	private int money;
 	// Maximale Werte für Health und Mana
 	public final int maxHealth = 100, maxMana = 100;
+	public int lives;
 
 	public Player() {
 		// Setzt Geschwindigkeit des Player

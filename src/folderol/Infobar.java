@@ -2,6 +2,11 @@ package folderol;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+
+import javax.imageio.ImageIO;
 
 public class Infobar {
 
@@ -46,17 +51,27 @@ public class Infobar {
 		g.fillRect(96 + xo, 18 + yo, playerMana, 6);
 		g.setColor(Color.BLACK);
 		g.drawLine(96 + playerMana + xo, 18 + yo, 96 + playerMana + xo, 24 + yo);
+		
+		//Zeichnet die Leben
+				BufferedImage heartPicture = null;
+				try {
+					heartPicture = ImageIO.read(new File("./res/img/infobar/heart.png"));
+				} catch (IOException e) { e.printStackTrace();}
+				if(player.lives > 1)
+					g.drawImage(heartPicture , 220 + xo, 6 + yo, null);
+				if(player.lives > 2)
+					g.drawImage(heartPicture , 240 + xo, 6 + yo, null);
 
 		// Zeigt Geld an
 		g.setColor(Color.BLACK);
-		g.drawString("Geld :", 240 + xo, 13 + yo);
-		g.drawString(player.getMoney() + " CP", 240 + xo, 26 + yo);
+		g.drawString("Geld :", 310 + xo, 13 + yo);
+		g.drawString(player.getMoney() + " CP", 310 + xo, 26 + yo);
 
 		// Zeigt Anzahl an HealthPacks und ManaPotions an
-		g.drawString("Health Packs :", 350 + xo, 13 + yo);
-		g.drawString(inventory.getCountOfHealthPack() + "/3", 440 + xo, 13 + yo);
-		g.drawString("Mana Potions :", 350 + xo, 26 + yo);
-		g.drawString(inventory.getCountOfManaPotion() + "/3", 440 + xo, 26 + yo);
+		g.drawString("Health Packs :", 360 + xo, 13 + yo);
+		g.drawString(inventory.getCountOfHealthPack() + "/3", 450 + xo, 13 + yo);
+		g.drawString("Mana Potions :", 360 + xo, 26 + yo);
+		g.drawString(inventory.getCountOfManaPotion() + "/3", 450 + xo, 26 + yo);
 
 		// "Moechtest du zum Shop?" anzeigen
 		if (houston.logic.value == 5) {

@@ -41,6 +41,7 @@ public class GameLogic {
 	// Startet ein neues Spiel
 	public void setupNewGame(int levelNumber, int mapNumber) {
 		player.resetHealthManaMoney(100, 100, 0);
+		player.lives = 3;
 		houston.inventory.clear();
 
 		changeLevel(levelNumber, mapNumber);
