@@ -241,9 +241,8 @@ public class Actions {
 				houston.shop.resetShopView();
 				houston.changeAppearance(false, "SHOP");
 			} else if (houston.logic.npcv == 1) {
-				Component frame = null;
-				JOptionPane.showMessageDialog(frame, "Wo ist der Meilenstein?!");
-				houston.logic.npcv = 0;
+				houston.story.showText();
+			
 			}
 		}
 
