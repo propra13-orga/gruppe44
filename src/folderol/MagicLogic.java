@@ -22,21 +22,24 @@ public class MagicLogic {
 		this.player		= houston.player;
 		magics = new ArrayList<Magic>();
 		
-		timer = new Timer();
+		setMagic();
+	}
+
+	public void setMagic(){
+	timer = new Timer();
 		
-//		enemyMagic = new TimerTask(){
-//			public void run (){
-//				for (Enemy enemy : houston.enemyLogic.enemies) {
-//					if(enemy.shoot == 1){
-//					magics.add(new Magic(houston, enemy.getCenterPosition(), player.getCenterPosition(), false));
-//					}
-//				}
-//			}	
-//		};
+		enemyMagic = new TimerTask(){
+			public void run (){
+				for (Enemy enemy : houston.enemyLogic.enemies) {
+					if(enemy.shoot == 1){
+					magics.add(new Magic(houston, enemy.getCenterPosition(), player.getCenterPosition(), false));
+					}
+				}
+			}	
+		};
 		
 		timer.schedule(enemyMagic, 100, 2000);
 	}
-
 	public void doMagic(Point2D mouseClickPosition) {
 		if (houston.player.getMana() >= manaCost) {
 			player.decreaseMana(manaCost);
