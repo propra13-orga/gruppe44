@@ -17,6 +17,7 @@ public class Logic {
 	private long delta;
 	private double dX, dY;
 	public int value;
+	public int npcv;
 
 	public Logic(Houston houston) {
 		this.houston	= houston;
@@ -120,6 +121,12 @@ public class Logic {
 				dX = 0;
 				character.onWallHit();
 			}
+			else if (isValidXMovement(topLeft, bottomLeft, dX, 3) == 3){
+					dX = 0;
+					System.out.println("Da ist ein NPC");
+					npcv = 1;
+				
+			}
 
 		// Bewegung nach Rechts
 		} else if (character.right && !character.left) {
@@ -128,6 +135,12 @@ public class Logic {
 				dX = 0;
 				character.onWallHit();
 			}
+			else if (isValidXMovement(topLeft, bottomLeft, dX, 3) == 3){
+				dX = 0;
+				System.out.println("Da ist ein NPC");
+				npcv = 1;
+			
+		}
 		}
 
 		// Bewegung nach Oben
@@ -137,6 +150,12 @@ public class Logic {
 				dY = 0;
 				character.onWallHit();
 			}
+			else if (isValidYMovement(topLeft, bottomLeft, dX, 3) == 3){
+				dY = 0;
+				System.out.println("Da ist ein NPC");
+				npcv = 1;
+			
+		}
 
 		// Bewegung nach Unten
 		} else if (character.down && !character.up) {
@@ -145,6 +164,12 @@ public class Logic {
 				dY = 0;
 				character.onWallHit();
 			}
+			else if (isValidYMovement(topLeft, bottomLeft, dX, 3) == 3){
+				dY = 0;
+				System.out.println("Da ist ein NPC");
+				npcv = 1;
+			
+		}
 		}
 
 		// Bewegt den Charakter falls notwendig
