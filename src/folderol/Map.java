@@ -81,18 +81,24 @@ public class Map {
 		walkable.put(8, true);	// Start
 		walkable.put(9, true);	// Ziel
 		try {
-			texture.put(0, ImageIO.read(new File("./res/img/tiles/ground.png")));
-			texture.put(1, ImageIO.read(new File("./res/img/tiles/wall.png")));
-			texture.put(2, ImageIO.read(new File("./res/img/tiles/wall.png")));
-			texture.put(3, ImageIO.read(new File("./res/img/tiles/npc.png")));
-			texture.put(4, ImageIO.read(new File("./res/img/tiles/ground.png")));
-			texture.put(5, ImageIO.read(new File("./res/img/tiles/grass.png")));
-			texture.put(6, ImageIO.read(new File("./res/img/tiles/ground.png")));
-			texture.put(7, ImageIO.read(new File("./res/img/tiles/trap.png")));
-			texture.put(8, ImageIO.read(new File("./res/img/tiles/start.png")));
-			texture.put(9, ImageIO.read(new File("./res/img/tiles/finish.png")));
-			texture.put(90, ImageIO.read(new File("./res/img/tiles/ground.png")));
-			texture.put(91, ImageIO.read(new File("./res/img/tiles/ground.png")));
+			texture.put(0, ImageIO.read(new File("./res/img/ground.png")));
+			texture.put(1, ImageIO.read(new File("./res/img/wall.png")));
+			texture.put(2, ImageIO.read(new File("./res/img/wall.png")));
+			texture.put(3, ImageIO.read(new File("./res/img/npc.png")));
+			texture.put(4, ImageIO.read(new File("./res/img/ground.png")));
+			texture.put(5, ImageIO.read(new File("./res/img/grass.png")));
+			texture.put(6, ImageIO.read(new File("./res/img/ground.png")));
+			texture.put(7, ImageIO.read(new File("./res/img/trap.png")));
+			texture.put(8, ImageIO.read(new File("./res/img/start.png")));
+			texture.put(9, ImageIO.read(new File("./res/img/finish.png")));
+			texture.put(30, ImageIO.read(new File("./res/img/ground.png")));
+			texture.put(31, ImageIO.read(new File("./res/img/ground.png")));
+			texture.put(32, ImageIO.read(new File("./res/img/ground.png")));
+			texture.put(33, ImageIO.read(new File("./res/img/ground.png")));
+			texture.put(34, ImageIO.read(new File("./res/img/ground.png")));
+			texture.put(35, ImageIO.read(new File("./res/img/ground.png")));
+			texture.put(90, ImageIO.read(new File("./res/img/ground.png")));
+			texture.put(91, ImageIO.read(new File("./res/img/ground.png")));
 		} catch (IOException e) {e.printStackTrace();}
 	}
 	
@@ -185,7 +191,7 @@ public class Map {
 	public Point2D singleSearch(int value) {
 		for (int row = 0; row < rows; row++) {
 			for (int col = 0; col < cols; col++) {
-				if (mapArray[row][col] == 8) {
+				if (mapArray[row][col] == value) {
 					return (new Point2D.Double(col * 32, row * 32));
 				}
 			}

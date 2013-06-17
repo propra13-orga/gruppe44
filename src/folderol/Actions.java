@@ -243,6 +243,7 @@ public class Actions {
 			} else if (houston.logic.npcv == 1) {
 				Component frame = null;
 				JOptionPane.showMessageDialog(frame, "Wo ist der Meilenstein?!");
+				houston.logic.npcv = 0;
 			}
 		}
 
