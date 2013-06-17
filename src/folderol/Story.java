@@ -10,8 +10,6 @@ import javax.swing.JOptionPane;
 
 public class Story {
 	private Houston houston;
-	private Map map;
-	private GameLogic logic;
 	String storyUrl;
 	BufferedReader storyBuffer;
 	ArrayList<String> storyText;

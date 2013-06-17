@@ -180,17 +180,17 @@ public class MenuCards {
 			this.add(houston.c6map9);
 
 			JLabel label = new JLabel(
-					"<html>06:30 Der Wecker klingelt. \n" +
-					"06:35 Der Wecker klingelt nochmal. \n" +
-					"06:40 Der Wecker klingelt nochmal. \n" +
-					"06:45 Der Wecker klingelt nochmal. \n" +
-					"Musterstudierender steht auf. Zeit: Knapp. Motivation: M\u00e4\u00dfig. \n" +
-					"Was w\u00fcrde in der Uni nur auf Musterstudierender warten? \n" +
-					"Erste Vorlesung: Ein bisschen mit dem Handz spielen \n" +
-					"\u00dcbung: Sich anstrengen nicht einzuschlafen \n" +
-					"Dann ab in die Schweinemensa \n" +
+					"<html>06:30 Der Wecker klingelt. <p/>" +
+					"06:35 Der Wecker klingelt nochmal. <p/>" +
+					"06:40 Der Wecker klingelt nochmal. <p/>" +
+					"06:45 Der Wecker klingelt nochmal. <p/>" +
+					"Musterstudierender steht auf. Zeit: Knapp. Motivation: M\u00e4\u00dfig. <p/>" +
+					"Was w\u00fcrde in der Uni nur auf Musterstudierender warten? <p/>" +
+					"Erste Vorlesung: Ein bisschen mit dem Handy spielen. <p/>" +
+					"\u00dcbung: Sich anstrengen nicht einzuschlafen. <p/>" +
+					"Dann ab in die Schweinemensa. <p/>" +
 					"Doch was Musterstudierender nicht wusste, heute sollte kein gew\u00f6hnlicher Tag werden....<html>");
-			label.setBounds(75, 20, 600, 400);
+			label.setBounds(100, 20, 600, 300);
 			this.add(label);
 		}
 

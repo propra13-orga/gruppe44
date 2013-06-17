@@ -1,9 +1,7 @@
 package folderol;
 
-import java.awt.Component;
 import java.awt.event.ActionEvent;
 import javax.swing.AbstractAction;
-import javax.swing.JOptionPane;
 
 public class Actions {
 
