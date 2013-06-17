@@ -17,13 +17,13 @@ public class Magic extends Movable {
 	private Point2D centerPosition;
 	private Point2D endPosition;
 	public boolean remove;
-	private boolean playerMagic;
+	private boolean playerFromMagic;
 	
 	public Magic(Houston houston, Point2D centerPosition, Point2D endPosition, boolean playerMagic) {
 		this.houston = houston;
 		this.centerPosition = centerPosition;
 		this.endPosition = endPosition;
-		this.playerMagic = playerMagic;
+		this.playerFromMagic = playerMagic;
 		
 		speed = 300;
 		
@@ -49,18 +49,18 @@ public class Magic extends Movable {
 	
 	private void onMoved() {
 		for (Enemy enemy : houston.enemyLogic.enemies) {
-			if((bounds.intersects(enemy.bounds)) && (playerMagic)) {
+			if((bounds.intersects(enemy.bounds)) && (playerFromMagic)) {
 				enemy.decreaseHealth(10);
 				if(enemy.health <= 0){
-					if(enemy.bossAlive)
-						enemy.bossAlive = false;
+					if(houston.enemyLogic.bossIsAlive)
+						houston.enemyLogic.bossIsAlive = false;
 					enemy.remove= true;
 				}
 				remove = true;
 				houston.player.increaseMoney(10);
 			}
 		}
-		if((bounds.intersects(houston.player.bounds)) && (playerMagic == false)){
+		if((bounds.intersects(houston.player.bounds)) && (playerFromMagic == false)){
 			houston.player.decreaseHealth(10);
 			remove = true;
 		}

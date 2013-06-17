@@ -69,9 +69,8 @@ public class GameLogic {
 
 	// Regelt den Wechsel zur naechsten Karte
 	private void nextMap() {
-		for (Enemy enemy : enemyLogic.enemies) {
-			if(enemy.bossAlive)
-				return;
+		if(enemyLogic.bossIsAlive){
+			return;
 		}
 		player.stop();
 

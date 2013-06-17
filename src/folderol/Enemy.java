@@ -12,7 +12,6 @@ public class Enemy extends Movable{
 	private int direction;
 	private int enemyType;
 	public int shoot;
-	boolean bossAlive;
 	
 	public Enemy (Point2D resetPoint, int direction, int enemyType){
 		speed = 128;
@@ -52,15 +51,15 @@ public class Enemy extends Movable{
 	
 	private void setEnemyType() {
 		switch (enemyType) {
-		case 0: shoot = 0;		health = 10;						break; //Gegner Level 1, schieﬂt nicht
-		case 1: shoot = 1;		health = 10;						break; //Gegner Level 1, schieﬂt
-		case 2: shoot = 1;		health = 60;	bossAlive = true;	break; //Bossgegner Level 1
-		case 3: shoot = 0;		health = 20;						break; //Gegner Level 2, schieﬂt nicht
-		case 4: shoot = 1;		health = 20;						break; //Gegner Level 2, schieﬂt 
-		case 5: shoot = 1;		health = 80;	bossAlive = true;	break; //Bossgegner Level 2
-		case 6: shoot = 0;		health = 30;						break; //Gegner Level 3, schieﬂt nicht
-		case 7: shoot = 1;		health = 30;						break; //Gegner Level 3, schieﬂt
-		case 8: shoot = 1;		health = 100;	bossAlive = true;	break; //Bossgegner Level 3
+		case 0: shoot = 0;		health = 10;	break; //Gegner Level 1, schieﬂt nicht
+		case 1: shoot = 1;		health = 10;	break; //Gegner Level 1, schieﬂt
+		case 2: shoot = 1;		health = 60;	break; //Bossgegner Level 1
+		case 3: shoot = 0;		health = 20;	break; //Gegner Level 2, schieﬂt nicht
+		case 4: shoot = 1;		health = 20;	break; //Gegner Level 2, schieﬂt 
+		case 5: shoot = 1;		health = 80;	break; //Bossgegner Level 2
+		case 6: shoot = 0;		health = 30;	break; //Gegner Level 3, schieﬂt nicht
+		case 7: shoot = 1;		health = 30;	break; //Gegner Level 3, schieﬂt
+		case 8: shoot = 1;		health = 100;	break; //Bossgegner Level 3
 		default: break;
 		}
 	}

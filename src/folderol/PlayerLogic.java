@@ -39,8 +39,8 @@ public class PlayerLogic {
 			if (player.attackBox.intersects(enemy.bounds)) {
 				enemy.decreaseHealth(5);
 				if(enemy.health <= 0){
-					if(enemy.bossAlive)
-						enemy.bossAlive = false;
+					if(houston.enemyLogic.bossIsAlive)
+						houston.enemyLogic.bossIsAlive = false;
 					enemy.remove= true;
 					player.increaseMoney(10);
 				}

@@ -8,6 +8,7 @@ public class EnemyLogic {
 	private Houston houston;
 	public ArrayList<Enemy> enemies;
 	private Enemy enemy;
+	public 	boolean bossIsAlive;
 
 	public EnemyLogic(Houston houston) {
 		this.houston = houston;
@@ -37,6 +38,7 @@ public class EnemyLogic {
 		}
 		// Vertikale Bossgegner
 		for (Point2D singleEnemyPosition : houston.map.multiSearch(32)) {
+			bossIsAlive = true;
 			if (houston.map.getLevelNumber() == 0)
 				enemies.add(new Enemy(singleEnemyPosition, 0, 2));
 			if (houston.map.getLevelNumber() == 1)
@@ -64,6 +66,7 @@ public class EnemyLogic {
 		}
 		// Horizontale Bossgegner
 		for (Point2D singleEnemyPosition : houston.map.multiSearch(35)) {
+			bossIsAlive = true;
 			if (houston.map.getLevelNumber() == 0)
 				enemies.add(new Enemy(singleEnemyPosition, 3, 2));
 			if (houston.map.getLevelNumber() == 1)
