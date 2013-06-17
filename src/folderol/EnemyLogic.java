@@ -84,7 +84,7 @@ public class EnemyLogic {
 			if (enemy.remove) {
 				enemies.remove(i);
 			}
-			houston.logic.controlCharacterMovement(enemy);
+			houston.gameLogic.controlCharacterMovement(enemy);
 			playerEnemyCollisionDetection(enemy);
 		}
 	}

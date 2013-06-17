@@ -102,6 +102,7 @@ public class Map {
 			texture.put(35, ImageIO.read(new File("./res/img/tiles/ground.png")));
 			texture.put(90, ImageIO.read(new File("./res/img/tiles/ground.png")));
 			texture.put(91, ImageIO.read(new File("./res/img/tiles/ground.png")));
+			texture.put(92, ImageIO.read(new File("./res/img/tiles/ground.png")));
 		} catch (IOException e) {e.printStackTrace();}
 	}
 	

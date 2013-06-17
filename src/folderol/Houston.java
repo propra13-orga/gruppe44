@@ -77,7 +77,7 @@ public class Houston implements ActionListener, Runnable {
 	// Die Geschichte
 	Story story;
 	// In der Logik werden Berechnungen zur Laufzeit getaetigt
-	GameLogic logic;
+	GameLogic gameLogic;
 	// Das unterstützende Gehirn des Player
 	PlayerLogic playerLogic;
 	// Das Gehirn der Gegner
@@ -183,7 +183,7 @@ public class Houston implements ActionListener, Runnable {
 		inventory = new Inventory(this);
 		shop = new Shop(this);
 		
-		logic = new GameLogic(this);
+		gameLogic = new GameLogic(this);
 		// story = new Story(0, 0, 0);
 	}
 
@@ -195,7 +195,7 @@ public class Houston implements ActionListener, Runnable {
 			if (gameIsRunning) {
 				computeDelta();
 				// Berechnet z.B. Bewegungen im Spiel
-				logic.doGameUpdates(delta);
+				gameLogic.doGameUpdates(delta);
 				// Zeichnet die "Leinwand" in card4 neu
 				gamePanel.repaint();
 
@@ -345,7 +345,7 @@ public class Houston implements ActionListener, Runnable {
 		if (buttonClicked == c1b1) {
 			changeAppearance(INTRODUCTION);
 		} else if (buttonClicked == c6b1) {
-			logic.setupNewGame(0, 0);
+			gameLogic.setupNewGame(0, 0);
 			changeAppearance(false, true, GAME);
 		} else if (buttonClicked == c1b2) {
 			changeAppearance(SETTINGS);
@@ -370,32 +370,32 @@ public class Houston implements ActionListener, Runnable {
 
 			// Auswahl der einzelnen Level zu Testzwecken
 		} else if (buttonClicked == c6map1) {
-			logic.setupNewGame(0, 0);
+			gameLogic.setupNewGame(0, 0);
 			changeAppearance(false, true, GAME);
 		} else if (buttonClicked == c6map2) {
 			changeAppearance(false, true, GAME);
-			logic.setupNewGame(0, 1);
+			gameLogic.setupNewGame(0, 1);
 		} else if (buttonClicked == c6map3) {
 			changeAppearance(false, true, GAME);
-			logic.setupNewGame(0, 2);
+			gameLogic.setupNewGame(0, 2);
 		} else if (buttonClicked == c6map4) {
 			changeAppearance(false, true, GAME);
-			logic.setupNewGame(1, 0);
+			gameLogic.setupNewGame(1, 0);
 		} else if (buttonClicked == c6map5) {
 			changeAppearance(false, true, GAME);
-			logic.setupNewGame(1, 1);
+			gameLogic.setupNewGame(1, 1);
 		} else if (buttonClicked == c6map6) {
 			changeAppearance(false, true, GAME);
-			logic.setupNewGame(1, 2);
+			gameLogic.setupNewGame(1, 2);
 		} else if (buttonClicked == c6map7) {
 			changeAppearance(false, true, GAME);
-			logic.setupNewGame(2, 0);
+			gameLogic.setupNewGame(2, 0);
 		} else if (buttonClicked == c6map8) {
 			changeAppearance(false, true, GAME);
-			logic.setupNewGame(2, 1);
+			gameLogic.setupNewGame(2, 1);
 		} else if (buttonClicked == c6map9) {
 			changeAppearance(false, true, GAME);
-			logic.setupNewGame(2, 2);
+			gameLogic.setupNewGame(2, 2);
 
 			// Kuemmert sich um die Kaufbutton im Shop
 		} else if (buttonClicked == c7b1) {

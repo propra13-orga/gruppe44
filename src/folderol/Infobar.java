@@ -36,7 +36,10 @@ public class Infobar {
 		g.fillRect(96 + xo, 6 + yo, playerHealth, 6);
 		g.setColor(Color.BLACK);
 		g.drawLine(96 + playerHealth + xo, 6 + yo, 96 + playerHealth + xo, 12 + yo);
-
+		// Zeigt Armor an, falls es angelegt ist
+		if (player.armor != 100)
+			g.drawString("Schutzmantel", 110 + xo, 13 + yo);
+			
 		// Zeigt Mana an
 		g.setColor(Color.BLACK);
 		g.drawString("Mana :", 16 + xo, 26 + yo);
@@ -59,7 +62,7 @@ public class Infobar {
 		g.drawString(inventory.getCountOfManaPotion() + "/3", 440 + xo, 26 + yo);
 
 		// "Moechtest du zum Shop?" anzeigen
-		if (houston.logic.value == 5) {
+		if (houston.gameLogic.value == 5) {
 			g.drawString("M\u00f6chtest du zum Shop?", 512 + xo, 26 + yo);
 		}
 

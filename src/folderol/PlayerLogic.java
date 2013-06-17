@@ -24,8 +24,8 @@ public class PlayerLogic {
 
 	public void doGameUpdates() {
 		checkIfPlayerIsStillAlive();
-		houston.logic.detectSpecialTiles();
-		houston.logic.controlCharacterMovement(player);
+		houston.gameLogic.detectSpecialTiles();
+		houston.gameLogic.controlCharacterMovement(player);
 	}
 
 	private void checkIfPlayerIsStillAlive() {

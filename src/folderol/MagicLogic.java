@@ -55,7 +55,7 @@ public class MagicLogic {
 			if (magic.remove) {
 				magics.remove(i);
 			}
-			houston.logic.controlCharacterMovement(magic);
+			houston.gameLogic.controlCharacterMovement(magic);
 		}
 	}
 

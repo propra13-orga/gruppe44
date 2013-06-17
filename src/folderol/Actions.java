@@ -237,13 +237,13 @@ public class Actions {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			if (houston.logic.value == 5) {
+			if (houston.gameLogic.value == 5) {
 				houston.shop.resetShopView();
 				houston.changeAppearance(false, "SHOP");
-			} else if (houston.logic.npcv == 1) {
+			} else if (houston.gameLogic.npcv == 1) {
 				Component frame = null;
 				JOptionPane.showMessageDialog(frame, "Wo ist der Meilenstein?!");
-				houston.logic.npcv = 0;
+				houston.gameLogic.npcv = 0;
 			}
 		}
 

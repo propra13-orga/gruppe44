@@ -28,9 +28,8 @@ public class ItemLogic {
 		try {
 			texture.add(0, ImageIO.read(new File("./res/img/tiles/health.png")));
 			texture.add(1, ImageIO.read(new File("./res/img/tiles/mana.png")));
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+			texture.add(2, ImageIO.read(new File("./res/img/tiles/armor.png")));
+		} catch (IOException e) {e.printStackTrace();}
 	}
 
 	public void onLevelChange() {
@@ -41,6 +40,10 @@ public class ItemLogic {
 			items.add(new Item(this, singleItemPosition, itemType));
 		}
 		itemType = 1;
+		for (Point2D singleItemPosition : houston.map.multiSearch(90 + itemType)) {
+			items.add(new Item(this, singleItemPosition, itemType));
+		}
+		itemType = 2;
 		for (Point2D singleItemPosition : houston.map.multiSearch(90 + itemType)) {
 			items.add(new Item(this, singleItemPosition, itemType));
 		}
@@ -61,7 +64,6 @@ public class ItemLogic {
 				pickUpItem(item.itemType);
 			}
 		}
-
 	}
 
 	private void pickUpItem(int itemType) {
@@ -71,6 +73,9 @@ public class ItemLogic {
 			break;
 		case 1:
 			houston.inventory.addManaPotion();
+			break;
+		case 2:
+			houston.player.armor = 50;
 			break;
 		}
 	}

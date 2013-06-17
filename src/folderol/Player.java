@@ -14,6 +14,7 @@ public class Player extends Movable {
 	private int money;
 	// Maximale Werte für Health und Mana
 	public final int maxHealth = 100, maxMana = 100;
+	public int armor;
 
 	public Player() {
 		// Setzt Geschwindigkeit des Player
@@ -47,7 +48,6 @@ public class Player extends Movable {
 	public void changeTexture(int value) {
 		try {
 			if (value == 0) {
-
 				texture = ImageIO.read(new File("./res/img/characters/german_m1.png"));
 				texture = texture.getSubimage(0, 0, 32, 46);
 			}
@@ -55,16 +55,20 @@ public class Player extends Movable {
 				texture = ImageIO.read(new File("./res/img/characters/german_f2.png"));
 				texture = texture.getSubimage(0, 0, 32, 46);
 			}
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		} catch (IOException e) {e.printStackTrace();}
+	}
+	
+	@Override
+	public void decreaseHealth(int amountOfHealth) {
+		super.decreaseHealth(amountOfHealth * armor/100);
 	}
 
 	// Setzt Health, Mana und Money zurueck
-	public void resetHealthManaMoney(int health, int mana, int money) {
+	public void resetHealthManaMoneyArmor(int health, int mana, int money, int armor) {
 		this.health = health;
 		this.mana = mana;
 		this.money = money;
+		this.armor = armor;
 	}
 
 	// Money

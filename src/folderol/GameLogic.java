@@ -40,7 +40,7 @@ public class GameLogic {
 
 	// Startet ein neues Spiel
 	public void setupNewGame(int levelNumber, int mapNumber) {
-		player.resetHealthManaMoney(100, 100, 0);
+		player.resetHealthManaMoneyArmor(100, 100, 0, 100);
 		houston.inventory.clear();
 
 		changeLevel(levelNumber, mapNumber);
@@ -102,6 +102,7 @@ public class GameLogic {
 			} else if (isValidXMovement(topLeft, bottomLeft, dX, 3) == 3) {
 				dX = 0;
 				npcv = 1;
+				character.onWallHit();
 			}
 
 			// Bewegung nach Rechts
@@ -113,6 +114,7 @@ public class GameLogic {
 			} else if (isValidXMovement(topRight, bottomRight, dX, 3) == 3) {
 				dX = 0;
 				npcv = 1;
+				character.onWallHit();
 			}
 		}
 
@@ -125,6 +127,7 @@ public class GameLogic {
 			} else if (isValidYMovement(topLeft, topRight, dX, 3) == 3) {
 				dY = 0;
 				npcv = 1;
+				character.onWallHit();
 			}
 
 			// Bewegung nach Unten
@@ -136,6 +139,7 @@ public class GameLogic {
 			} else if (isValidYMovement(bottomLeft, bottomRight, dX, 3) == 3) {
 				dY = 0;
 				npcv = 1;
+				character.onWallHit();
 			}
 		}
 
