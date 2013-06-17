@@ -4,20 +4,24 @@ import java.awt.Component;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
 
 import javax.swing.JOptionPane;
 
 public class Story {
 	private Houston houston;
 	private Map map;
+	private GameLogic logic;
 	String storyUrl;
-	private String[] storyUrls;
 	BufferedReader storyBuffer;
-	String[] storyText;
+	ArrayList<String> storyText;
 	private int mapNumber;
-	private int levelNumber;
 
-	public Story(int mapNumber, int levelNumber, int storyCounter) {
+
+	public Story(int mapNumber, Houston houston) {
+		this.houston = houston;
+		this.mapNumber = mapNumber;
+		storyText = new ArrayList<String>();
 		try {
 			initializeStory();
 		} catch (IOException e) {e.printStackTrace();}
@@ -30,9 +34,8 @@ public class Story {
 
 	}
 	
-	void renewStory(int levelNumber, int mapNumber) {
+	void renewStory(int mapNumber) {
 		this.mapNumber = mapNumber;
-		this.levelNumber = levelNumber;
 		try {
 			initializeStory();
 		} catch (IOException e) {
@@ -50,15 +53,21 @@ public class Story {
 	
 	private void assignFileContentToStoryText() {
 		String tempLine;
-		
 
 		try {
 			for (int row = 0; ((tempLine = storyBuffer.readLine()) != null); row++) {
-				storyText[row]= tempLine;
+				storyText.add(row, tempLine);
 				} 
 
 		} catch (NumberFormatException | IOException e) {
 			e.printStackTrace();
 		}
+	}
+
+	public void showText() {
+		Component frame = null;
+		JOptionPane.showMessageDialog(frame, storyText.get(mapNumber));
+		houston.gameLogic.npcv = 0;
+		
 	}
 }

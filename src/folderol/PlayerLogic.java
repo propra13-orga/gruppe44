@@ -30,6 +30,10 @@ public class PlayerLogic {
 
 	private void checkIfPlayerIsStillAlive() {
 		if (player.getHealth() <= 0) {
+			player.lives--;
+			player.increaseHealth(100);
+		}
+		if (player.lives == 0){
 			houston.changeAppearance(true, false, "STARTMENU");
 		}
 	}

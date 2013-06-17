@@ -15,6 +15,7 @@ public class Player extends Movable {
 	// Maximale Werte für Health und Mana
 	public final int maxHealth = 100, maxMana = 100;
 	public int armor;
+	public int lives;
 
 	public Player() {
 		// Setzt Geschwindigkeit des Player
@@ -64,11 +65,12 @@ public class Player extends Movable {
 	}
 
 	// Setzt Health, Mana und Money zurueck
-	public void resetHealthManaMoneyArmor(int health, int mana, int money, int armor) {
+	public void resetHealthManaMoneyArmorLives(int health, int mana, int money, int armor, int lives) {
 		this.health = health;
 		this.mana = mana;
 		this.money = money;
 		this.armor = armor;
+		this.lives = lives;
 	}
 
 	// Money
