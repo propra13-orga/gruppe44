@@ -180,8 +180,17 @@ public class MenuCards {
 			this.add(houston.c6map9);
 
 			JLabel label = new JLabel(
-					"Eine Story f\u00fcr das Spiel wird hier sp\u00e4ter noch eingef\u00fcgt. ");
-			label.setBounds(184, 200, 400, 100);
+					"<html>06:30 Der Wecker klingelt. \n" +
+					"06:35 Der Wecker klingelt nochmal. \n" +
+					"06:40 Der Wecker klingelt nochmal. \n" +
+					"06:45 Der Wecker klingelt nochmal. \n" +
+					"Musterstudierender steht auf. Zeit: Knapp. Motivation: M\u00e4\u00dfig. \n" +
+					"Was w\u00fcrde in der Uni nur auf Musterstudierender warten? \n" +
+					"Erste Vorlesung: Ein bisschen mit dem Handz spielen \n" +
+					"\u00dcbung: Sich anstrengen nicht einzuschlafen \n" +
+					"Dann ab in die Schweinemensa \n" +
+					"Doch was Musterstudierender nicht wusste, heute sollte kein gew\u00f6hnlicher Tag werden....<html>");
+			label.setBounds(75, 20, 600, 400);
 			this.add(label);
 		}
 
