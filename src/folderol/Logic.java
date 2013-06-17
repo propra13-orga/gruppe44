@@ -17,6 +17,7 @@ public class Logic {
 	private long delta;
 	private double dX, dY;
 	public int value;
+	public int npcv;
 
 	public Logic(Houston houston) {
 		this.houston	= houston;
@@ -117,21 +118,27 @@ public class Logic {
 	private void contrallCharacterMovement(Movable character) {
 		dX = dY = 0;
 		getCharacterCorners(character);
-		
+
 		// Bewegung nach Links
 		if (character.left && !character.right) {
 			dX = -character.speed * (delta / 1e9);
 			if (isValidXMovement(topLeft, bottomLeft, dX, 1) == 1) {
 				dX = 0;
 				character.onWallHit();
+			} else if (isValidXMovement(topLeft, bottomLeft, dX, 3) == 3) {
+				dX = 0;
+				npcv = 1;
 			}
 
-		// Bewegung nach Rechts
+			// Bewegung nach Rechts
 		} else if (character.right && !character.left) {
 			dX = character.speed * (delta / 1e9);
 			if (isValidXMovement(topRight, bottomRight, dX, 1) == 1) {
 				dX = 0;
 				character.onWallHit();
+			} else if (isValidXMovement(topRight, bottomRight, dX, 3) == 3) {
+				dX = 0;
+				npcv = 1;
 			}
 		}
 
@@ -141,14 +148,20 @@ public class Logic {
 			if (isValidYMovement(topLeft, topRight, dY, 1) == 1) {
 				dY = 0;
 				character.onWallHit();
+			} else if (isValidYMovement(topLeft, topRight, dX, 3) == 3) {
+				dY = 0;
+				npcv = 1;
 			}
 
-		// Bewegung nach Unten
+			// Bewegung nach Unten
 		} else if (character.down && !character.up) {
 			dY = character.speed * (delta / 1e9);
 			if (isValidYMovement(bottomLeft, bottomRight, dY, 1) == 1) {
 				dY = 0;
 				character.onWallHit();
+			} else if (isValidYMovement(bottomLeft, bottomRight, dX, 3) == 3) {
+				dY = 0;
+				npcv = 1;
 			}
 		}
 

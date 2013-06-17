@@ -1,7 +1,9 @@
 package folderol;
 
+import java.awt.Component;
 import java.awt.event.ActionEvent;
 import javax.swing.AbstractAction;
+import javax.swing.JOptionPane;
 
 public class Actions {
 
@@ -238,11 +240,9 @@ public class Actions {
 			if (houston.logic.value == 5) {
 				houston.shop.resetShopView();
 				houston.changeAppearance(false, "SHOP");
-			} else if (houston.logic.value == 3) {
-				houston.player.stop();
-				// Hier koennte, fuer spezielle NPC eine Abfrage stehen ob storyCounter erhoeht wird
-				// Text einfuegen, der in storyText steht
-			
+			} else if (houston.logic.npcv == 1) {
+				Component frame = null;
+				JOptionPane.showMessageDialog(frame, "Wo ist der Meilenstein?!");
 			}
 		}
 
