@@ -51,8 +51,11 @@ public class Magic extends Movable {
 		for (Enemy enemy : houston.enemyLogic.enemies) {
 			if((bounds.intersects(enemy.bounds)) && (playerMagic)) {
 				enemy.decreaseHealth(10);
-				if(enemy.health <= 0)
+				if(enemy.health <= 0){
+					if(enemy.bossAlive)
+						enemy.bossAlive = false;
 					enemy.remove= true;
+				}
 				remove = true;
 				houston.player.increaseMoney(10);
 			}
