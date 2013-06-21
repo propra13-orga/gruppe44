@@ -1,4 +1,4 @@
-package folderol;
+package Main;
 
 import java.awt.Graphics2D;
 import java.awt.geom.Point2D;
@@ -14,8 +14,8 @@ public class Enemy extends Movable{
 	public int shoot;
 	
 	public Enemy (Point2D resetPoint, int direction, int enemyType){
-		speed = 128;
-		bounds = new Rectangle2D.Double(resetPoint.getX(), resetPoint.getY(), 28, 28);
+		setSpeed(128);
+		setBounds(new Rectangle2D.Double(resetPoint.getX(), resetPoint.getY(), 28, 28));
 
 		this.direction = direction;
 		setDirection();
@@ -31,7 +31,7 @@ public class Enemy extends Movable{
 	@Override
 	public void drawObjects(Graphics2D g) {
 		super.drawObjects(g);
-		g.drawImage(texture, (int) bounds.getX() - 2, (int) bounds.getY() - 18, null);
+		g.drawImage(texture, (int) getX() - 2, (int) getY() - 18, null);
 	}
 	
 	private void turn180() {
@@ -41,25 +41,25 @@ public class Enemy extends Movable{
 	
 	private void setDirection() {
 		switch (direction) {
-		case 0: up = true;		down = false;	break;
-		case 3: right = true;	left = false;	break;
-		case 6: down= true;		up = false;		break;
-		case 9: left = true;	right = false;	break;
+		case 0: setUp(100);			setDown(0);		break;
+		case 3: setRight(100);		setLeft(0);		break;
+		case 6: setDown(100);		setUp(0);		break;
+		case 9: setLeft(100);		setRight(0);	break;
 		default: break;
 		}		
 	}
 	
 	private void setEnemyType() {
 		switch (enemyType) {
-		case 0: shoot = 0;		health = 10;	break; //Gegner Level 1, schieﬂt nicht
-		case 1: shoot = 1;		health = 10;	break; //Gegner Level 1, schieﬂt
-		case 2: shoot = 1;		health = 60;	break; //Bossgegner Level 1
-		case 3: shoot = 0;		health = 20;	break; //Gegner Level 2, schieﬂt nicht
-		case 4: shoot = 1;		health = 20;	break; //Gegner Level 2, schieﬂt 
-		case 5: shoot = 1;		health = 80;	break; //Bossgegner Level 2
-		case 6: shoot = 0;		health = 30;	break; //Gegner Level 3, schieﬂt nicht
-		case 7: shoot = 1;		health = 30;	break; //Gegner Level 3, schieﬂt
-		case 8: shoot = 1;		health = 100;	break; //Bossgegner Level 3
+		case 0: shoot = 0;		setHealth(10);	break; // Gegner Level 1, schiesst nicht
+		case 1: shoot = 1;		setHealth(10);	break; // Gegner Level 1, schiesst
+		case 2: shoot = 1;		setHealth(60);	break; // Bossgegner Level 1
+		case 3: shoot = 0;		setHealth(20);	break; // Gegner Level 2, schiesst nicht
+		case 4: shoot = 1;		setHealth(20);	break; // Gegner Level 2, schiesst 
+		case 5: shoot = 1;		setHealth(80);	break; // Bossgegner Level 2
+		case 6: shoot = 0;		setHealth(30);	break; // Gegner Level 3, schiesst nicht
+		case 7: shoot = 1;		setHealth(30);	break; // Gegner Level 3, schiesst
+		case 8: shoot = 1;		setHealth(100);	break; // Bossgegner Level 3
 		default: break;
 		}
 	}

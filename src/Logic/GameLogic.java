@@ -1,6 +1,8 @@
-package folderol;
+package Logic;
 
 import java.awt.geom.Point2D;
+
+import Main.*;
 
 public class GameLogic {
 
@@ -94,8 +96,8 @@ public class GameLogic {
 		getCharacterCorners(character);
 
 		// Bewegung nach Links
-		if (character.left && !character.right) {
-			dX = -character.speed * (delta / 1e9);
+		if (character.getLeft() > 0 && character.getRight() == 0) {
+			dX = character.getDX(-1, delta);
 			if (isValidXMovement(topLeft, bottomLeft, dX, 1) == 1) {
 				dX = 0;
 				character.onWallHit();
@@ -106,8 +108,8 @@ public class GameLogic {
 			}
 
 			// Bewegung nach Rechts
-		} else if (character.right && !character.left) {
-			dX = character.speed * (delta / 1e9);
+		} else if (character.getRight() > 0 && character.getLeft() == 0) {
+			dX = character.getDX(1, delta);
 			if (isValidXMovement(topRight, bottomRight, dX, 1) == 1) {
 				dX = 0;
 				character.onWallHit();
@@ -119,8 +121,8 @@ public class GameLogic {
 		}
 
 		// Bewegung nach Oben
-		if (character.up && !character.down) {
-			dY = -character.speed * (delta / 1e9);
+		if (character.getUp() > 0 && character.getDown() == 0) {
+			dY = character.getDY(-1, delta);
 			if (isValidYMovement(topLeft, topRight, dY, 1) == 1) {
 				dY = 0;
 				character.onWallHit();
@@ -131,8 +133,8 @@ public class GameLogic {
 			}
 
 			// Bewegung nach Unten
-		} else if (character.down && !character.up) {
-			dY = character.speed * (delta / 1e9);
+		} else if (character.getDown() > 0 && character.getUp() == 0) {
+			dY = character.getDY(1, delta);
 			if (isValidYMovement(bottomLeft, bottomRight, dY, 1) == 1) {
 				dY = 0;
 				character.onWallHit();
@@ -142,7 +144,7 @@ public class GameLogic {
 				character.onWallHit();
 			}
 		}
-
+		
 		// Bewegt den Charakter falls notwendig
 		if (dX != 0 || dY != 0)
 			character.move(dX, dY);
@@ -150,8 +152,12 @@ public class GameLogic {
 	
 	// Ermittelt, ob sich der Player auf einer Speziellen Kachel befindet, und leitet entsprechende Massnahmen ein
 	public void detectSpecialTiles() {
-		if (player.left || player.right || player.up || player.down) {
-			value = (map.mapArray[(int) Math.floor(player.getY() + (player.getHeight()/2))/32][(int) Math.floor((player.getX() + (player.getWidth()/2))/32)]);
+		if (player.isMoving()) {
+			try {
+				value = (map.mapArray[(int) Math.floor(player.getY() + (player.getHeight()/2))/32][(int) Math.floor((player.getX() + (player.getWidth()/2))/32)]);
+			} catch (ArrayIndexOutOfBoundsException e) {
+				System.out.println("ungueltige Position x:"+player.getX()+" y:"+player.getY()); die();
+			}
 			
 			// entsprechende Massnahmen
 			if (value == 7) { 
@@ -175,22 +181,38 @@ public class GameLogic {
 
 	// Ermittelt, ob die, durch horizontale Bewegung dX, errechnete neue Position (des Spielers) in einer Wand liegt oder nicht
 	private int isValidXMovement(Point2D pointTop, Point2D pointBottom, double dX, int checkValue) {
-		if ((map.mapArray[(int) Math.floor(pointTop.getY()/32)][(int) Math.floor((pointTop.getX()+dX)/32)] == checkValue)) return checkValue;
-		else if ((map.mapArray[(int) Math.floor(pointBottom.getY()/32)][(int) Math.floor((pointBottom.getX()+dX)/32)] == checkValue)) return checkValue;
+		try {
+			if ((map.mapArray[(int) Math.floor(pointTop.getY()/32)][(int) Math.floor((pointTop.getX()+dX)/32)] == checkValue))
+				return checkValue;
+			else if ((map.mapArray[(int) Math.floor(pointBottom.getY()/32)][(int) Math.floor((pointBottom.getX()+dX)/32)] == checkValue))
+				return checkValue;
+		} catch (ArrayIndexOutOfBoundsException e) {
+			System.out.println("ungueltige x Bewegung pT:"+pointTop+" pB:"+pointBottom); die();
+		}
 		return 0;
 	}
 
 	// Ermittelt, ob die, durch vertikale Bewegung dY, errechnete neue Position (des Spielers) in einer Wand liegt oder nicht
 	private int isValidYMovement(Point2D pointLeft, Point2D pointRight, double dY2, int checkValue) {
-		if ((map.mapArray[(int) Math.floor(pointLeft.getY()+dY)/32][(int) Math.floor(pointLeft.getX()/32)] == checkValue)) return checkValue;
-		else if ((map.mapArray[(int) Math.floor(pointRight.getY()+dY)/32][(int) Math.floor(pointRight.getX()/32)] == checkValue)) return checkValue;
+		try {
+			if ((map.mapArray[(int) Math.floor(pointLeft.getY()+dY)/32][(int) Math.floor(pointLeft.getX()/32)] == checkValue))
+				return checkValue;
+			else if ((map.mapArray[(int) Math.floor(pointRight.getY()+dY)/32][(int) Math.floor(pointRight.getX()/32)] == checkValue))
+				return checkValue;
+		} catch (ArrayIndexOutOfBoundsException e) {
+			System.out.println("ungueltige y Bewegung pL:"+pointLeft+" pR:"+pointRight); die();
+		}
 		return 0;
 	}
 
 	private void backToLastCheckpoint() {
 		// Zurueck zur ersten Karte des aktuellen Level
 		changeLevel(map.getLevelNumber(), 0);
-		player.armor = 100;
+		player.setArmor(100);
+	}
+	
+	private void die() {
+		houston.changeAppearance(true, false, "STARTMENU");
 	}
 
 }

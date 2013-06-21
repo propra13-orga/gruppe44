@@ -1,4 +1,4 @@
-package folderol;
+package Main;
 
 /**
  * 
@@ -33,6 +33,11 @@ import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.KeyStroke;
 
+import Logic.EnemyLogic;
+import Logic.GameLogic;
+import Logic.ItemLogic;
+import Logic.MagicLogic;
+import Logic.PlayerLogic;
 
 public class Houston implements ActionListener, Runnable {
 
@@ -67,25 +72,25 @@ public class Houston implements ActionListener, Runnable {
 	private CardLayout cl;
 	
 	// Durch den Spieler gesteuerter Charakter
-	Player player;
+	public Player player;
 	// Die Karte
-	Map map;
+	public Map map;
 	// Das Inventar hält Items, die z.B. eingesammelt werden
-	Inventory inventory;
+	public Inventory inventory;
 	// Im Shop können Items gekauft werden
-	Shop shop;
+	public Shop shop;
 	// Die Geschichte
-	Story story;
+	public Story story;
 	// In der Logik werden Berechnungen zur Laufzeit getaetigt
-	GameLogic gameLogic;
+	public GameLogic gameLogic;
 	// Das unterstützende Gehirn des Player
-	PlayerLogic playerLogic;
+	public PlayerLogic playerLogic;
 	// Das Gehirn der Gegner
-	EnemyLogic enemyLogic;
+	public EnemyLogic enemyLogic;
 	// Die Logik der Magie
-	MagicLogic magicLogic;
+	public MagicLogic magicLogic;
 	// Die Logik der Items
-	ItemLogic itemLogic;
+	public ItemLogic itemLogic;
 
 	
 	// Die im Menue vorhandenen Knoepfe

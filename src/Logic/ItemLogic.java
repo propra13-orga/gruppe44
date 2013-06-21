@@ -1,4 +1,4 @@
-package folderol;
+package Logic;
 
 import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
@@ -7,6 +7,10 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
+
+import Main.Houston;
+import Main.Item;
+
 
 public class ItemLogic {
 
@@ -37,15 +41,15 @@ public class ItemLogic {
 
 		itemType = 0;
 		for (Point2D singleItemPosition : houston.map.multiSearch(90 + itemType)) {
-			items.add(new Item(this, singleItemPosition, itemType));
+			items.add(new Item(texture.get(itemType), singleItemPosition, itemType));
 		}
 		itemType = 1;
 		for (Point2D singleItemPosition : houston.map.multiSearch(90 + itemType)) {
-			items.add(new Item(this, singleItemPosition, itemType));
+			items.add(new Item(texture.get(itemType), singleItemPosition, itemType));
 		}
 		itemType = 2;
 		for (Point2D singleItemPosition : houston.map.multiSearch(90 + itemType)) {
-			items.add(new Item(this, singleItemPosition, itemType));
+			items.add(new Item(texture.get(itemType), singleItemPosition, itemType));
 		}
 	}
 
@@ -59,7 +63,7 @@ public class ItemLogic {
 				continue;
 			}
 			// Prüft, ob das Item sich mit dem Player überschneidet
-			if (item.bounds.intersects(houston.player.bounds)) {
+			if (item.bounds.intersects(houston.player.getBounds())) {
 				item.remove = true;
 				pickUpItem(item.itemType);
 			}
@@ -75,7 +79,7 @@ public class ItemLogic {
 			houston.inventory.addManaPotion();
 			break;
 		case 2:
-			houston.player.armor = 50;
+			houston.player.setArmor(50);
 			break;
 		}
 	}

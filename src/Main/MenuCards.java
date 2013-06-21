@@ -1,4 +1,4 @@
-package folderol;
+package Main;
 
 import javax.swing.ButtonGroup;
 import javax.swing.ImageIcon;

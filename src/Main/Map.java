@@ -1,4 +1,4 @@
-package folderol;
+package Main;
 
 import java.awt.Graphics2D;
 import java.awt.geom.Point2D;
@@ -60,7 +60,6 @@ public class Map {
 	public void drawObjects(Graphics2D g) {
 		
 		int value;
-		
 		
 		for (int row = 0; row < rows; row++) {
 			for (int col = 0; col < cols; col++) {

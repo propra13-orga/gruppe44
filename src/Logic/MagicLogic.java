@@ -1,10 +1,14 @@
-package folderol;
+package Logic;
 
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import Main.Enemy;
+import Main.Houston;
+import Main.Magic;
+import Main.Player;
 
 public class MagicLogic {
 

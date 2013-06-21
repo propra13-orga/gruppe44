@@ -1,4 +1,4 @@
-package folderol;
+package Main;
 
 public class Inventory {
 

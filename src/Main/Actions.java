@@ -1,7 +1,8 @@
-package folderol;
+package Main;
 
 import java.awt.event.ActionEvent;
 import javax.swing.AbstractAction;
+
 
 public class Actions {
 
@@ -68,7 +69,7 @@ public class Actions {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			// System.out.println("pressedUp");
-			houston.player.up = true;
+			houston.player.setUp(100);
 		}
 
 	}
@@ -85,7 +86,7 @@ public class Actions {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			// System.out.println("pressedDown");
-			houston.player.down = true;
+			houston.player.setDown(100);
 		}
 
 	}
@@ -102,7 +103,7 @@ public class Actions {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			// System.out.println("pressedLeft");
-			houston.player.left = true;
+			houston.player.setLeft(100);
 		}
 
 	}
@@ -119,7 +120,7 @@ public class Actions {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			// System.out.println("pressedRight");
-			houston.player.right = true;
+			houston.player.setRight(100);
 		}
 
 	}
@@ -136,7 +137,7 @@ public class Actions {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			// System.out.println("releasedUp");
-			houston.player.up = false;
+			houston.player.setUp(0);
 		}
 
 	}
@@ -153,7 +154,7 @@ public class Actions {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			// System.out.println("releasedDown");
-			houston.player.down = false;
+			houston.player.setDown(0);
 		}
 
 	}
@@ -170,7 +171,7 @@ public class Actions {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			// System.out.println("releasedLeft");
-			houston.player.left = false;
+			houston.player.setLeft(0);
 		}
 
 	}
@@ -187,7 +188,7 @@ public class Actions {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			// System.out.println("releasedRight");
-			houston.player.right = false;
+			houston.player.setRight(0);
 		}
 
 	}

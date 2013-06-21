@@ -1,4 +1,4 @@
-package folderol;
+package Main;
 
 import java.awt.Graphics2D;
 import java.awt.geom.Point2D;
@@ -10,28 +10,28 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 
 public class Magic extends Movable {
-	
+
 	private Houston houston;
-	
+
 	private BufferedImage picture;
 	private Point2D centerPosition;
 	private Point2D endPosition;
 	public boolean remove;
 	private boolean magicFromPlayer;
-	
+
 	public Magic(Houston houston, Point2D centerPosition, Point2D endPosition, boolean playerMagic) {
 		this.houston = houston;
 		this.centerPosition = centerPosition;
 		this.endPosition = endPosition;
 		this.magicFromPlayer = playerMagic;
 		
-		speed = 300;
+		setSpeed(300);
 		
 		try {
 			picture = ImageIO.read(new File("./res/img/tiles/ungleich.png"));
 		} catch (IOException e){ e.printStackTrace(); }
 		 
-		bounds = new Rectangle2D.Double(centerPosition.getX() - (picture.getWidth() / 2), centerPosition.getY() - (picture.getHeight() / 2), picture.getWidth(), picture.getHeight());
+		setBounds(new Rectangle2D.Double(centerPosition.getX() - (picture.getWidth() / 2), centerPosition.getY() - (picture.getHeight() / 2), picture.getWidth(), picture.getHeight()));
 		 
 		calculateDirection();
 	}
@@ -44,14 +44,14 @@ public class Magic extends Movable {
 	}
 	
 	public void drawObjects(Graphics2D g) {
-		g.drawImage(picture, (int) bounds.getX(), (int) bounds.getY(), null);
+		g.drawImage(picture, (int) getBounds().getX(), (int) getBounds().getY(), null);
 	}
 	
 	private void onMoved() {
 		for (Enemy enemy : houston.enemyLogic.enemies) {
-			if((bounds.intersects(enemy.bounds)) && (magicFromPlayer)) {
+			if((getBounds().intersects(enemy.getBounds())) && (magicFromPlayer)) {
 				enemy.decreaseHealth(10);
-				if(enemy.health <= 0){
+				if(enemy.getHealth() <= 0){
 					if(houston.enemyLogic.bossIsAlive)
 						houston.enemyLogic.bossIsAlive = false;
 					enemy.remove= true;
@@ -60,28 +60,28 @@ public class Magic extends Movable {
 				houston.player.increaseMoney(10);
 			}
 		}
-		if((bounds.intersects(houston.player.bounds)) && (magicFromPlayer == false)){
+		if((getBounds().intersects(houston.player.getBounds())) && (magicFromPlayer == false)){
 			houston.player.decreaseHealth(10);
 			remove = true;
 		}
 	}
 	
 	private void calculateDirection() {
-		left = right = up = down = false;
+		stop();
 		
 		double differenceX = endPosition.getX() - centerPosition.getX();
 		double differenceY = endPosition.getY() - centerPosition.getY();
 
 		if (Math.abs(differenceX) > Math.abs(differenceY)) {
 			if (differenceX < 0)
-				left = true;
+				setLeft(100);
 			else
-				right = true;
+				setRight(100);
 		} else {
 			if (differenceY < 0)
-				up = true;
+				setUp(100);
 			else
-				down = true;
+				setDown(100);
 		}
 		
 	}

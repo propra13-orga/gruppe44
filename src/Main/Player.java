@@ -1,4 +1,4 @@
-package folderol;
+package Main;
 
 import java.awt.Graphics2D;
 import java.awt.geom.Point2D;
@@ -14,18 +14,18 @@ public class Player extends Movable {
 	private int money;
 	// Maximale Werte für Health und Mana
 	public final int maxHealth = 100, maxMana = 100;
-	public int armor;
-	public int lives;
+	private int armor;
+	private int lives;
 
 	public Player() {
 		// Setzt Geschwindigkeit des Player
-		speed = 128;
+		setSpeed(128);
 
 		// Setzt Ursprungsposition des Player
 		resetPoint = new Point2D.Double();
 
 		// Setzt Position und Groesse des Player
-		bounds = new Rectangle2D.Double(0, 0, 28, 28);
+		setBounds(new Rectangle2D.Double(0, 0, 28, 28));
 		
 		attackBox = new Rectangle2D.Double(0, 0, 48, 48);
 
@@ -36,12 +36,12 @@ public class Player extends Movable {
 	// Zeichnet den spieler
 	@Override
 	public void drawObjects(Graphics2D g) {
-		g.drawImage(texture, (int) bounds.getX() - 2, (int) bounds.getY() - 18, null);
+		g.drawImage(texture, (int) getBounds().getX() - 2, (int) getBounds().getY() - 18, null);
 	}
 	
 	@Override
 	public void move(double dX, double dY) {
-		bounds.setRect(bounds.getX() + dX, bounds.getY() + dY, bounds.getWidth(), bounds.getHeight());
+		getBounds().setRect(getBounds().getX() + dX, getBounds().getY() + dY, getBounds().getWidth(), getBounds().getHeight());
 		attackBox.setRect(attackBox.getX() + dX, attackBox.getY() + dY, attackBox.getWidth(), attackBox.getHeight());
 	}
 
@@ -66,8 +66,8 @@ public class Player extends Movable {
 
 	// Setzt Health, Mana und Money zurueck
 	public void resetHealthManaMoneyArmorLives(int health, int mana, int money, int armor, int lives) {
-		this.health = health;
-		this.mana = mana;
+		setHealth(health);
+		setMana(mana);
 		this.money = money;
 		this.armor = armor;
 		this.lives = lives;
@@ -85,6 +85,24 @@ public class Player extends Movable {
 	public void decreaseMoney(int amountOfMoney) {
 		if (money > 0)
 			money -= amountOfMoney;
+	}
+	
+	// Armor
+	public int getArmor() {
+		return armor;
+	}
+	
+	public void setArmor(int armor) {
+		this.armor = armor;
+	}
+	
+	// Lives
+	public int getLives() {
+		return lives;
+	}
+	
+	public void setLives(int lives) {
+		this.lives = lives;
 	}
 	
 	@Override

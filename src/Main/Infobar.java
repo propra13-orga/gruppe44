@@ -1,4 +1,4 @@
-package folderol;
+package Main;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
@@ -42,7 +42,7 @@ public class Infobar {
 		g.setColor(Color.BLACK);
 		g.drawLine(96 + playerHealth + xo, 6 + yo, 96 + playerHealth + xo, 12 + yo);
 		// Zeigt Armor an, falls es angelegt ist
-		if (player.armor != 100)
+		if (player.getArmor() != 100)
 			g.drawString("Rüstung", 512 + xo, 13 + yo);
 		
 		//Zeichnet die Leben als Herzen
@@ -50,9 +50,9 @@ public class Infobar {
 		try {
 			heartPicture = ImageIO.read(new File("./res/img/infobar/heart.png"));
 		} catch (IOException e) { e.printStackTrace();}
-		if(player.lives > 1)
+		if(player.getLives() > 1)
 			g.drawImage(heartPicture , 210 + xo, 6 + yo, null);
-		if(player.lives > 2)
+		if(player.getLives() > 2)
 			g.drawImage(heartPicture , 230 + xo, 6 + yo, null);
 			
 		// Zeigt Mana an

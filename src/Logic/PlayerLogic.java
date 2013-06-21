@@ -1,6 +1,11 @@
-package folderol;
+package Logic;
 
 import java.awt.geom.Point2D;
+
+import Main.Enemy;
+import Main.Houston;
+import Main.Player;
+
 
 public class PlayerLogic {
 
@@ -30,19 +35,19 @@ public class PlayerLogic {
 
 	private void checkIfPlayerIsStillAlive() {
 		if (player.getHealth() <= 0) {
-			player.lives--;
+			player.setLives(player.getLives() - 1);
 			player.increaseHealth(100);
 		}
-		if (player.lives == 0){
+		if (player.getLives() == 0){
 			houston.changeAppearance(true, false, "STARTMENU");
 		}
 	}
 
 	public void attack() {
 		for (Enemy enemy : houston.enemyLogic.enemies) {
-			if (player.attackBox.intersects(enemy.bounds)) {
+			if (player.attackBox.intersects(enemy.getBounds())) {
 				enemy.decreaseHealth(5);
-				if(enemy.health <= 0){
+				if(enemy.getHealth() <= 0){
 					if(houston.enemyLogic.bossIsAlive)
 						houston.enemyLogic.bossIsAlive = false;
 					enemy.remove= true;

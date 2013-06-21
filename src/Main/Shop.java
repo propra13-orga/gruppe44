@@ -1,4 +1,5 @@
-package folderol;
+package Main;
+
 
 public class Shop {
 
