@@ -4,66 +4,44 @@ import java.awt.Graphics2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
-
-import javax.imageio.ImageIO;
 
 public class Magic extends Movable {
 
-	private Houston houston;
-
-	private BufferedImage picture;
+	private BufferedImage texture;
 	private Point2D centerPosition;
 	private Point2D endPosition;
 	public boolean remove;
 	private boolean magicFromPlayer;
 
-	public Magic(Houston houston, Point2D centerPosition, Point2D endPosition, boolean playerMagic) {
-		this.houston = houston;
+	public Magic(BufferedImage texture, Point2D centerPosition, Point2D endPosition, boolean playerMagic) {
+		this.texture = texture;
 		this.centerPosition = centerPosition;
 		this.endPosition = endPosition;
-		this.magicFromPlayer = playerMagic;
+		this.setMagicFromPlayer(playerMagic);
 		
 		setSpeed(300);
 		
-		try {
-			picture = ImageIO.read(new File("./res/img/tiles/ungleich.png"));
-		} catch (IOException e){ e.printStackTrace(); }
-		 
-		setBounds(new Rectangle2D.Double(centerPosition.getX() - (picture.getWidth() / 2), centerPosition.getY() - (picture.getHeight() / 2), picture.getWidth(), picture.getHeight()));
+		setBounds(new Rectangle2D.Double(centerPosition.getX() - (texture.getWidth() / 2), centerPosition.getY() - (texture.getHeight() / 2), texture.getWidth(), texture.getHeight()));
 		 
 		calculateDirection();
 	}
 	
+	public boolean isMagicFromPlayer() {
+		return magicFromPlayer;
+	}
+
+	public void setMagicFromPlayer(boolean magicFromPlayer) {
+		this.magicFromPlayer = magicFromPlayer;
+	}
+
 	@Override
 	public void move(double dX, double dY) {
 		super.move(dX, dY);
 		centerPosition = getCenterPosition();
-		onMoved();
 	}
 	
 	public void drawObjects(Graphics2D g) {
-		g.drawImage(picture, (int) getBounds().getX(), (int) getBounds().getY(), null);
-	}
-	
-	private void onMoved() {
-		for (Enemy enemy : houston.enemyLogic.enemies) {
-			if((getBounds().intersects(enemy.getBounds())) && (magicFromPlayer)) {
-				enemy.decreaseHealth(10);
-				if(enemy.getHealth() <= 0){
-					if(houston.enemyLogic.bossIsAlive)
-						houston.enemyLogic.bossIsAlive = false;
-					enemy.remove= true;
-				}
-				remove = true;
-				houston.player.increaseMoney(10);
-			}
-		}
-		if((getBounds().intersects(houston.player.getBounds())) && (magicFromPlayer == false)){
-			houston.player.decreaseHealth(10);
-			remove = true;
-		}
+		g.drawImage(texture, (int) getBounds().getX(), (int) getBounds().getY(), null);
 	}
 	
 	private void calculateDirection() {

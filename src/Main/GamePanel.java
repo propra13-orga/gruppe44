@@ -58,21 +58,19 @@ public class GamePanel extends JPanel implements MouseListener {
 		map.drawObjects(g);
 		
 		// Zeichnet Items
-		for (Item item : houston.itemLogic.items) {
-			item.drawObjects(g);
-		}
+		for (int i = houston.itemLogic.items.size() - 1; i >= 0; i--)
+			houston.itemLogic.items.get(i).drawObjects(g);
 
 		// Zeichnet die Gegner
-		for (Enemy enemy : houston.enemyLogic.enemies) {
-			enemy.drawObjects(g);
-		}
+		for (int i = houston.enemyLogic.enemies.size() - 1; i >= 0; i--)
+			houston.enemyLogic.enemies.get(i).drawObjects(g);
 
 		// Zeichnet den Player
 		player.drawObjects(g);
 
-		for (Magic magic : houston.magicLogic.magics) {
-			magic.drawObjects(g);
-		}
+		// Zeichnet die Magie
+		for (int i = houston.magicLogic.magics.size() - 1; i >= 0; i--)
+			houston.magicLogic.magics.get(i).drawObjects(g);
 
 		g.dispose();
 	} // Ab hier ist Schluss mit Zeichnen

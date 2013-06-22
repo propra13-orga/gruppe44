@@ -63,7 +63,12 @@ public class Inventory {
 			if (player.getHealth() <= (player.maxHealth - healthPerPortion)) {
 				player.increaseHealth(healthPerPortion);
 			} else {
-				player.setHealth(player.maxHealth);
+				if (player.getLives() < 3) {
+					player.setLives(player.getLives() + 1);
+					player.setHealth((player.getHealth() + healthPerPortion) % player.maxHealth);
+				} else {
+					player.setHealth(player.maxHealth);
+				}
 			}
 		}
 	}

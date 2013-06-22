@@ -86,6 +86,7 @@ public class EnemyLogic {
 			// Filtert die zu löschenden Enemies raus
 			if (enemy.remove) {
 				enemies.remove(i);
+				continue;
 			}
 			houston.gameLogic.controlCharacterMovement(enemy);
 			

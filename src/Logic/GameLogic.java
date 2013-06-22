@@ -42,7 +42,7 @@ public class GameLogic {
 
 	// Startet ein neues Spiel
 	public void setupNewGame(int levelNumber, int mapNumber) {
-		player.resetHealthManaMoneyArmorLives(100, 100, 0, 100, 3);
+		player.resetHealthManaMoneyArmorLives(100, 100, 120, 100, 3);
 		houston.inventory.clear();
 
 		changeLevel(levelNumber, mapNumber);
@@ -55,8 +55,8 @@ public class GameLogic {
 
 		playerLogic.onLevelChange();
 		enemyLogic.onLevelChange();
-		itemLogic.onLevelChange();
 		magicLogic.onLevelChange();
+		itemLogic.onLevelChange();
 	}
 
 	// Berechnet z.B. alle Bewegungen und Kollisionen im Spiel

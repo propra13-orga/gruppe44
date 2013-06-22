@@ -68,14 +68,18 @@ public class Player extends Movable {
 	public void resetHealthManaMoneyArmorLives(int health, int mana, int money, int armor, int lives) {
 		setHealth(health);
 		setMana(mana);
-		this.money = money;
-		this.armor = armor;
-		this.lives = lives;
+		setMoney(money);
+		setArmor(armor);
+		setLives(lives);
 	}
 
 	// Money
 	public int getMoney() {
 		return money;
+	}
+	
+	public void setMoney(int money) {
+		this.money = money;
 	}
 
 	public void increaseMoney(int amountOfMoney) {

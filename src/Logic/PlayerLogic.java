@@ -6,7 +6,6 @@ import Main.Enemy;
 import Main.Houston;
 import Main.Player;
 
-
 public class PlayerLogic {
 
 	private Houston houston;
