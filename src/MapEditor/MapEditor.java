@@ -84,13 +84,13 @@ public class MapEditor extends JPanel implements ActionListener, MouseListener, 
 		if (filePath.length() > 0)
 			g.drawString("Speicherort: " + filePath, 16, -19);
 		else
-			g.drawString("Speicherort auswählen ...", 16, -19);
+			g.drawString("Speicherort ausw\u00e4hlen ...", 16, -19);
 
 		if (!mapIsDifferentThanOriginal)
-			g.drawString("Karte ist unverändert.", 16, -5);
+			g.drawString("Karte ist unver\u00e4ndert.", 16, -5);
 		else {
 			g.setColor(Color.RED);
-			g.drawString("Kartenänderungen sind noch nicht gespeichert.", 16, -5);
+			g.drawString("Karten\u00e4nderungen sind noch nicht gespeichert.", 16, -5);
 		}
 
 		map.drawObjects(g);
@@ -138,13 +138,13 @@ public class MapEditor extends JPanel implements ActionListener, MouseListener, 
 		editorWindowFrame.setVisible(true);
 		
 		// Oberste Button
-		undoButton = new JButton("Rückgängig");
+		undoButton = new JButton("R\u00fcckg\u00e4ngig");
 		undoButton.setEnabled(false);
 		undoButton.addActionListener(this);
 		undoButton.setBounds(5, 5, 140, 30);
 		editorWindowFrame.add(undoButton);
 		
-		startMenu = new JButton("Hauptmenü");
+		startMenu = new JButton("Hauptmen\u00fc");
 		startMenu.addActionListener(this);
 		startMenu.setBounds(155, 5, 140, 30);
 		editorWindowFrame.add(startMenu);
