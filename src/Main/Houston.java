@@ -38,12 +38,13 @@ import Logic.GameLogic;
 import Logic.ItemLogic;
 import Logic.MagicLogic;
 import Logic.PlayerLogic;
+import MapEditor.MapEditor;
 
 public class Houston implements ActionListener, Runnable {
 
 	// Speichert die Hoehe und Breite des Fensterinhalts
-	final int height;
-	final int width;
+	public final int height;
+	public final int width;
 
 	// gameIsRunning und gameOver sind fuer die Menuefuehrung
 	// und den Spielverlauf von Bedeutung
@@ -59,7 +60,7 @@ public class Houston implements ActionListener, Runnable {
 	private int preferredFps;
 
 	// Das Fenster, der Rahmen
-	private JFrame frame;
+	public JFrame frame;
 	// Gibt an, welche Card im Fenster gerade aktiv ist
 	private String currentCard;
 	// Kontainer fuer die "Unterfenster" card1, card2, ...
@@ -67,6 +68,7 @@ public class Houston implements ActionListener, Runnable {
 	// "Unterfenster", die das Startmenue, Einstellungen, etc. beinhalten 
 	public JPanel card1, card2, card4, card5, card6, card7;
 	public GamePanel gamePanel;
+	public MapEditor mapEditor;
 	// CardLayout ermoeglicht erst diese Darstellung der unterschiedlichen
 	// Fensterinhalte auf unterschiedlichen "Karten"
 	private CardLayout cl;
@@ -98,7 +100,8 @@ public class Houston implements ActionListener, Runnable {
 	c1b1, //Neues Spiel
 	c1b2, //Einstellungen
 	c1b3, //Mitwirkende
-	c1b4, //Beenden
+	c1b4, //MapEditor
+	c1b5, //Beenden
 	c2b1, //zum Hauptmenue
 	c4b1, //zurueck ins Spiel
 	c4b2, //zum Hauptmenue
@@ -126,6 +129,7 @@ public class Houston implements ActionListener, Runnable {
 	final static String CREDITS = "CREDITS";
 	final static String INTRODUCTION = "INTRODUCTION";
 	final static String SHOP = "SHOP";
+	final static String MAPEDITOR = "MAPEDITOR";
 		
 	
 	// ------------------------------------------------------------
@@ -151,6 +155,7 @@ public class Houston implements ActionListener, Runnable {
 		card5 = new MenuCards.card5(this);	// CREDITS
 		card6 = new MenuCards.card6(this);	// INTRODUCTION
 		card7 = new MenuCards.card7(this);	// SHOP
+		mapEditor = new MapEditor(this);	// MAPEDITOR
 
 		// Erstellt ein neues Cards-Panel ...
 		cl = new CardLayout();
@@ -164,14 +169,15 @@ public class Houston implements ActionListener, Runnable {
 		cards.add(card5, CREDITS);
 		cards.add(card6, INTRODUCTION);
 		cards.add(card7, SHOP);
+		cards.add(mapEditor, MAPEDITOR);
 
 		// Erstellt das Hauptfenster und fuegt Cards hinzu
-		frame = buildFrame("Folderol", cards);
+		frame = buildFrame("DungeonCrawler", cards);
 		frame.pack();
 		
 		// Setzt Card, die als erstes angezeigt werden soll
-		cl.show(cards, STARTMENU);
 		currentCard = STARTMENU;
+		cl.show(cards, currentCard);
 		
 		// Startet den Game-Loop
 		Thread th = new Thread(this);
@@ -357,6 +363,9 @@ public class Houston implements ActionListener, Runnable {
 		} else if (buttonClicked == c1b3) {
 			changeAppearance(CREDITS);
 		} else if (buttonClicked == c1b4) {
+			mapEditor.showEditorWindow();
+			changeAppearance(MAPEDITOR);
+		} else if (buttonClicked == c1b5) {
 			System.exit(0);
 		} else if (buttonClicked == c2b1) {
 			changeAppearance(STARTMENU);

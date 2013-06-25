@@ -34,8 +34,8 @@ public class GamePanel extends JPanel implements MouseListener {
 		// Setzt die Hintergrundfarbe
 		bgColor = new Color(240, 240, 240);
 		
-		addMouseListener(this);
 		mouseClickPosition = new Point2D.Double();
+		addMouseListener(this);
 	}
 
 	@Override

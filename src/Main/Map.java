@@ -4,10 +4,13 @@ import java.awt.Graphics2D;
 import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 
 import javax.imageio.ImageIO;
@@ -21,8 +24,8 @@ public class Map {
 	private int levelNumber, mapNumber;
 	private String mapUrl;
 	private String[][] mapUrls;
-	private BufferedReader fileContents;
-	private HashMap<Integer, BufferedImage> texture =  new HashMap<Integer, BufferedImage>();
+	private BufferedImage sprite;
+	public HashMap<Integer, BufferedImage> texture =  new HashMap<Integer, BufferedImage>();
 	private HashMap<Integer, Boolean> walkable =  new HashMap<Integer, Boolean>();
 	
 	
@@ -52,13 +55,12 @@ public class Map {
 		// Erstellt das Array mapArray, in dem die eingelesen Karte stehen wird
 		mapArray = new int[rows][cols];
 		
-		// initializeHashMaps();
-		initializeMap();		
+		initializeHashMaps();
+		clearMap(0);
 	}
 	
 	// Zeichnet die Karte
 	public void drawObjects(Graphics2D g) {
-		
 		int value;
 		
 		for (int row = 0; row < rows; row++) {
@@ -71,7 +73,7 @@ public class Map {
 	
 	// Fuellt 2 HashMaps mit den Informationen "begehbar" und "textur"
 	// zu jedem entsprechenden Karten-Kacheltyp
-	private void ititializeHashMaps() {
+	private void initializeHashMaps() {
 		walkable.put(0, true);	// Boden
 		walkable.put(1, false);	// Wand
 		walkable.put(2, true);	// Begehbare-Wand
@@ -83,26 +85,43 @@ public class Map {
 		walkable.put(8, true);	// Start
 		walkable.put(9, true);	// Ziel
 		try {
-			texture.put(0, ImageIO.read(new File("./res/img/tiles/ground.png")));
-			texture.put(1, ImageIO.read(new File("./res/img/tiles/wall.png")));
-			texture.put(2, ImageIO.read(new File("./res/img/tiles/wall.png")));
-			texture.put(3, ImageIO.read(new File("./res/img/tiles/npc.png")));
-			texture.put(4, ImageIO.read(new File("./res/img/tiles/ground.png")));
-			texture.put(5, ImageIO.read(new File("./res/img/tiles/grass.png")));
-			texture.put(6, ImageIO.read(new File("./res/img/tiles/ground.png")));
-			texture.put(7, ImageIO.read(new File("./res/img/tiles/trap.png")));
-			texture.put(8, ImageIO.read(new File("./res/img/tiles/start.png")));
-			texture.put(9, ImageIO.read(new File("./res/img/tiles/finish.png")));
-			texture.put(30, ImageIO.read(new File("./res/img/tiles/ground.png")));
-			texture.put(31, ImageIO.read(new File("./res/img/tiles/ground.png")));
-			texture.put(32, ImageIO.read(new File("./res/img/tiles/ground.png")));
-			texture.put(33, ImageIO.read(new File("./res/img/tiles/ground.png")));
-			texture.put(34, ImageIO.read(new File("./res/img/tiles/ground.png")));
-			texture.put(35, ImageIO.read(new File("./res/img/tiles/ground.png")));
-			texture.put(90, ImageIO.read(new File("./res/img/tiles/ground.png")));
-			texture.put(91, ImageIO.read(new File("./res/img/tiles/ground.png")));
-			texture.put(92, ImageIO.read(new File("./res/img/tiles/ground.png")));
+			File tex_file = new File("./res/img/tiles/texture_array.png");
+			sprite = ImageIO.read(tex_file);
+			
+			BufferedImage tex_ground = sprite.getSubimage(0, 96, 32, 32);
+			BufferedImage tex_wall = sprite.getSubimage(0, 0, 32, 32);
+			BufferedImage tex_npc = sprite.getSubimage(32, 50, 32, 46);
+			BufferedImage tex_grass = sprite.getSubimage(0, 128, 32, 32);
+			BufferedImage tex_trap = sprite.getSubimage(0, 32, 32, 32);
+			BufferedImage tex_start = sprite.getSubimage(0, 64, 32, 32);
+			BufferedImage tex_finish = sprite.getSubimage(32, 110, 32, 50);
+			
+			texture.put(0, tex_ground);
+			texture.put(1, tex_wall);
+			texture.put(2, tex_wall);
+			texture.put(3, tex_npc);
+			texture.put(4, tex_ground);
+			texture.put(5, tex_grass);
+			texture.put(6, tex_ground);
+			texture.put(7, tex_trap);
+			texture.put(8, tex_start);
+			texture.put(9, tex_finish);
+			texture.put(30, tex_ground);
+			texture.put(31, tex_ground);
+			texture.put(32, tex_ground);
+			texture.put(33, tex_ground);
+			texture.put(34, tex_ground);
+			texture.put(35, tex_ground);
+			texture.put(90, tex_ground);
+			texture.put(91, tex_ground);
+			texture.put(92, tex_ground);
 		} catch (IOException e) {e.printStackTrace();}
+	}
+	
+	public void clearMap(int value) {
+		for (int row = 0; row < rows; row++) {
+			Arrays.fill(mapArray[row], value);
+		}
 	}
 	
 	// Gibt die aktuelle Kartennummer zurueck
@@ -129,6 +148,11 @@ public class Map {
 	public int getCountOfMapsByLevel() {
 		return getCountOfMapsByLevel(levelNumber);
 	}
+	
+	// Laedt die aktuelle Karte neu
+	public void renewMap() {
+		renewMap(levelNumber, mapNumber);
+	}
 
 	// Erneuert/ersetzt die aktuelle Karte durch die Karte,
 	// die durch mapNumber referenzierte ist
@@ -138,40 +162,27 @@ public class Map {
 		initializeMap();
 	}
 
-	// Laedt die aktuelle Karte neu
-	public void renewMap() {
-		renewMap(levelNumber, mapNumber);
-	}
-
 	// Baut eine aktuelle/neue Karte auf
 	private void initializeMap() {
-		ititializeHashMaps();
+		initializeHashMaps();
+		clearMap(0);
 		mapUrl = mapUrls[levelNumber][mapNumber];
-		readMapFile();
-		assignFileContentToMapArray();
-	}
-
-	// Laedt die durch mapUrl spezifizierte Datei und speichert ihren
-	// Inhalt in fileContents
-	private void readMapFile() {
-		try {
-			FileReader fr = new FileReader(mapUrl);
-			fileContents = new BufferedReader(fr);
-		} catch (IOException e) {e.printStackTrace();}
+		readMapByFile(mapUrl);
 	}
 	
-	// Speichert den in readMapFile() gelesenen Dateiinhalt in mapArray
-	private void assignFileContentToMapArray() {
+	// Laedt die durch path spezifizierte Datei und 
+	// speichert den in gelesenen Dateiinhalt im mapArray
+	public void readMapByFile(String path) {
 		// Speichert temporaer eine Zeile beim zeilenweisen Lesen der Kartendatei
 		String tempLine = " "; 
 		// Speichert temporaer alle Kartenelemente einer Zeile
 		String[] tempArray;
 		
 
-		try {
+		try (BufferedReader br = new BufferedReader(new FileReader(path));) {
 			// Iteriert ueber jede Zeile "row", solange es noch Zeilen im Dateiinhalt gibt 
 			// und noch nicht alle Zeilen des mapArray befuellt sind
-			for (int row = 0; ((tempLine = fileContents.readLine()) != null) && (row < rows); row++) {
+			for (int row = 0; ((tempLine = br.readLine()) != null) && (row < rows); row++) {
 				
 				// Splittet eine Zeile in einzelne Arrayelemente auf
 				tempArray = tempLine.split(" ");
@@ -185,9 +196,22 @@ public class Map {
 				} // Ende der Spaltenschleife
 			} // Ende der Reihenschleife
 
-		} catch (NumberFormatException | IOException e) {
-			e.printStackTrace();
-		}
+		} catch (NumberFormatException | IOException e) {e.printStackTrace();}
+	}
+	
+	public void saveMapToFile(String path) {
+		try (BufferedWriter wr = new BufferedWriter(new FileWriter(path));) {
+			StringBuilder sb = new StringBuilder();
+			for (int row = 0; row < rows; row++) {
+				for (int col = 0; col < cols; col++) {
+					sb.append(String.format("%02d ", mapArray[row][col]));
+				}
+				
+				sb.append("\n");
+				wr.write(sb.toString());
+				sb.setLength(0);
+			}
+		} catch (Exception e) {e.printStackTrace();}
 	}
 
 	// Sucht und uebergibt eine Position im mapArray mit dem Wert value
@@ -203,15 +227,15 @@ public class Map {
 	}
 
 	public ArrayList<Point2D> multiSearch(int value) {
-		ArrayList<Point2D> enemyPositions  = new ArrayList<Point2D>( );
+		ArrayList<Point2D> entityPositions  = new ArrayList<Point2D>( );
 		for (int row = 0; row < rows; row++) {
 			for (int col = 0; col < cols; col++) {
 				if (mapArray[row][col] == value){
-					enemyPositions.add(new Point2D.Double(col*32, row*32));
+					entityPositions.add(new Point2D.Double(col*32, row*32));
 				}
 			}
 		}
-		return enemyPositions;
+		return entityPositions;
 	}
 
 }

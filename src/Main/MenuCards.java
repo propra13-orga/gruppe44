@@ -31,11 +31,16 @@ public class MenuCards {
 			houston.c1b3.addActionListener(houston);
 			houston.c1b3.setBounds(284, 420, 200, 40);
 			this.add(houston.c1b3);
-
-			houston.c1b4 = new JButton("Beenden");
+			
+			houston.c1b4 = new JButton("Karten Editor");
 			houston.c1b4.addActionListener(houston);
 			houston.c1b4.setBounds(284, 480, 200, 40);
 			this.add(houston.c1b4);
+
+			houston.c1b5 = new JButton("Beenden");
+			houston.c1b5.addActionListener(houston);
+			houston.c1b5.setBounds(284, 540, 200, 40);
+			this.add(houston.c1b5);
 		}
 
 	}
@@ -48,7 +53,7 @@ public class MenuCards {
 		public card2(Houston houston) {
 			this.setLayout(null);
 
-			houston.c2b1 = new JButton("-> Hauptmen\u00fc");
+			houston.c2b1 = new JButton("Hauptmen\u00fc");
 			houston.c2b1.setBounds(284, 360, 200, 40);
 			houston.c2b1.addActionListener(houston);
 			this.add(houston.c2b1);
@@ -84,7 +89,7 @@ public class MenuCards {
 			houston.c4b1.setBounds(284, 300, 200, 40);
 			this.add(houston.c4b1);
 
-			houston.c4b2 = new JButton("-> Hauptmen\u00fc");
+			houston.c4b2 = new JButton("Hauptmen\u00fc");
 			houston.c4b2.addActionListener(houston);
 			houston.c4b2.setBounds(284, 360, 200, 40);
 			this.add(houston.c4b2);
@@ -120,7 +125,7 @@ public class MenuCards {
 			picdavid.setBounds(609, 200, 130, 130);
 			this.add(picdavid);
 
-			houston.c5b1 = new JButton("-> Hauptmen\u00fc");
+			houston.c5b1 = new JButton("Hauptmen\u00fc");
 			houston.c5b1.addActionListener(houston);
 			houston.c5b1.setBounds(284, 420, 200, 40);
 			this.add(houston.c5b1);
@@ -136,7 +141,7 @@ public class MenuCards {
 		public card6(Houston houston) {
 			this.setLayout(null);
 
-			houston.c6b1 = new JButton("-> Weiter");
+			houston.c6b1 = new JButton("Weiter");
 			houston.c6b1.addActionListener(houston);
 			houston.c6b1.setBounds(284, 300, 200, 40);
 			this.add(houston.c6b1);
