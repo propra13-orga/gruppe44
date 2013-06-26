@@ -23,62 +23,13 @@ public class EnemyLogic {
 
 	public void onLevelChange() {
 		enemies.clear();
-
-		// Vertikale Gegner, die nicht schießen
-		for (Point2D singleEnemyPosition : map.multiSearch(map.enemyArray, 30)) {
-			if (map.getLevelNumber() == 0)
-				enemies.add(new Enemy(singleEnemyPosition, 0, 0));
-			else if (map.getLevelNumber() == 1)
-				enemies.add(new Enemy(singleEnemyPosition, 0, 3));
-			else if (map.getLevelNumber() == 2)
-				enemies.add(new Enemy(singleEnemyPosition, 0, 6));
-		}
-		// Vertikale Gegner, die schiessen
-		for (Point2D singleEnemyPosition : map.multiSearch(map.enemyArray, 31)) {
-			if (map.getLevelNumber() == 0)
-				enemies.add(new Enemy(singleEnemyPosition, 0, 1));
-			else if (map.getLevelNumber() == 1)
-				enemies.add(new Enemy(singleEnemyPosition, 0, 4));
-			else if (map.getLevelNumber() == 2)
-				enemies.add(new Enemy(singleEnemyPosition, 0, 7));
-		}
-		// Vertikale Bossgegner
-		for (Point2D singleEnemyPosition : map.multiSearch(map.enemyArray, 32)) {
-			bossIsAlive = true;
-			if (map.getLevelNumber() == 0)
-				enemies.add(new Enemy(singleEnemyPosition, 0, 2));
-			else if (map.getLevelNumber() == 1)
-				enemies.add(new Enemy(singleEnemyPosition, 0, 5));
-			else if (map.getLevelNumber() == 2)
-				enemies.add(new Enemy(singleEnemyPosition, 0, 8));
-		}
-		// Horizontale Gegner, die nicht schiessen
-		for (Point2D singleEnemyPosition : map.multiSearch(map.enemyArray, 33)) {
-			if (map.getLevelNumber() == 0)
-				enemies.add(new Enemy(singleEnemyPosition, 3, 0));
-			else if (map.getLevelNumber() == 1)
-				enemies.add(new Enemy(singleEnemyPosition, 3, 3));
-			else if (map.getLevelNumber() == 2)
-				enemies.add(new Enemy(singleEnemyPosition, 3, 6));
-		}
-		// Horizontale Gegner, die schiessen
-		for (Point2D singleEnemyPosition : map.multiSearch(map.enemyArray, 34)) {
-			if (map.getLevelNumber() == 0)
-				enemies.add(new Enemy(singleEnemyPosition, 3, 1));
-			else if (map.getLevelNumber() == 1)
-				enemies.add(new Enemy(singleEnemyPosition, 3, 4));
-			else if (map.getLevelNumber() == 2)
-				enemies.add(new Enemy(singleEnemyPosition, 3, 7));
-		}
-		// Horizontale Bossgegner
-		for (Point2D singleEnemyPosition : map.multiSearch(map.enemyArray, 35)) {
-			bossIsAlive = true;
-			if (map.getLevelNumber() == 0)
-				enemies.add(new Enemy(singleEnemyPosition, 3, 2));
-			else if (map.getLevelNumber() == 1)
-				enemies.add(new Enemy(singleEnemyPosition, 3, 5));
-			else if (map.getLevelNumber() == 2)
-				enemies.add(new Enemy(singleEnemyPosition, 3, 8));
+		for(int i = 0; i<6; i++){
+			for (Point2D singleEnemyPosition : map.multiSearch(map.enemyArray, 30+i)) {
+				if(i<3)
+					enemies.add(new Enemy(singleEnemyPosition, 0, map.getLevelNumber() * 3 + i));
+				else
+					enemies.add(new Enemy(singleEnemyPosition, 3, map.getLevelNumber() * 3 + i-3));
+			}
 		}
 	}
 
@@ -86,14 +37,14 @@ public class EnemyLogic {
 		for (int i = enemies.size() - 1; i >= 0; i--) {
 			enemy = enemies.get(i);
 
-			// Filtert die zu löschenden Enemies raus
+			// Filtert die zu loeschenden Enemies raus
 			if (enemy.remove) {
 				enemies.remove(i);
 				continue;
 			}
 			houston.gameLogic.controlCharacterMovement(enemy);
 			
-			// Prüft, ob der Player sich mit einem Gegner überschneidet
+			// Prueft, ob der Player sich mit einem Gegner Ueberschneidet
 			if (houston.player.getBounds().intersects(enemy.getBounds())) {
 				houston.player.decreaseHealth(2);
 			}

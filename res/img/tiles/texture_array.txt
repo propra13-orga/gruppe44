@@ -1,7 +1,0 @@
-ground 0 96 32 32
-wall 0 0 32 32
-npc 32 50 32 46
-grass 0 128 32 32
-trap 0 32 32 32
-start 0 64 32 32
-finish 32 110 32 50

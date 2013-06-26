@@ -79,12 +79,12 @@ public class ItemLogic {
 		for (int i = items.size() - 1; i >= 0; i--) {
 			item = items.get(i);
 
-			// Filtert die zu löschenden Magics raus
+			// Filtert die zu loeschenden Magics raus
 			if (item.remove) {
 				items.remove(i);
 				continue;
 			}
-			// Prüft, ob das Item sich mit dem Player überschneidet
+			// Prueft, ob das Item sich mit dem Player Ueberschneidet
 			if (item.bounds.intersects(houston.player.getBounds())) {
 				item.remove = true;
 				pickUpItem(item.itemType);
@@ -94,13 +94,13 @@ public class ItemLogic {
 
 	private void pickUpItem(int itemType) {
 		switch (itemType) {
-		case 0:
+		case 90:
 			houston.inventory.addHealthPack();
 			break;
-		case 1:
+		case 91:
 			houston.inventory.addManaPotion();
 			break;
-		case 2:
+		case 92:
 			houston.player.setArmor(50);
 			break;
 		}

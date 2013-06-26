@@ -85,7 +85,7 @@ public class Houston implements ActionListener, Runnable {
 	public Story story;
 	// In der Logik werden Berechnungen zur Laufzeit getaetigt
 	public GameLogic gameLogic;
-	// Das unterstützende Gehirn des Player
+	// Das unterstuetzende Gehirn des Player
 	public PlayerLogic playerLogic;
 	// Das Gehirn der Gegner
 	public EnemyLogic enemyLogic;
