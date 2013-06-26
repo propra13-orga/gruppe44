@@ -1,7 +1,6 @@
 package MapEditor;
 
 import java.awt.Color;
-import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
@@ -14,12 +13,9 @@ import java.awt.event.MouseMotionListener;
 import java.awt.geom.Point2D;
 import java.io.File;
 
-import javax.swing.Icon;
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -27,7 +23,8 @@ import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.ListCellRenderer;
 import javax.swing.ListSelectionModel;
-import javax.swing.border.EmptyBorder;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.filechooser.FileNameExtensionFilter;
@@ -35,7 +32,7 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 import Main.Houston;
 import Main.Map;
 
-public class MapEditor extends JPanel implements ActionListener, MouseListener, MouseMotionListener, ListSelectionListener {
+public class MapEditor extends JPanel implements ActionListener, MouseListener, MouseMotionListener, ListSelectionListener, ChangeListener {
 
 	private static final long serialVersionUID = 1L;
 	private Houston houston;
@@ -45,9 +42,13 @@ public class MapEditor extends JPanel implements ActionListener, MouseListener, 
 	private JButton undoButton, startMenu, 
 	dateiLesen, dateiSpeichern, dateiSpeichernUnter, 
 	neuesLevel, neueKarte;
+	private JTabbedPane tabbedPane;
+	private int indexOfSelectedTab;
+	private JList<Object> currentList;
 	private JList<Object> mapList, enemyList, itemList;
 	private JFileChooser fc;
 	
+	private int[][] currentArray;
 	private String filePath;
 	private Color bgColor;
 	private Font plainFont;
@@ -93,12 +94,30 @@ public class MapEditor extends JPanel implements ActionListener, MouseListener, 
 			g.drawString("Karten\u00e4nderungen sind noch nicht gespeichert.", 16, -5);
 		}
 
+		// Zeichnet die Karte
 		map.drawObjects(g);
+		
+		// Zeichnet Items
+		int value;
+		for (int row = 0; row < 20; row++) {
+			for (int col = 0; col < 24; col++) {
+				value = map.itemArray[row][col];
+				if (value != 0)
+				g.drawImage(houston.itemLogic.texture.get(value), col * 32, row * 32 - houston.itemLogic.texture.get(value).getHeight() + 32 , null);
+			}
+		}
 
 		g.setColor(Color.GREEN);
 		g.drawRect((int) selected.getX(), (int) selected.getY(), 32, 32);
 	}
 	
+	private void resetUndoMashine() {
+		undoTileValues = new int[countOfUndos];
+		undoTilePositions = new Point2D[countOfUndos];
+		undoArrayPosition = 0;
+		undoButton.setEnabled(false);		
+	}
+
 	public void showEditorWindow() {
 		createEditorWindow();
 	}
@@ -108,26 +127,6 @@ public class MapEditor extends JPanel implements ActionListener, MouseListener, 
 	}
 	
 	private void createEditorWindow() {
-		// Erstellt eine neue blanke Karte
-		map.clearMap(0);
-		mapIsDifferentThanOriginal = true;
-		
-		// Erstellet Punkte fuer die ClickPosition und die ausgewaehlte Kachel
-		mouseClickPosition = new Point2D.Double();
-		selected = new Point2D.Double(99999, 99999);
-		
-		// Initialisiert die Undo Funktionen
-		undoTileValues = new int[countOfUndos]; 
-		undoTilePositions = new Point2D[countOfUndos];
-		undoArrayPosition = 0;
-		
-		// Dialog zum Auswaehlen von Dateien
-		if (fc == null)
-			fc = new JFileChooser();
-		fc.setCurrentDirectory(new File("./res/maps/"));
-		fc.setFileFilter(new FileNameExtensionFilter("Text File", "txt"));
-		filePath = new String();
-		
 		// Editor Fenster
 		editorWindowFrame = new JFrame("Editor");
 		editorWindowFrame.setLayout(null);
@@ -140,7 +139,6 @@ public class MapEditor extends JPanel implements ActionListener, MouseListener, 
 		
 		// Oberste Button
 		undoButton = new JButton("R\u00fcckg\u00e4ngig");
-		undoButton.setEnabled(false);
 		undoButton.addActionListener(this);
 		undoButton.setBounds(5, 5, 140, 30);
 		editorWindowFrame.add(undoButton);
@@ -151,8 +149,9 @@ public class MapEditor extends JPanel implements ActionListener, MouseListener, 
 		editorWindowFrame.add(startMenu);
 		
 		// Tabs
-		JTabbedPane tabbedPane = new JTabbedPane();
+		tabbedPane = new JTabbedPane();
 		tabbedPane.setBounds(0, 40, 300, 340);
+		tabbedPane.addChangeListener(this);
 		
 		JPanel panel1 = new JPanel(false);
 		panel1.setLayout(null);
@@ -202,9 +201,9 @@ public class MapEditor extends JPanel implements ActionListener, MouseListener, 
 		panel1.add(neueKarte);
 		
 		// Tab #2
-		ListRenderer listRenderer = new ListRenderer(houston);
+		ListCellRenderer<Object> mapListRenderer = new ListRenderer.MapListRenderer(houston);
 		mapList = new JList<>(map.texture.keySet().toArray());
-		mapList.setCellRenderer(listRenderer);
+		mapList.setCellRenderer(mapListRenderer);
 		mapList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		mapList.setLayoutOrientation(JList.HORIZONTAL_WRAP);
 		mapList.setBounds(80, 40, 200, 200);
@@ -218,8 +217,9 @@ public class MapEditor extends JPanel implements ActionListener, MouseListener, 
 		panel2.add(mapScrollPane);
 		
 		// Tab #3
+		ListCellRenderer<Object> enemyListRenderer = new ListRenderer.EnemyListRenderer(houston);
 		enemyList = new JList<>();
-		enemyList.setCellRenderer(listRenderer);
+		enemyList.setCellRenderer(enemyListRenderer);
 		enemyList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		enemyList.setLayoutOrientation(JList.HORIZONTAL_WRAP);
 		enemyList.setBounds(80, 40, 200, 200);
@@ -233,8 +233,9 @@ public class MapEditor extends JPanel implements ActionListener, MouseListener, 
 		panel3.add(enemyScrollPane);
 		
 		// Tab #4
-		itemList = new JList<>();
-		itemList.setCellRenderer(listRenderer);
+		ListCellRenderer<Object> itemListRenderer = new ListRenderer.ItemListRenderer(houston);
+		itemList = new JList<>(houston.itemLogic.texture.keySet().toArray());
+		itemList.setCellRenderer(itemListRenderer);
 		itemList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		itemList.setLayoutOrientation(JList.HORIZONTAL_WRAP);
 		itemList.setBounds(80, 40, 200, 200);
@@ -246,6 +247,24 @@ public class MapEditor extends JPanel implements ActionListener, MouseListener, 
 		itemScrollPane.setBounds(10, 10, 260, 280);
 		itemScrollPane.setVisible(true);
 		panel4.add(itemScrollPane);
+		
+		// Erstellt eine neue blanke Karte
+		map.clearMap(0);
+		mapIsDifferentThanOriginal = true;
+
+		// Erstellet Punkte fuer die ClickPosition und die ausgewaehlte Kachel
+		mouseClickPosition = new Point2D.Double();
+		selected = new Point2D.Double(99999, 99999);
+
+		// Initialisiert die Undo Funktionen
+		resetUndoMashine();
+
+		// Dialog zum Auswaehlen von Dateien
+		if (fc == null)
+			fc = new JFileChooser();
+		fc.setCurrentDirectory(new File("./res/maps/"));
+		fc.setFileFilter(new FileNameExtensionFilter("Text File", "txt"));
+		filePath = new String();
 	}
 	
 	private void paintTile(Point2D mouseClickPosition) {
@@ -288,7 +307,8 @@ public class MapEditor extends JPanel implements ActionListener, MouseListener, 
 	private void openFile() {
 		if (fc.showOpenDialog(dateiLesen) == JFileChooser.APPROVE_OPTION) {
 			filePath = fc.getSelectedFile().toString();
-			map.readMapByFile(fc.getSelectedFile().toString());
+			map.readMapByFile(filePath);
+			resetUndoMashine();
 			mapIsDifferentThanOriginal = false;
 		} else {
 			System.out.println("Lesen abgebrochen");
@@ -327,7 +347,7 @@ public class MapEditor extends JPanel implements ActionListener, MouseListener, 
 	}
 	
 	private void changeTileValueAtPosition(Point2D point, int newValue) {
-		map.mapArray[(int) point.getY() / 32][(int) point.getX() / 32] = newValue;
+		currentArray[(int) point.getY() / 32][(int) point.getX() / 32] = newValue;
 		// Gibt an, ob Änderungen vorgenommen wurden
 		mapIsDifferentThanOriginal = true;
 	}
@@ -393,48 +413,42 @@ public class MapEditor extends JPanel implements ActionListener, MouseListener, 
 	@Override
 	public void valueChanged(ListSelectionEvent e) {
 		if (e.getValueIsAdjusting() == false) {
-			if (mapList.getSelectedIndex() == -1) {
+			if (currentList.getSelectedIndex() == -1)
 				drawValue = -1;
-			} else {
-				drawValue = (int) mapList.getSelectedValue();
-			}
+			else
+				drawValue = (int) currentList.getSelectedValue();
 		}
 	}
 
-}
-
-
-
-class ListRenderer extends JLabel implements ListCellRenderer<Object> {
-
-	private static final long serialVersionUID = 1L;
-	private Houston houston;
-	private Icon icon;
-	
-	public ListRenderer(Houston houston) {
-		this.houston = houston;
-		
-		setOpaque(true);
-		setBorder(new EmptyBorder(2, 10, 2, 10));
-		setIconTextGap(10);
-	}
-	
 	@Override
-	public Component getListCellRendererComponent(JList<? extends Object> list,
-			Object value, int index, boolean isSelected, boolean cellHasFocus) {
+	public void stateChanged(ChangeEvent e) {
+		indexOfSelectedTab = tabbedPane.getSelectedIndex();
 		
-		if (isSelected) {
-			setBackground(Color.GRAY);
-		} else {
-			setBackground(Color.WHITE);
+		if (mapList != null && enemyList != null && itemList != null) {
+			mapList.clearSelection();
+			enemyList.clearSelection();
+			itemList.clearSelection();
 		}
+		drawValue = -1;
 		
-		icon = new ImageIcon(houston.map.texture.get(value));
-		
-		setIcon(icon);
-		setText(houston.map.textureName.get(value));
-		
-		return this;
+		switch (indexOfSelectedTab) {
+		case 1:
+			currentList = mapList;
+			currentArray = map.mapArray;
+			break;
+		case 2:
+			currentList = enemyList;
+			currentArray = map.enemyArray;
+			break;
+		case 3:
+			currentList = itemList;
+			currentArray = map.itemArray;
+			break;
+		default:
+			currentList = null;
+			currentArray = null;
+			break;
+		}
 	}
-	
+
 }
