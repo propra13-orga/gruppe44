@@ -10,11 +10,13 @@ import javax.imageio.ImageIO;
 
 import Main.Houston;
 import Main.Item;
-
+import Main.Map;
 
 public class ItemLogic {
 
 	private Houston houston;
+	private Map map;
+	
 	public ArrayList<Item> items;
 	private Item item;
 	private int itemType;
@@ -22,6 +24,7 @@ public class ItemLogic {
 
 	public ItemLogic(Houston houston) {
 		this.houston = houston;
+		this.map = houston.map;
 
 		items = new ArrayList<Item>();
 		texture = new ArrayList<BufferedImage>();
@@ -40,15 +43,15 @@ public class ItemLogic {
 		items.clear();
 
 		itemType = 0;
-		for (Point2D singleItemPosition : houston.map.multiSearch(90 + itemType)) {
+		for (Point2D singleItemPosition : map.multiSearch(map.itemArray, 90 + itemType)) {
 			items.add(new Item(texture.get(itemType), singleItemPosition, itemType));
 		}
 		itemType = 1;
-		for (Point2D singleItemPosition : houston.map.multiSearch(90 + itemType)) {
+		for (Point2D singleItemPosition : map.multiSearch(map.itemArray, 90 + itemType)) {
 			items.add(new Item(texture.get(itemType), singleItemPosition, itemType));
 		}
 		itemType = 2;
-		for (Point2D singleItemPosition : houston.map.multiSearch(90 + itemType)) {
+		for (Point2D singleItemPosition : map.multiSearch(map.itemArray, 90 + itemType)) {
 			items.add(new Item(texture.get(itemType), singleItemPosition, itemType));
 		}
 	}

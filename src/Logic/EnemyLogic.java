@@ -5,16 +5,19 @@ import java.util.ArrayList;
 
 import Main.Enemy;
 import Main.Houston;
+import Main.Map;
 
 public class EnemyLogic {
 
 	private Houston houston;
+	private Map map;
 	public ArrayList<Enemy> enemies;
 	private Enemy enemy;
 	public boolean bossIsAlive;
 
 	public EnemyLogic(Houston houston) {
 		this.houston = houston;
+		this.map = houston.map;
 		enemies = new ArrayList<Enemy>();
 	}
 
@@ -22,59 +25,59 @@ public class EnemyLogic {
 		enemies.clear();
 
 		// Vertikale Gegner, die nicht schießen
-		for (Point2D singleEnemyPosition : houston.map.multiSearch(30)) {
-			if (houston.map.getLevelNumber() == 0)
+		for (Point2D singleEnemyPosition : map.multiSearch(map.enemyArray, 30)) {
+			if (map.getLevelNumber() == 0)
 				enemies.add(new Enemy(singleEnemyPosition, 0, 0));
-			if (houston.map.getLevelNumber() == 1)
+			else if (map.getLevelNumber() == 1)
 				enemies.add(new Enemy(singleEnemyPosition, 0, 3));
-			if (houston.map.getLevelNumber() == 2)
+			else if (map.getLevelNumber() == 2)
 				enemies.add(new Enemy(singleEnemyPosition, 0, 6));
 		}
 		// Vertikale Gegner, die schiessen
-		for (Point2D singleEnemyPosition : houston.map.multiSearch(31)) {
-			if (houston.map.getLevelNumber() == 0)
+		for (Point2D singleEnemyPosition : map.multiSearch(map.enemyArray, 31)) {
+			if (map.getLevelNumber() == 0)
 				enemies.add(new Enemy(singleEnemyPosition, 0, 1));
-			if (houston.map.getLevelNumber() == 1)
+			else if (map.getLevelNumber() == 1)
 				enemies.add(new Enemy(singleEnemyPosition, 0, 4));
-			if (houston.map.getLevelNumber() == 2)
+			else if (map.getLevelNumber() == 2)
 				enemies.add(new Enemy(singleEnemyPosition, 0, 7));
 		}
 		// Vertikale Bossgegner
-		for (Point2D singleEnemyPosition : houston.map.multiSearch(32)) {
+		for (Point2D singleEnemyPosition : map.multiSearch(map.enemyArray, 32)) {
 			bossIsAlive = true;
-			if (houston.map.getLevelNumber() == 0)
+			if (map.getLevelNumber() == 0)
 				enemies.add(new Enemy(singleEnemyPosition, 0, 2));
-			if (houston.map.getLevelNumber() == 1)
+			else if (map.getLevelNumber() == 1)
 				enemies.add(new Enemy(singleEnemyPosition, 0, 5));
-			if (houston.map.getLevelNumber() == 2)
+			else if (map.getLevelNumber() == 2)
 				enemies.add(new Enemy(singleEnemyPosition, 0, 8));
 		}
 		// Horizontale Gegner, die nicht schiessen
-		for (Point2D singleEnemyPosition : houston.map.multiSearch(33)) {
-			if (houston.map.getLevelNumber() == 0)
+		for (Point2D singleEnemyPosition : map.multiSearch(map.enemyArray, 33)) {
+			if (map.getLevelNumber() == 0)
 				enemies.add(new Enemy(singleEnemyPosition, 3, 0));
-			if (houston.map.getLevelNumber() == 1)
+			else if (map.getLevelNumber() == 1)
 				enemies.add(new Enemy(singleEnemyPosition, 3, 3));
-			if (houston.map.getLevelNumber() == 2)
+			else if (map.getLevelNumber() == 2)
 				enemies.add(new Enemy(singleEnemyPosition, 3, 6));
 		}
 		// Horizontale Gegner, die schiessen
-		for (Point2D singleEnemyPosition : houston.map.multiSearch(34)) {
-			if (houston.map.getLevelNumber() == 0)
+		for (Point2D singleEnemyPosition : map.multiSearch(map.enemyArray, 34)) {
+			if (map.getLevelNumber() == 0)
 				enemies.add(new Enemy(singleEnemyPosition, 3, 1));
-			if (houston.map.getLevelNumber() == 1)
+			else if (map.getLevelNumber() == 1)
 				enemies.add(new Enemy(singleEnemyPosition, 3, 4));
-			if (houston.map.getLevelNumber() == 2)
+			else if (map.getLevelNumber() == 2)
 				enemies.add(new Enemy(singleEnemyPosition, 3, 7));
 		}
 		// Horizontale Bossgegner
-		for (Point2D singleEnemyPosition : houston.map.multiSearch(35)) {
+		for (Point2D singleEnemyPosition : map.multiSearch(map.enemyArray, 35)) {
 			bossIsAlive = true;
-			if (houston.map.getLevelNumber() == 0)
+			if (map.getLevelNumber() == 0)
 				enemies.add(new Enemy(singleEnemyPosition, 3, 2));
-			if (houston.map.getLevelNumber() == 1)
+			else if (map.getLevelNumber() == 1)
 				enemies.add(new Enemy(singleEnemyPosition, 3, 5));
-			if (houston.map.getLevelNumber() == 2)
+			else if (map.getLevelNumber() == 2)
 				enemies.add(new Enemy(singleEnemyPosition, 3, 8));
 		}
 	}

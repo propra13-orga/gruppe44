@@ -19,7 +19,7 @@ public class PlayerLogic {
 	public void onLevelChange() {
 		// Sucht und setzt die Ursprungsposition des Player
 		Point2D spawn = new Point2D.Double();
-		if ((spawn = houston.map.singleSearch(8)) != null)
+		if ((spawn = houston.map.singleSearch(houston.map.mapArray, 8)) != null)
 			houston.player.setResetPosition(spawn);
 
 		// Setzt den Player auf seine Ursprungsposition

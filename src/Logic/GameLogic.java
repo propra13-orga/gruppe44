@@ -154,7 +154,7 @@ public class GameLogic {
 	public void detectSpecialTiles() {
 		if (player.isMoving()) {
 			try {
-				value = (map.mapArray[(int) Math.floor(player.getY() + (player.getHeight()/2))/32][(int) Math.floor((player.getX() + (player.getWidth()/2))/32)]);
+				value = (map.mapArray[(int) Math.floor(player.getCenterPosition().getY())/32][(int) Math.floor((player.getCenterPosition().getX())/32)]);
 			} catch (ArrayIndexOutOfBoundsException e) {
 				System.out.println("ungueltige Position x:"+player.getX()+" y:"+player.getY()); die();
 			}

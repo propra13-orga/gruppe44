@@ -45,7 +45,7 @@ public class MapEditor extends JPanel implements ActionListener, MouseListener, 
 	private JButton undoButton, startMenu, 
 	dateiLesen, dateiSpeichern, dateiSpeichernUnter, 
 	neuesLevel, neueKarte;
-	private JList<Object> list;
+	private JList<Object> mapList, enemyList, itemList;
 	private JFileChooser fc;
 	
 	private String filePath;
@@ -110,6 +110,7 @@ public class MapEditor extends JPanel implements ActionListener, MouseListener, 
 	private void createEditorWindow() {
 		// Erstellt eine neue blanke Karte
 		map.clearMap(0);
+		mapIsDifferentThanOriginal = true;
 		
 		// Erstellet Punkte fuer die ClickPosition und die ausgewaehlte Kachel
 		mouseClickPosition = new Point2D.Double();
@@ -202,19 +203,49 @@ public class MapEditor extends JPanel implements ActionListener, MouseListener, 
 		
 		// Tab #2
 		ListRenderer listRenderer = new ListRenderer(houston);
-		list = new JList<>(map.texture.keySet().toArray());
-		list.setCellRenderer(listRenderer);
-		list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		list.setLayoutOrientation(JList.HORIZONTAL_WRAP);
-		list.setBounds(80, 40, 200, 200);
-		list.setVisibleRowCount(-1);
-		list.ensureIndexIsVisible(10);
-		list.addListSelectionListener(this);
+		mapList = new JList<>(map.texture.keySet().toArray());
+		mapList.setCellRenderer(listRenderer);
+		mapList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		mapList.setLayoutOrientation(JList.HORIZONTAL_WRAP);
+		mapList.setBounds(80, 40, 200, 200);
+		mapList.setVisibleRowCount(-1);
+		mapList.ensureIndexIsVisible(10);
+		mapList.addListSelectionListener(this);
 		
-		JScrollPane scrollPane = new JScrollPane(list);
-		scrollPane.setBounds(10, 10, 260, 280);
-		scrollPane.setVisible(true);
-		panel2.add(scrollPane);
+		JScrollPane mapScrollPane = new JScrollPane(mapList);
+		mapScrollPane.setBounds(10, 10, 260, 280);
+		mapScrollPane.setVisible(true);
+		panel2.add(mapScrollPane);
+		
+		// Tab #3
+		enemyList = new JList<>();
+		enemyList.setCellRenderer(listRenderer);
+		enemyList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		enemyList.setLayoutOrientation(JList.HORIZONTAL_WRAP);
+		enemyList.setBounds(80, 40, 200, 200);
+		enemyList.setVisibleRowCount(-1);
+		enemyList.ensureIndexIsVisible(10);
+		enemyList.addListSelectionListener(this);
+		
+		JScrollPane enemyScrollPane = new JScrollPane(enemyList);
+		enemyScrollPane.setBounds(10, 10, 260, 280);
+		enemyScrollPane.setVisible(true);
+		panel3.add(enemyScrollPane);
+		
+		// Tab #4
+		itemList = new JList<>();
+		itemList.setCellRenderer(listRenderer);
+		itemList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		itemList.setLayoutOrientation(JList.HORIZONTAL_WRAP);
+		itemList.setBounds(80, 40, 200, 200);
+		itemList.setVisibleRowCount(-1);
+		itemList.ensureIndexIsVisible(10);
+		itemList.addListSelectionListener(this);
+		
+		JScrollPane itemScrollPane = new JScrollPane(itemList);
+		itemScrollPane.setBounds(10, 10, 260, 280);
+		itemScrollPane.setVisible(true);
+		panel4.add(itemScrollPane);
 	}
 	
 	private void paintTile(Point2D mouseClickPosition) {
@@ -265,12 +296,14 @@ public class MapEditor extends JPanel implements ActionListener, MouseListener, 
 	}
 	
 	private void saveFile() {
-		if (filePath.length() > 0) {
+		if (filePath.length() > 0 && mapIsDifferentThanOriginal) {	
 			map.saveMapToFile(filePath);
 			JOptionPane.showMessageDialog(null, "Die Karte wurde erfolgreich gepspeichert unter\n" + filePath);
 			mapIsDifferentThanOriginal = false;
-		} else {
+		} else if (filePath.length() <= 0 && mapIsDifferentThanOriginal) {
 			saveFileAs();
+		} else {
+			// Nichts unternehmen, da die Karte unveraendert ist
 		}
 	}
 	
@@ -360,10 +393,10 @@ public class MapEditor extends JPanel implements ActionListener, MouseListener, 
 	@Override
 	public void valueChanged(ListSelectionEvent e) {
 		if (e.getValueIsAdjusting() == false) {
-			if (list.getSelectedIndex() == -1) {
+			if (mapList.getSelectedIndex() == -1) {
 				drawValue = -1;
 			} else {
-				drawValue = (int) list.getSelectedValue();
+				drawValue = (int) mapList.getSelectedValue();
 			}
 		}
 	}
@@ -399,7 +432,7 @@ class ListRenderer extends JLabel implements ListCellRenderer<Object> {
 		icon = new ImageIcon(houston.map.texture.get(value));
 		
 		setIcon(icon);
-		setText(String.format("%s", value));
+		setText(houston.map.textureName.get(value));
 		
 		return this;
 	}
