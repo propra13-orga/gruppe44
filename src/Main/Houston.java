@@ -32,6 +32,8 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.KeyStroke;
+import javax.swing.UIManager;
+import javax.swing.UIManager.LookAndFeelInfo;
 
 import Logic.EnemyLogic;
 import Logic.GameLogic;
@@ -136,6 +138,14 @@ public class Houston implements ActionListener, Runnable {
 	
 	// ------------------------------------------------------------
 	public static void main(String[] args) {
+		try {
+			for (LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
+				if ("Nimbus".equals(info.getName())) {
+					UIManager.setLookAndFeel(info.getClassName());
+					break;
+				}
+			}
+		} catch (Exception e) {e.printStackTrace();}
 		new Houston(768, 672);
 	}
 	// ------------------------------------------------------------
