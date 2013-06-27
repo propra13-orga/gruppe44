@@ -94,13 +94,13 @@ public class ItemLogic {
 
 	private void pickUpItem(int itemType) {
 		switch (itemType) {
-		case 0:
+		case 90:
 			houston.inventory.addHealthPack();
 			break;
-		case 1:
+		case 91:
 			houston.inventory.addManaPotion();
 			break;
-		case 2:
+		case 92:
 			houston.player.setArmor(50);
 			break;
 		}

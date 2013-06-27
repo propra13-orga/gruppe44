@@ -13,14 +13,17 @@ import java.awt.event.MouseMotionListener;
 import java.awt.geom.Point2D;
 import java.io.File;
 
+import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
+import javax.swing.JTextField;
 import javax.swing.ListCellRenderer;
 import javax.swing.ListSelectionModel;
 import javax.swing.event.ChangeEvent;
@@ -30,6 +33,7 @@ import javax.swing.event.ListSelectionListener;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 import Main.Houston;
+import Main.Level;
 import Main.Map;
 
 public class MapEditor extends JPanel implements ActionListener, MouseListener, MouseMotionListener, ListSelectionListener, ChangeListener {
@@ -40,13 +44,15 @@ public class MapEditor extends JPanel implements ActionListener, MouseListener, 
 	
 	private JFrame editorWindowFrame;
 	private JButton undoButton, startMenu, 
-	dateiLesen, dateiSpeichern, dateiSpeichernUnter, 
-	neuesLevel, neueKarte;
+	openFile, saveFile, saveFileAs, 
+	up, down, saveMapUrls, add, del;
 	private JTabbedPane tabbedPane;
 	private int indexOfSelectedTab;
+	public DefaultListModel<Object> mapUrlListModel;
 	private JList<Object> currentList;
-	private JList<Object> mapList, enemyList, itemList;
+	private JList<Object> mapUrlList, mapList, enemyList, itemList;
 	private JFileChooser fc;
+	private int selectedMapUrlIndex = -1;
 	
 	private int[][] currentArray;
 	private String filePath;
@@ -168,37 +174,69 @@ public class MapEditor extends JPanel implements ActionListener, MouseListener, 
 		JPanel panel4 = new JPanel(false);
 		panel4.setLayout(null);
 		tabbedPane.addTab("Items", panel4);
-		
 		editorWindowFrame.add(tabbedPane);
 		
 		
 		// Tab #1
-		dateiLesen = new JButton("Karte laden");
-		dateiLesen.setBounds(10, 10, 260, 30);
-		dateiLesen.addActionListener(this);
-		panel1.add(dateiLesen);
+		openFile = new JButton("Karte laden");
+		openFile.setBounds(10, 10, 260, 30);
+		openFile.addActionListener(this);
+		panel1.add(openFile);
 		
-		dateiSpeichern = new JButton("Karte speichern");
-		dateiSpeichern.setBounds(10, 40, 260, 30);
-		dateiSpeichern.addActionListener(this);
-		panel1.add(dateiSpeichern);
+		saveFile = new JButton("Karte speichern");
+		saveFile.setBounds(10, 40, 260, 30);
+		saveFile.addActionListener(this);
+		panel1.add(saveFile);
 		
-		dateiSpeichernUnter = new JButton("Karte speichern unter");
-		dateiSpeichernUnter.setBounds(10, 70, 260, 30);
-		dateiSpeichernUnter.addActionListener(this);
-		panel1.add(dateiSpeichernUnter);
+		saveFileAs = new JButton("Karte speichern unter");
+		saveFileAs.setBounds(10, 70, 260, 30);
+		saveFileAs.addActionListener(this);
+		panel1.add(saveFileAs);
 		
-		neuesLevel = new JButton("Neues Level erstellen");
-		neuesLevel.setBounds(10, 120, 260, 30);
-		neuesLevel.addActionListener(this);
-		neuesLevel.setEnabled(false);
-		panel1.add(neuesLevel);
+		ListCellRenderer<Object> mapUrlListRenderer = new ListRenderer.MapUrlListRenderer(houston);
+		mapUrlListModel = new DefaultListModel<>();
+		for (int i = 0; i < map.mapUrls.size(); i++) {
+			mapUrlListModel.add(i, map.mapUrls.get(i));
+		}
+		mapUrlList = new JList<Object>(mapUrlListModel);
+		mapUrlList.setCellRenderer(mapUrlListRenderer);
+		mapUrlList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		mapUrlList.setLayoutOrientation(JList.HORIZONTAL_WRAP);
+		// mapUrlList.setBounds(80, 40, 200, 200);
+		mapUrlList.setVisibleRowCount(-1);
+		mapUrlList.ensureIndexIsVisible(10);
+		mapUrlList.addListSelectionListener(this);
+		mapUrlList.addMouseListener(this);
 		
-		neueKarte = new JButton("Neue Karte erstellen");
-		neueKarte.setBounds(10, 150, 260, 30);
-		neueKarte.addActionListener(this);
-		neueKarte.setEnabled(false);
-		panel1.add(neueKarte);
+		JScrollPane mapUrlScrollPane = new JScrollPane(mapUrlList);
+		mapUrlScrollPane.setBounds(10, 120, 260, 140);
+		mapUrlScrollPane.setVisible(true);
+		panel1.add(mapUrlScrollPane);
+		
+		up = new JButton("^");
+		up.setBounds(10, 265, 30, 20);
+		up.addActionListener(this);
+		panel1.add(up);
+		
+		down = new JButton("v");
+		down.setBounds(45, 265, 30, 20);
+		down.addActionListener(this);
+		panel1.add(down);
+		
+		saveMapUrls = new JButton("Speichern");
+		saveMapUrls.setBounds(90, 265, 90, 20);
+		saveMapUrls.addActionListener(this);
+		panel1.add(saveMapUrls);
+		
+		add = new JButton("+");
+		add.setBounds(230, 265, 30, 20);
+		add.addActionListener(this);
+		panel1.add(add);
+		
+		del = new JButton("-");
+		del.setBounds(195, 265, 30, 20);
+		del.addActionListener(this);
+		panel1.add(del);
 		
 		// Tab #2
 		ListCellRenderer<Object> mapListRenderer = new ListRenderer.MapListRenderer(houston);
@@ -206,7 +244,7 @@ public class MapEditor extends JPanel implements ActionListener, MouseListener, 
 		mapList.setCellRenderer(mapListRenderer);
 		mapList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		mapList.setLayoutOrientation(JList.HORIZONTAL_WRAP);
-		mapList.setBounds(80, 40, 200, 200);
+		// mapList.setBounds(80, 40, 200, 200);
 		mapList.setVisibleRowCount(-1);
 		mapList.ensureIndexIsVisible(10);
 		mapList.addListSelectionListener(this);
@@ -222,7 +260,7 @@ public class MapEditor extends JPanel implements ActionListener, MouseListener, 
 		enemyList.setCellRenderer(enemyListRenderer);
 		enemyList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		enemyList.setLayoutOrientation(JList.HORIZONTAL_WRAP);
-		enemyList.setBounds(80, 40, 200, 200);
+		// enemyList.setBounds(80, 40, 200, 200);
 		enemyList.setVisibleRowCount(-1);
 		enemyList.ensureIndexIsVisible(10);
 		enemyList.addListSelectionListener(this);
@@ -238,7 +276,7 @@ public class MapEditor extends JPanel implements ActionListener, MouseListener, 
 		itemList.setCellRenderer(itemListRenderer);
 		itemList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		itemList.setLayoutOrientation(JList.HORIZONTAL_WRAP);
-		itemList.setBounds(80, 40, 200, 200);
+		// itemList.setBounds(80, 40, 200, 200);
 		itemList.setVisibleRowCount(-1);
 		itemList.ensureIndexIsVisible(10);
 		itemList.addListSelectionListener(this);
@@ -248,9 +286,11 @@ public class MapEditor extends JPanel implements ActionListener, MouseListener, 
 		itemScrollPane.setVisible(true);
 		panel4.add(itemScrollPane);
 		
+		
 		// Erstellt eine neue blanke Karte
 		map.clearMap(0);
 		mapIsDifferentThanOriginal = true;
+		currentList = mapUrlList;
 
 		// Erstellet Punkte fuer die ClickPosition und die ausgewaehlte Kachel
 		mouseClickPosition = new Point2D.Double();
@@ -305,7 +345,7 @@ public class MapEditor extends JPanel implements ActionListener, MouseListener, 
 	}
 	
 	private void openFile() {
-		if (fc.showOpenDialog(dateiLesen) == JFileChooser.APPROVE_OPTION) {
+		if (fc.showOpenDialog(openFile) == JFileChooser.APPROVE_OPTION) {
 			filePath = fc.getSelectedFile().toString();
 			map.readMapByFile(filePath);
 			resetUndoMashine();
@@ -328,7 +368,7 @@ public class MapEditor extends JPanel implements ActionListener, MouseListener, 
 	}
 	
 	private void saveFileAs() {
-		if (fc.showSaveDialog(dateiSpeichern) == JFileChooser.APPROVE_OPTION) {
+		if (fc.showSaveDialog(saveFile) == JFileChooser.APPROVE_OPTION) {
 			filePath = fc.getSelectedFile().toString();
 			map.saveMapToFile(filePath);
 			JOptionPane.showMessageDialog(null, "Die Karte wurde erfolgreich gepspeichert unter\n" + filePath);
@@ -336,6 +376,14 @@ public class MapEditor extends JPanel implements ActionListener, MouseListener, 
 		} else {
 			System.out.println("Speichern abgebrochen");
 		}
+	}
+	
+	private void writeBackMapUrls() {
+		map.mapUrls.clear();
+		for (int i = 0; i < mapUrlListModel.getSize(); i++) {
+			map.mapUrls.add(i, (Level) mapUrlListModel.get(i));
+		}
+		map.writeBackMapUrls();
 	}
 	
 	private void selectTileByPosition(Point2D point) {
@@ -363,26 +411,80 @@ public class MapEditor extends JPanel implements ActionListener, MouseListener, 
 		} else if (buttonClicked == startMenu) {
 			hideEditorWindow();
 			houston.changeAppearance("STARTMENU");
-		} else if (buttonClicked == dateiLesen) {
+		} else if (buttonClicked == openFile) {
 			openFile();
-		} else if (buttonClicked == dateiSpeichern) {
+		} else if (buttonClicked == saveFile) {
 			saveFile();
-		} else if (buttonClicked == dateiSpeichernUnter) {
+		} else if (buttonClicked == saveFileAs) {
 			saveFileAs();
-		} else if (buttonClicked == neuesLevel) {
-			System.out.println("neuesLevel");
-		} else if (buttonClicked == neueKarte) {
-			System.out.println("neueKarte");
+		} else if (buttonClicked == up) {
+			int selected = selectedMapUrlIndex;
+			if (selected > 0 && selected < mapUrlListModel.size()) {
+				Object o = mapUrlListModel.remove(selected);
+				mapUrlListModel.add(selected - 1, o);
+				mapUrlList.setSelectedIndex(selected - 1);
+			}
+		} else if (buttonClicked == down) {
+			int selected = selectedMapUrlIndex;
+			if (selected >= 0 && selected < mapUrlListModel.size() - 1) {
+				Object o = mapUrlListModel.remove(selected);
+				mapUrlListModel.add(selected + 1, o);
+				mapUrlList.setSelectedIndex(selected + 1);
+			}
+		} else if (buttonClicked == saveMapUrls) {
+			System.out.println("KartenUrls gespeichert");
+			writeBackMapUrls();
+		} else if (buttonClicked == add) {
+			if (fc.showSaveDialog(saveFile) == JFileChooser.APPROVE_OPTION) {
+				String filePath = fc.getSelectedFile().toString();
+				Level level = new Level(0, 0, filePath);
+				mapUrlListModel.add(mapUrlListModel.size(), level);
+			}
+		} else if (buttonClicked == del) {
+			if (selectedMapUrlIndex >= 0) {
+				mapUrlListModel.remove(selectedMapUrlIndex);
+			}
 		}
 		repaint();
 	}
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
-		mouseClickPosition.setLocation(e.getX(), e.getY() - 32);
+		Object clickLocation = e.getSource();
+		if (clickLocation == this) {
+			mouseClickPosition.setLocation(e.getX(), e.getY() - 32);
+			
+			if (mouseClickPosition.getY() >= 0 && drawValue != -1) {
+				paintTile(mouseClickPosition);
+			}
+		} else if (clickLocation == mapUrlList) {
+			JList<Object> list = (JList<Object>) e.getSource();
+			int index;
+			
+			if (e.getClickCount() == 2) {
+				index = list.locationToIndex(e.getPoint());
+				showMapUrlDialog((Level) mapUrlListModel.get(index));
+			}
+		}
+	}
+
+	private void showMapUrlDialog(Level level) {
+		JTextField levelInput = new JTextField(""+level.level, 5);
+		JTextField mapInput = new JTextField(""+level.map, 5);
+		JTextField pathInput = new JTextField(level.path, 20);
 		
-		if (mouseClickPosition.getY() >= 0 && drawValue != -1) {
-			paintTile(mouseClickPosition);
+		JPanel inputPanel = new JPanel();
+		inputPanel.add(new JLabel("Level"));
+		inputPanel.add(levelInput);
+		inputPanel.add(new JLabel("Map"));
+		inputPanel.add(mapInput);
+		inputPanel.add(new JLabel("Path"));
+		inputPanel.add(pathInput);
+		int result = JOptionPane.showConfirmDialog(null, inputPanel, "Eigenschaften des Level bearbeiten", JOptionPane.OK_CANCEL_OPTION);
+		if (result == JOptionPane.OK_OPTION) {
+			level.level = Integer.parseInt(levelInput.getText());
+			level.map = Integer.parseInt(mapInput.getText());
+			level.path = pathInput.getText();
 		}
 	}
 
@@ -413,10 +515,17 @@ public class MapEditor extends JPanel implements ActionListener, MouseListener, 
 	@Override
 	public void valueChanged(ListSelectionEvent e) {
 		if (e.getValueIsAdjusting() == false) {
-			if (currentList.getSelectedIndex() == -1)
-				drawValue = -1;
-			else
-				drawValue = (int) currentList.getSelectedValue();
+			if (indexOfSelectedTab > 0) {
+				if (currentList.getSelectedIndex() == -1)
+					drawValue = -1;
+				else
+					drawValue = (int) currentList.getSelectedValue();
+			} else {
+				if (currentList.getSelectedIndex() == -1)
+					selectedMapUrlIndex = -1;
+				else
+					selectedMapUrlIndex = currentList.getSelectedIndex();
+			}
 		}
 	}
 
@@ -425,6 +534,7 @@ public class MapEditor extends JPanel implements ActionListener, MouseListener, 
 		indexOfSelectedTab = tabbedPane.getSelectedIndex();
 		
 		if (mapList != null && enemyList != null && itemList != null) {
+			mapUrlList.clearSelection();
 			mapList.clearSelection();
 			enemyList.clearSelection();
 			itemList.clearSelection();
@@ -432,6 +542,9 @@ public class MapEditor extends JPanel implements ActionListener, MouseListener, 
 		drawValue = -1;
 		
 		switch (indexOfSelectedTab) {
+		case 0:
+			currentList = mapUrlList;
+			break;
 		case 1:
 			currentList = mapList;
 			currentArray = map.mapArray;
