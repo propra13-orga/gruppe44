@@ -5,6 +5,7 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
@@ -458,7 +459,7 @@ public class MapEditor extends JPanel implements ActionListener, MouseListener, 
 				paintTile(mouseClickPosition);
 			}
 		} else if (clickLocation == mapUrlList) {
-			JList<Object> list = (JList<Object>) e.getSource();
+			JList<Object> list = (JList<Object>) clickLocation;
 			int index;
 			
 			if (e.getClickCount() == 2) {
@@ -471,15 +472,16 @@ public class MapEditor extends JPanel implements ActionListener, MouseListener, 
 	private void showMapUrlDialog(Level level) {
 		JTextField levelInput = new JTextField(""+level.level, 5);
 		JTextField mapInput = new JTextField(""+level.map, 5);
-		JTextField pathInput = new JTextField(level.path, 20);
+		JTextField pathInput = new JTextField(level.path, 40);
 		
-		JPanel inputPanel = new JPanel();
+		JPanel inputPanel = new JPanel(new GridLayout(0, 1, 0, -5));
 		inputPanel.add(new JLabel("Level"));
 		inputPanel.add(levelInput);
 		inputPanel.add(new JLabel("Map"));
 		inputPanel.add(mapInput);
 		inputPanel.add(new JLabel("Path"));
 		inputPanel.add(pathInput);
+		
 		int result = JOptionPane.showConfirmDialog(null, inputPanel, "Eigenschaften des Level bearbeiten", JOptionPane.OK_CANCEL_OPTION);
 		if (result == JOptionPane.OK_OPTION) {
 			level.level = Integer.parseInt(levelInput.getText());
