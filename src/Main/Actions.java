@@ -69,6 +69,7 @@ public class Actions {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			// System.out.println("pressedUp");
+			houston.gameLogic.npcv = 0;
 			houston.player.setUp(100);
 		}
 
@@ -86,6 +87,7 @@ public class Actions {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			// System.out.println("pressedDown");
+			houston.gameLogic.npcv = 0;
 			houston.player.setDown(100);
 		}
 
@@ -103,6 +105,7 @@ public class Actions {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			// System.out.println("pressedLeft");
+			houston.gameLogic.npcv = 0;
 			houston.player.setLeft(100);
 		}
 
@@ -120,6 +123,7 @@ public class Actions {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			// System.out.println("pressedRight");
+			houston.gameLogic.npcv = 0;
 			houston.player.setRight(100);
 		}
 

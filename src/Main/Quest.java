@@ -8,6 +8,7 @@ import java.util.ArrayList;
 
 import javax.swing.JDialog;
 import javax.swing.JOptionPane;
+import javax.swing.WindowConstants;
 
 public class Quest {
 
@@ -40,8 +41,8 @@ public class Quest {
 
 	private void initializeStory() throws IOException {
 		questUrl = questUrls[mapNumber];
-		readStoryFile();
-		assignFileContentToStoryText();
+		//readStoryFile();
+		//assignFileContentToStoryText();
 	}
 
 	public void renewStory(int mapNumber) {
@@ -71,8 +72,8 @@ public class Quest {
 		questDialog.setTitle("R\u00e4tsel");
 		questDialog.setSize(300,175);
 		questDialog.setModal(true);
+		questDialog.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
 		questDialog.setVisible(true);
-		questDialog.setDefaultCloseOperation(questDialog.DO_NOTHING_ON_CLOSE);
 		houston.gameLogic.npcv = 0;
 		
 	}

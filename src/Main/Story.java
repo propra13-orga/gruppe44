@@ -59,6 +59,5 @@ public class Story {
 	public void showText() {
 		Component frame = null;
 		JOptionPane.showMessageDialog(frame, storyText.get(mapNumber));
-		houston.gameLogic.npcv = 0;
 	}
 }
