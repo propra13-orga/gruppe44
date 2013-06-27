@@ -126,18 +126,26 @@ public class Houston implements ActionListener, Runnable {
 
 	// Diese Strings identifizieren jeweils eins der Card Panel
 	// Sind hilfreich z.B. beim Wechsel von einer Karte auf eine Andere
-	final static String STARTMENU = "STARTMENU";
-	final static String SETTINGS = "SETTINGS";
-	final static String GAME = "GAME";
-	final static String INGAMEMENU = "INGAMEMENU";
-	final static String CREDITS = "CREDITS";
-	final static String INTRODUCTION = "INTRODUCTION";
-	final static String SHOP = "SHOP";
-	final static String MAPEDITOR = "MAPEDITOR";
+	public final static String STARTMENU = "STARTMENU";
+	public final static String SETTINGS = "SETTINGS";
+	public final static String GAME = "GAME";
+	public final static String INGAMEMENU = "INGAMEMENU";
+	public final static String CREDITS = "CREDITS";
+	public final static String INTRODUCTION = "INTRODUCTION";
+	public final static String SHOP = "SHOP";
+	public final static String MAPEDITOR = "MAPEDITOR";
 		
 	
 	// ------------------------------------------------------------
 	public static void main(String[] args) {
+		try {
+			for (LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
+				if ("Nimbus".equals(info.getName())) {
+					UIManager.setLookAndFeel(info.getClassName());
+					break;
+				}
+			}
+		} catch (Exception e) {e.printStackTrace();}
 		new Houston(768, 672);
 	}
 	// ------------------------------------------------------------

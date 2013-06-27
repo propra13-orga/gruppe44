@@ -18,7 +18,7 @@ public class Actions {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			// System.out.println("ESC -> Ingamemenu");
-			houston.changeAppearance(false, false, "INGAMEMENU");
+			houston.changeAppearance(false, false, Houston.INGAMEMENU);
 		}
 
 	}
@@ -35,7 +35,7 @@ public class Actions {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			// System.out.println("ESC -> Game");
-			houston.changeAppearance(false, true, "GAME");
+			houston.changeAppearance(false, true, Houston.GAME);
 		}
 
 	}

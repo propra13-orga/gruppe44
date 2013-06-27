@@ -215,29 +215,29 @@ public class MapEditor extends JPanel implements ActionListener, MouseListener, 
 		panel1.add(mapUrlScrollPane);
 		
 		up = new JButton("^");
-		up.setBounds(10, 265, 30, 20);
+		up.setBounds(10, 265, 40, 30);
 		up.addActionListener(this);
 		panel1.add(up);
 		
 		down = new JButton("v");
-		down.setBounds(45, 265, 30, 20);
+		down.setBounds(50, 265, 40, 30);
 		down.addActionListener(this);
 		panel1.add(down);
 		
 		saveMapUrls = new JButton("Speichern");
-		saveMapUrls.setBounds(90, 265, 90, 20);
+		saveMapUrls.setBounds(95, 265, 90, 30);
 		saveMapUrls.addActionListener(this);
 		panel1.add(saveMapUrls);
 		
-		add = new JButton("+");
-		add.setBounds(230, 265, 30, 20);
-		add.addActionListener(this);
-		panel1.add(add);
-		
 		del = new JButton("-");
-		del.setBounds(195, 265, 30, 20);
+		del.setBounds(190, 265, 40, 30);
 		del.addActionListener(this);
 		panel1.add(del);
+		
+		add = new JButton("+");
+		add.setBounds(230, 265, 40, 30);
+		add.addActionListener(this);
+		panel1.add(add);
 		
 		// Tab #2
 		ListCellRenderer<Object> mapListRenderer = new ListRenderer.MapListRenderer(houston);
@@ -459,6 +459,7 @@ public class MapEditor extends JPanel implements ActionListener, MouseListener, 
 				paintTile(mouseClickPosition);
 			}
 		} else if (clickLocation == mapUrlList) {
+			@SuppressWarnings("unchecked")
 			JList<Object> list = (JList<Object>) clickLocation;
 			int index;
 			
