@@ -105,6 +105,10 @@ public class GameLogic {
 				dX = 0;
 				npcv = 1;
 				character.onWallHit();
+			} else if (isValidXMovement(topLeft, bottomLeft, dX, 13) == 13){
+				dX = 0;
+				npcv = 2;
+				character.onWallHit();
 			}
 
 			// Bewegung nach Rechts
@@ -117,6 +121,10 @@ public class GameLogic {
 				dX = 0;
 				npcv = 1;
 				character.onWallHit();
+			} else if (isValidXMovement(topRight, bottomRight, dX, 13) == 13) {
+				dX = 0;
+				npcv = 2;
+				character.onWallHit();
 			}
 		}
 
@@ -126,9 +134,13 @@ public class GameLogic {
 			if (isValidYMovement(topLeft, topRight, dY, 1) == 1) {
 				dY = 0;
 				character.onWallHit();
-			} else if (isValidYMovement(topLeft, topRight, dX, 3) == 3) {
+			} else if (isValidYMovement(topLeft, topRight, dY, 3) == 3) {
 				dY = 0;
 				npcv = 1;
+				character.onWallHit();
+			} else if (isValidYMovement(topLeft, topRight, dY, 13) == 13) {
+				dY = 0;
+				npcv = 2;
 				character.onWallHit();
 			}
 
@@ -138,10 +150,15 @@ public class GameLogic {
 			if (isValidYMovement(bottomLeft, bottomRight, dY, 1) == 1) {
 				dY = 0;
 				character.onWallHit();
-			} else if (isValidYMovement(bottomLeft, bottomRight, dX, 3) == 3) {
+			} else if (isValidYMovement(bottomLeft, bottomRight, dY, 3) == 3) {
 				dY = 0;
 				npcv = 1;
 				character.onWallHit();
+			} else if (isValidYMovement(bottomLeft, bottomRight, dY, 13) == 13) {
+				dY = 0;
+				npcv = 2;
+				character.onWallHit();
+				
 			}
 		}
 		

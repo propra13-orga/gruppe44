@@ -241,6 +241,8 @@ public class Actions {
 				houston.changeAppearance(false, "SHOP");
 			} else if (houston.gameLogic.npcv == 1) {
 				houston.story.showText();
+			} else if (houston.gameLogic.npcv == 2) {
+				houston.quest.doQuest();
 			}
 		}
 

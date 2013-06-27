@@ -81,6 +81,8 @@ public class Houston implements ActionListener, Runnable {
 	public Inventory inventory;
 	// Im Shop können Items gekauft werden
 	public Shop shop;
+	//Quests
+	public Quest quest;
 	// Die Geschichte
 	public Story story;
 	// In der Logik werden Berechnungen zur Laufzeit getaetigt
@@ -195,6 +197,7 @@ public class Houston implements ActionListener, Runnable {
 		shop = new Shop(this);
 		
 		story = new Story(0, this);
+		quest = new Quest(0, this);
 		gameLogic = new GameLogic(this);
 	}
 
