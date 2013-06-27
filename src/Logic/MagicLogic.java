@@ -88,7 +88,7 @@ public class MagicLogic {
 				magic.remove = true;
 			}
 
-			// Filtert die zu löschenden Magics raus
+			// Filtert die zu loeschenden Magics raus
 			if (magic.remove) {
 				magics.remove(i);
 				continue;

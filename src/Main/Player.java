@@ -12,7 +12,7 @@ public class Player extends Movable {
 
 	public Rectangle2D attackBox;
 	private int money;
-	// Maximale Werte für Health und Mana
+	// Maximale Werte fuer Health und Mana
 	public final int maxHealth = 100, maxMana = 100;
 	private int armor;
 	private int lives;
@@ -33,7 +33,7 @@ public class Player extends Movable {
 		changeTexture(0);
 	}
 
-	// Zeichnet den spieler
+	// Zeichnet den Spieler
 	@Override
 	public void drawObjects(Graphics2D g) {
 		g.drawImage(texture, (int) getBounds().getX() - 2, (int) getBounds().getY() - 18, null);

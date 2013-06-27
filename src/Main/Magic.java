@@ -45,23 +45,25 @@ public class Magic extends Movable {
 	}
 	
 	private void calculateDirection() {
-		stop();
+		double adjacent = endPosition.getX() - centerPosition.getX();
+		double opposite = endPosition.getY() - centerPosition.getY();
+		double hypotenuse = Math.sqrt(adjacent * adjacent + opposite * opposite);
 		
-		double differenceX = endPosition.getX() - centerPosition.getX();
-		double differenceY = endPosition.getY() - centerPosition.getY();
-
-		if (Math.abs(differenceX) > Math.abs(differenceY)) {
-			if (differenceX < 0)
-				setLeft(100);
-			else
-				setRight(100);
+		// sin() = Ankathete/Hypotenuse = x-Koordinate auf dem Einheitskreis; 
+		double x_multiplier = adjacent / hypotenuse; 
+		// cos() = Gegenkathete/Hypotenuse = y-Koordinate auf dem Einheitskreis
+		double y_multiplier = opposite / hypotenuse; 
+		
+		if (x_multiplier <= 0) {
+			setLeft((int) (-100 * x_multiplier));
 		} else {
-			if (differenceY < 0)
-				setUp(100);
-			else
-				setDown(100);
+			setRight((int) (100 * x_multiplier));
 		}
-		
+		if (y_multiplier <= 0) {
+			setUp((int) (-100 * y_multiplier));
+		} else {
+			setDown((int) (100 * y_multiplier));
+		}
 	}
 
 	@Override

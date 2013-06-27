@@ -16,7 +16,7 @@ public class GameLogic {
 	private Story story;
 
 	private Point2D topLeft, topRight, bottomLeft, bottomRight;
-	double tlX, tlY; // Temporäre Character Ecke
+	double tlX, tlY; // Temporaere Character Ecke
 	private long delta;
 	private double dX, dY;
 	public int value;

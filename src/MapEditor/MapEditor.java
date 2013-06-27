@@ -396,7 +396,7 @@ public class MapEditor extends JPanel implements ActionListener, MouseListener, 
 	
 	private void changeTileValueAtPosition(Point2D point, int newValue) {
 		currentArray[(int) point.getY() / 32][(int) point.getX() / 32] = newValue;
-		// Gibt an, ob Änderungen vorgenommen wurden
+		// Gibt an, ob Aenderungen vorgenommen wurden
 		mapIsDifferentThanOriginal = true;
 	}
 
