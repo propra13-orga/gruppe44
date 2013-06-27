@@ -12,12 +12,14 @@ public class Magic extends Movable {
 	private Point2D endPosition;
 	public boolean remove;
 	private boolean magicFromPlayer;
+	public String magicType;
 
-	public Magic(BufferedImage texture, Point2D centerPosition, Point2D endPosition, boolean playerMagic) {
+	public Magic(BufferedImage texture, Point2D centerPosition, Point2D endPosition, boolean playerMagic, String magicType) {
 		this.texture = texture;
 		this.centerPosition = centerPosition;
 		this.endPosition = endPosition;
 		this.setMagicFromPlayer(playerMagic);
+		this.magicType = magicType;
 		
 		setSpeed(300);
 		
@@ -32,6 +34,10 @@ public class Magic extends Movable {
 
 	public void setMagicFromPlayer(boolean magicFromPlayer) {
 		this.magicFromPlayer = magicFromPlayer;
+	}
+	
+	public void setMagicType(String magicType){
+		this.magicType = magicType;
 	}
 
 	@Override

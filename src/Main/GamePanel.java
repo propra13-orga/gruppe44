@@ -77,8 +77,12 @@ public class GamePanel extends JPanel implements MouseListener {
 
 	public void mouseClicked(MouseEvent e) {
 		mouseClickPosition.setLocation(e.getX(), e.getY() - heightOfInfobar);
-
-		if (mouseClickPosition.getY() >= 0) {
+		// rechte Maustaste wird gedrueckt
+		if(e.getButton() == MouseEvent.BUTTON3){
+			houston.playerLogic.changeMagicType();
+		}
+		// linke Maustaste wird gedrueckt
+		if ((e.getButton() == MouseEvent.BUTTON1) && (mouseClickPosition.getY() >= 0)) {
 			houston.magicLogic.doMagic(mouseClickPosition);
 		}
 	}

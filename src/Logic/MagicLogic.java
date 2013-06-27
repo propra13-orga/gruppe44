@@ -5,6 +5,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -25,20 +26,22 @@ public class MagicLogic {
 	private Magic magic;
 	private Enemy enemy;
 	private int manaCost = 5;
-	private BufferedImage texture;
 	private Timer timer;
 	private TimerTask enemyMagic;
+	private String magicType;
+	public HashMap<String, BufferedImage> texture;
+	public final static String ANA = "ANALYSIS";
+	public final static String LA = "LINEARALGEBRA";
+	public final static String INFO = "INFORMATIK";
 	
 	public MagicLogic(Houston houston) {
 		this.houston	= houston;
 		this.player		= houston.player;
 		this.enemyLogic = houston.enemyLogic;
+		texture = new HashMap<>();
+		initializeHashMap();
+		
 		magics = new ArrayList<Magic>();
-		
-		try {
-			texture = ImageIO.read(new File("./res/img/tiles/ungleich.png"));
-		} catch (IOException e){ e.printStackTrace(); }
-		
 		setMagic();
 	}
 
@@ -49,7 +52,8 @@ public class MagicLogic {
 			public void run (){
 				for (Enemy enemy : houston.enemyLogic.enemies) {
 					if(enemy.shoot == 1){
-					magics.add(new Magic(texture, enemy.getCenterPosition(), player.getCenterPosition(), false));
+						magicType = enemy.enemyField;
+						magics.add(new Magic(texture.get(magicType), enemy.getCenterPosition(), player.getCenterPosition(), false, magicType));
 					}
 				}
 			}	
@@ -60,7 +64,7 @@ public class MagicLogic {
 	public void doMagic(Point2D mouseClickPosition) {
 		if (houston.player.getMana() >= manaCost) {
 			player.decreaseMana(manaCost);
-			magics.add(new Magic(texture, player.getCenterPosition(), mouseClickPosition, true));
+			magics.add(new Magic(texture.get(player.magicType), player.getCenterPosition(), mouseClickPosition, true, player.magicType));
 		}
 	}
 
@@ -72,7 +76,11 @@ public class MagicLogic {
 				enemy = enemyLogic.enemies.get(j);
 				
 				if((magic.getBounds().intersects(enemy.getBounds())) && (magic.isMagicFromPlayer())) {
-					enemy.decreaseHealth(10);
+					if(magic.magicType == enemy.enemyField){
+						enemy.decreaseHealth(5);
+					}else{
+						enemy.decreaseHealth(10);
+					}
 					if(enemy.getHealth() <= 0){
 						if(houston.enemyLogic.bossIsAlive)
 							houston.enemyLogic.bossIsAlive = false;
@@ -102,4 +110,16 @@ public class MagicLogic {
 		magics.clear();
 	}
 
+	private void initializeHashMap(){
+		try {
+			BufferedImage texture1 = ImageIO.read(new File("./res/img/tiles/ungleichAnalysis.png"));
+			BufferedImage texture2 = ImageIO.read(new File("./res/img/tiles/ungleich.png"));
+			BufferedImage texture3 = ImageIO.read(new File("./res/img/tiles/ungleichInformatik.png"));
+			texture.put(ANA, texture1);
+			texture.put(LA, texture2);
+			texture.put(INFO, texture3);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
 }

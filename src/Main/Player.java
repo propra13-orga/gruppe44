@@ -5,8 +5,9 @@ import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.io.File;
 import java.io.IOException;
-
 import javax.imageio.ImageIO;
+
+import Logic.MagicLogic;
 
 public class Player extends Movable {
 
@@ -16,6 +17,7 @@ public class Player extends Movable {
 	public final int maxHealth = 100, maxMana = 100;
 	private int armor;
 	private int lives;
+	public String magicType;
 
 	public Player() {
 		// Setzt Geschwindigkeit des Player
@@ -31,6 +33,8 @@ public class Player extends Movable {
 
 		// Setzt die Textur des Player
 		changeTexture(0);
+		
+		magicType = MagicLogic.ANA;
 	}
 
 	// Zeichnet den Spieler
@@ -49,14 +53,23 @@ public class Player extends Movable {
 	public void changeTexture(int value) {
 		try {
 			if (value == 0) {
-				texture = ImageIO.read(new File("./res/img/characters/german_m1.png"));
-				texture = texture.getSubimage(0, 0, 32, 46);
+				textures = ImageIO.read(new File(
+						"./res/img/characters/german_m1.png"));
 			}
 			if (value == 1) {
-				texture = ImageIO.read(new File("./res/img/characters/german_f2.png"));
-				texture = texture.getSubimage(0, 0, 32, 46);
+				textures = ImageIO.read(new File(
+						"./res/img/characters/german_f2.png"));
 			}
-		} catch (IOException e) {e.printStackTrace();}
+
+			tex_down = textures.getSubimage(0, 0, 32, 46);
+			tex_left = textures.getSubimage(0, 49, 32, 45);
+			tex_right = textures.getSubimage(0, 97, 32, 45);
+			tex_up = textures.getSubimage(0, 145, 32, 45);
+
+			texture = tex_down;
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	@Override
@@ -119,5 +132,4 @@ public class Player extends Movable {
 		super.setResetPosition(x, y);
 		attackBox.setRect(x - 10, y - 10, attackBox.getWidth(), attackBox.getHeight());
 	}
-	
 }

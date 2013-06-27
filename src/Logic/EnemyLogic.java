@@ -1,7 +1,12 @@
 package Logic;
 
 import java.awt.geom.Point2D;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
+
+import javax.imageio.ImageIO;
 
 import Main.Enemy;
 import Main.Houston;
@@ -14,6 +19,7 @@ public class EnemyLogic {
 	public ArrayList<Enemy> enemies;
 	private Enemy enemy;
 	public boolean bossIsAlive;
+	BufferedImage textures = null;
 
 	public EnemyLogic(Houston houston) {
 		this.houston = houston;
@@ -26,9 +32,9 @@ public class EnemyLogic {
 		for(int i = 0; i<6; i++){
 			for (Point2D singleEnemyPosition : map.multiSearch(map.enemyArray, 30+i)) {
 				if(i<3)
-					enemies.add(new Enemy(singleEnemyPosition, 0, map.getLevelNumber() * 3 + i));
+					enemies.add(new Enemy(setTextures( map.getLevelNumber() * 3 + i), singleEnemyPosition, 0, map.getLevelNumber() * 3 + i));
 				else
-					enemies.add(new Enemy(singleEnemyPosition, 3, map.getLevelNumber() * 3 + i-3));
+					enemies.add(new Enemy(setTextures(map.getLevelNumber() * 3 + i-3), singleEnemyPosition, 3, map.getLevelNumber() * 3 + i-3));
 			}
 		}
 	}
@@ -51,4 +57,20 @@ public class EnemyLogic {
 		}
 	}
 
+	private BufferedImage setTextures(int enemyType) {
+		try {
+			if ((enemyType >= 0) && (enemyType < 3)) {
+				textures = ImageIO.read(new File("./res/img/characters/analysis.png"));
+			}
+			if ((enemyType >= 3) && (enemyType < 6)) {
+				textures = ImageIO.read(new File("./res/img/characters/french_m1.png"));
+			}
+			if ((enemyType >= 6) && (enemyType < 9)) {
+				textures = ImageIO.read(new File("./res/img/characters/informatik.png"));
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return textures;
+	}
 }

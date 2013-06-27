@@ -56,4 +56,14 @@ public class PlayerLogic {
 		}
 	}
 
+	public void changeMagicType() {
+		if (player.magicType == MagicLogic.ANA) {
+			player.magicType = MagicLogic.LA;
+		}
+		else if (player.magicType == MagicLogic.LA) {
+			player.magicType = MagicLogic.INFO;
+		}else{
+			player.magicType = MagicLogic.ANA;
+		}
+	}
 }
