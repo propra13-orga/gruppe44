@@ -27,7 +27,8 @@ public class Map {
 
 	private int levelNumber, mapNumber;
 	private String mapUrl;
-	private String[][] mapUrls;
+	private String mapUrlsPath = "./res/maps/map_urls.txt";
+	public ArrayList<Level> mapUrls;
 	private HashMap<Integer, Boolean> walkable =  new HashMap<>();
 	public HashMap<Integer, BufferedImage> texture =  new HashMap<>();
 	public HashMap<Integer, String> textureName = new HashMap<>();
@@ -43,20 +44,11 @@ public class Map {
 		this.mapNumber = mapNumber;
 		
 		// Setzt Pfade zu den jeweiligen Kartendateien ins Array mapUrls
-		mapUrls = new String[3][4];
-		mapUrls[0][0] = "./res/maps/map01_01.txt";
-		mapUrls[0][1] = "./res/maps/map01_02.txt";
-		mapUrls[0][2] = "./res/maps/map01_03.txt";
-		mapUrls[0][3] = "./res/maps/map01_04.txt";
-		mapUrls[1][0] = "./res/maps/map02_01.txt";
-		mapUrls[1][1] = "./res/maps/map02_02.txt";
-		mapUrls[1][2] = "./res/maps/map02_03.txt";
-		mapUrls[1][3] = "./res/maps/map02_04.txt";
-		mapUrls[2][0] = "./res/maps/map03_01.txt";
-		mapUrls[2][1] = "./res/maps/map03_02.txt";
-		mapUrls[2][2] = "./res/maps/map03_03.txt";
-		mapUrls[2][3] = "./res/maps/map03_04.txt";
-		// Erstellt das Array mapArray, in dem die eingelesen Karte stehen wird
+		mapUrls= new ArrayList<>();
+		readMapPathsFromFile();
+		
+		// Erstellt die Arrays mapArray, enemyArray, itemArray,
+		// in denen die eingelesen Elemente stehen werden
 		mapArray = new int[rows][cols];
 		enemyArray = new int[rows][cols];
 		itemArray = new int[rows][cols];
@@ -75,6 +67,28 @@ public class Map {
 				g.drawImage(texture.get(value), col * 32, row * 32 - texture.get(value).getHeight() + 32 , null);
 			}
 		}
+	}
+	
+	private void readMapPathsFromFile() {
+		try (BufferedReader br = new BufferedReader(new FileReader(mapUrlsPath));) {
+			String tempString;
+			String[] tempArray;
+			
+			for(int i = 0; ((tempString = br.readLine()) != null) && (tempArray = tempString.split("\\|")).length == 3; i++) {
+				mapUrls.add(i, new Level(Integer.parseInt(tempArray[0]), Integer.parseInt(tempArray[1]), tempArray[2]));
+			}
+		} catch (IOException e) {e.printStackTrace();}
+	}
+	
+	public void writeBackMapUrls() {
+		try (BufferedWriter bw = new BufferedWriter(new FileWriter(mapUrlsPath))) {
+			Level l;
+			
+			for (int i = 0; i < mapUrls.size(); i++) {
+				l = mapUrls.get(i);
+				bw.write(String.format("%02d|%02d|%s\n", l.level, l.map, l.path));
+			}
+		} catch (IOException e) {e.printStackTrace();}
 	}
 	
 	// Fuellt 2 HashMaps mit den Informationen "begehbar" und "textur"
@@ -141,12 +155,34 @@ public class Map {
 
 	// Gibt die Anzahl an Level zurueck
 	public int getCountOfLevel() {
-		return mapUrls.length;
+		int count = 0;
+		for (int i = 0, lastValue = -1; i < mapUrls.size(); i++) {
+			if (lastValue != mapUrls.get(i).level) {
+				count++;
+				lastValue = mapUrls.get(i).level;
+			}
+		}
+		return count;
 	}
 
 	// Gibt die Anzahl an Karten in bestimmtem Level zurueck
 	public int getCountOfMapsByLevel(int level) {
-		return mapUrls[level].length;
+		int count = 0;
+		for (int i = 0; i < mapUrls.size(); i++) {
+			if (mapUrls.get(i).level == level)
+				count++;
+		}
+		return count;
+	}
+	
+	private String getMapUrlByLevelAndMap(int levelNumber, int mapNumber) {
+		for (int i = 0; i < mapUrls.size(); i++) {
+			Level l = mapUrls.get(i);
+			if ((l.level == levelNumber) && (l.map == mapNumber)) {
+				return l.path;
+			}
+		}
+		return "";
 	}
 
 	// Gibt die Anzahl an Karten im aktuellen Level zurueck
@@ -171,7 +207,7 @@ public class Map {
 	private void initializeMap() {
 		initializeHashMaps();
 		clearMap(0);
-		mapUrl = mapUrls[levelNumber][mapNumber];
+		mapUrl = getMapUrlByLevelAndMap(levelNumber, mapNumber);
 		readMapByFile(mapUrl);
 	}
 	

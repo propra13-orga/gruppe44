@@ -1,0 +1,12 @@
+00|00|./res/maps/map01_01.txt
+00|01|./res/maps/map01_02.txt
+00|02|./res/maps/map01_03.txt
+00|03|./res/maps/map01_04.txt
+01|00|./res/maps/map02_01.txt
+01|01|./res/maps/map02_02.txt
+01|02|./res/maps/map02_03.txt
+01|03|./res/maps/map02_04.txt
+02|00|./res/maps/map03_01.txt
+02|01|./res/maps/map03_02.txt
+02|02|./res/maps/map03_03.txt
+02|03|./res/maps/map03_04.txt
