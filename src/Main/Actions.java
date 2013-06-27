@@ -71,6 +71,7 @@ public class Actions {
 			// System.out.println("pressedUp");
 			houston.gameLogic.npcv = 0;
 			houston.player.setUp(100);
+			houston.player.texture = houston.player.tex_up;
 		}
 
 	}
@@ -89,6 +90,7 @@ public class Actions {
 			// System.out.println("pressedDown");
 			houston.gameLogic.npcv = 0;
 			houston.player.setDown(100);
+			houston.player.texture = houston.player.tex_down;
 		}
 
 	}
@@ -107,6 +109,7 @@ public class Actions {
 			// System.out.println("pressedLeft");
 			houston.gameLogic.npcv = 0;
 			houston.player.setLeft(100);
+			houston.player.texture = houston.player.tex_left;
 		}
 
 	}
@@ -125,6 +128,7 @@ public class Actions {
 			// System.out.println("pressedRight");
 			houston.gameLogic.npcv = 0;
 			houston.player.setRight(100);
+			houston.player.texture = houston.player.tex_right;
 		}
 
 	}
