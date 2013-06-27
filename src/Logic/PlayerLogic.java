@@ -38,7 +38,7 @@ public class PlayerLogic {
 			player.increaseHealth(100);
 		}
 		if (player.getLives() == 0){
-			houston.changeAppearance(true, false, "STARTMENU");
+			houston.changeAppearance(true, false, Houston.STARTMENU);
 		}
 	}
 

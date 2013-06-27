@@ -85,7 +85,7 @@ public class GameLogic {
 				changeLevel((map.getLevelNumber() + 1), 0);
 			} else {
 				// Spiel gewonnen
-				houston.changeAppearance(true, false, "STARTMENU");
+				houston.changeAppearance(true, false, Houston.STARTMENU);
 			}
 		}
 	}
@@ -229,7 +229,7 @@ public class GameLogic {
 	}
 	
 	private void die() {
-		houston.changeAppearance(true, false, "STARTMENU");
+		houston.changeAppearance(true, false, Houston.STARTMENU);
 	}
 
 }
