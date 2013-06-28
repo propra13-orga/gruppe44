@@ -20,9 +20,9 @@ public class Story {
 	public Story(int mapNumber, Houston houston) {
 		this.houston = houston;
 		this.mapNumber = mapNumber;
-		
+
 		storyText = new ArrayList<String>();
-		
+
 		try {
 			initializeStory();
 		} catch (IOException e) {e.printStackTrace();}

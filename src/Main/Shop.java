@@ -8,7 +8,7 @@ public class Shop {
 	private Inventory inventory;
 
 	// Preise fuer die kaufbaren Items
-	final static int 
+	final static int
 	priceForHealthPack = 40,
 	priceForManaPotion = 80;
 

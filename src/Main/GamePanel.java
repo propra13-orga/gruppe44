@@ -17,7 +17,7 @@ public class GamePanel extends JPanel implements MouseListener {
 	private Player player;
 	private Map map;
 	private Infobar infobar;
-	
+
 	private Font plainFont;
 	private Color bgColor;
 	private final int heightOfInfobar = 32;
@@ -28,12 +28,12 @@ public class GamePanel extends JPanel implements MouseListener {
 		this.player		= houston.player;
 		this.map		= houston.map;
 		this.infobar	= new Infobar(houston, 0, -heightOfInfobar);
-		
+
 		// Setzt die Schrift fuer die Konsolenausgaben
 		plainFont = new Font("Arial", Font.PLAIN, 12);
 		// Setzt die Hintergrundfarbe
 		bgColor = new Color(240, 240, 240);
-		
+
 		mouseClickPosition = new Point2D.Double();
 		addMouseListener(this);
 	}
@@ -53,10 +53,10 @@ public class GamePanel extends JPanel implements MouseListener {
 
 		// Zeichnet Informationen in der Informationsleiste
 		infobar.drawObjects(g);
-		
+
 		// Zeichnet die Karte
 		map.drawObjects(g);
-		
+
 		// Zeichnet Items
 		for (int i = houston.itemLogic.items.size() - 1; i >= 0; i--)
 			houston.itemLogic.items.get(i).drawObjects(g);

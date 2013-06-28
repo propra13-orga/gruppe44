@@ -27,12 +27,12 @@ public class GameLogic {
 		this.player		= houston.player;
 		this.map		= houston.map;
 		this.story		= houston.story;
-		
+
 		this.playerLogic	= houston.playerLogic		= new PlayerLogic(houston);
 		this.enemyLogic		= houston.enemyLogic		= new EnemyLogic(houston);
 		this.magicLogic		= houston.magicLogic		= new MagicLogic(houston);
 		this.itemLogic		= houston.itemLogic			= new ItemLogic(houston);
-		
+
 		// 4 Punkte fuer die 4 Ecken des Character
 		topLeft			= new Point2D.Double();
 		topRight		= new Point2D.Double();
@@ -158,15 +158,15 @@ public class GameLogic {
 				dY = 0;
 				npcv = 2;
 				character.onWallHit();
-				
+
 			}
 		}
-		
+
 		// Bewegt den Charakter falls notwendig
 		if (dX != 0 || dY != 0)
 			character.move(dX, dY);
 	}
-	
+
 	// Ermittelt, ob sich der Player auf einer Speziellen Kachel befindet, und leitet entsprechende Massnahmen ein
 	public void detectSpecialTiles() {
 		if (player.isMoving()) {
@@ -175,9 +175,9 @@ public class GameLogic {
 			} catch (ArrayIndexOutOfBoundsException e) {
 				System.out.println("ungueltige Position x:"+player.getX()+" y:"+player.getY()); die();
 			}
-			
+
 			// entsprechende Massnahmen
-			if (value == 7) { 
+			if (value == 7) {
 				backToLastCheckpoint();
 				player.decreaseHealth(25);
 			} else if (value == 9) {
@@ -185,7 +185,7 @@ public class GameLogic {
 			}
 		}
 	}
-	
+
 	// Ermittelt die Koordinaten der 4 Eckpunkte des Charakter
 	private void getCharacterCorners(Movable character) {
 		double tlX = character.getX();
@@ -227,7 +227,7 @@ public class GameLogic {
 		changeLevel(map.getLevelNumber(), 0);
 		player.setArmor(100);
 	}
-	
+
 	private void die() {
 		houston.changeAppearance(true, false, Houston.STARTMENU);
 	}

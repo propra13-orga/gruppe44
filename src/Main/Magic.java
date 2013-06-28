@@ -20,14 +20,14 @@ public class Magic extends Movable {
 		this.endPosition = endPosition;
 		this.setMagicFromPlayer(playerMagic);
 		this.magicType = magicType;
-		
+
 		setSpeed(300);
-		
+
 		setBounds(new Rectangle2D.Double(centerPosition.getX() - (texture.getWidth() / 2), centerPosition.getY() - (texture.getHeight() / 2), texture.getWidth(), texture.getHeight()));
-		 
+
 		calculateDirection();
 	}
-	
+
 	public boolean isMagicFromPlayer() {
 		return magicFromPlayer;
 	}
@@ -35,7 +35,7 @@ public class Magic extends Movable {
 	public void setMagicFromPlayer(boolean magicFromPlayer) {
 		this.magicFromPlayer = magicFromPlayer;
 	}
-	
+
 	public void setMagicType(String magicType){
 		this.magicType = magicType;
 	}
@@ -45,21 +45,21 @@ public class Magic extends Movable {
 		super.move(dX, dY);
 		centerPosition = getCenterPosition();
 	}
-	
+
 	public void drawObjects(Graphics2D g) {
 		g.drawImage(texture, (int) getBounds().getX(), (int) getBounds().getY(), null);
 	}
-	
+
 	private void calculateDirection() {
 		double adjacent = endPosition.getX() - centerPosition.getX();
 		double opposite = endPosition.getY() - centerPosition.getY();
 		double hypotenuse = Math.sqrt(adjacent * adjacent + opposite * opposite);
-		
-		// sin() = Ankathete/Hypotenuse = x-Koordinate auf dem Einheitskreis; 
-		double x_multiplier = adjacent / hypotenuse; 
+
+		// sin() = Ankathete/Hypotenuse = x-Koordinate auf dem Einheitskreis;
+		double x_multiplier = adjacent / hypotenuse;
 		// cos() = Gegenkathete/Hypotenuse = y-Koordinate auf dem Einheitskreis
-		double y_multiplier = opposite / hypotenuse; 
-		
+		double y_multiplier = opposite / hypotenuse;
+
 		if (x_multiplier <= 0) {
 			setLeft((int) (-100 * x_multiplier));
 		} else {

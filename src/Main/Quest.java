@@ -24,16 +24,16 @@ public class Quest {
 	public Quest(int mapNumber, Houston houston) {
 		this.houston = houston;
 		this.mapNumber = mapNumber;
-		
+
 		questUrls = new String[8];
 		questUrls[0] = "./res/quest/quest1.txt";
 		questUrls[1] = "./res/quest/quest2.txt";
 		questUrls[2] = "./res/quest/quest3.txt";
 		questUrls[3] = "./res/quest/quest4.txt";
 		questUrls[4] = "./res/quest/quest5.txt";
-		
+
 		questText = new ArrayList<String>();
-		
+
 		try {
 			initializeStory();
 		} catch (IOException e) {e.printStackTrace();}
@@ -75,6 +75,6 @@ public class Quest {
 		questDialog.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
 		questDialog.setVisible(true);
 		houston.gameLogic.npcv = 0;
-		
+
 	}
 }

@@ -26,11 +26,11 @@ public abstract class Movable {
 		g.draw(bounds);
 	}
 
-	// Fuehrt die Bewegung des Charakter aus 
+	// Fuehrt die Bewegung des Charakter aus
 	public void move(double dX, double dY) {
 		bounds.setRect(getX() + dX, getY() + dY, getWidth(), getHeight());
 	}
-	
+
 	// Haelt den Charakter an
 	public final void stop() {
 		up = down = left = right = 0;
@@ -67,7 +67,7 @@ public abstract class Movable {
 	public final void setRight(int right) {
 		this.right = right;
 	}
-	
+
 	public final boolean isMoving() {
 		if (up > 0 || down > 0 || left > 0 || right > 0)
 			return true;
@@ -77,7 +77,7 @@ public abstract class Movable {
 	public final double getSpeed() {
 		return speed;
 	}
-	
+
 	public final void setSpeed(double speed) {
 		this.speed = speed;
 	}
@@ -89,7 +89,7 @@ public abstract class Movable {
 			return i * speed * (delta / 1e9) * (right / 100.0);
 		return 0;
 	}
-	
+
 	public final double getDY(int i, long delta) {
 		if (i == -1)
 			return i * speed * (delta / 1e9) * (up / 100.0);
@@ -137,7 +137,7 @@ public abstract class Movable {
 	public final double getHeight() {
 		return bounds.getHeight();
 	}
-	
+
 	public final Point2D getCenterPosition() {
 		return new Point2D.Double(bounds.getCenterX(), bounds.getCenterY());
 	}

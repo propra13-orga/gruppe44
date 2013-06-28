@@ -28,12 +28,12 @@ public class Player extends Movable {
 
 		// Setzt Position und Groesse des Player
 		setBounds(new Rectangle2D.Double(0, 0, 28, 28));
-		
+
 		attackBox = new Rectangle2D.Double(0, 0, 48, 48);
 
 		// Setzt die Textur des Player
 		changeTexture(0);
-		
+
 		magicType = MagicLogic.ANA;
 	}
 
@@ -42,7 +42,7 @@ public class Player extends Movable {
 	public void drawObjects(Graphics2D g) {
 		g.drawImage(texture, (int) getBounds().getX() - 2, (int) getBounds().getY() - 18, null);
 	}
-	
+
 	@Override
 	public void move(double dX, double dY) {
 		getBounds().setRect(getBounds().getX() + dX, getBounds().getY() + dY, getBounds().getWidth(), getBounds().getHeight());
@@ -71,7 +71,7 @@ public class Player extends Movable {
 			e.printStackTrace();
 		}
 	}
-	
+
 	@Override
 	public void decreaseHealth(int amountOfHealth) {
 		super.decreaseHealth(amountOfHealth * armor/100);
@@ -90,7 +90,7 @@ public class Player extends Movable {
 	public int getMoney() {
 		return money;
 	}
-	
+
 	public void setMoney(int money) {
 		this.money = money;
 	}
@@ -103,25 +103,25 @@ public class Player extends Movable {
 		if (money > 0)
 			money -= amountOfMoney;
 	}
-	
+
 	// Armor
 	public int getArmor() {
 		return armor;
 	}
-	
+
 	public void setArmor(int armor) {
 		this.armor = armor;
 	}
-	
+
 	// Lives
 	public int getLives() {
 		return lives;
 	}
-	
+
 	public void setLives(int lives) {
 		this.lives = lives;
 	}
-	
+
 	@Override
 	public void onWallHit() {
 		// Eierschaukeln

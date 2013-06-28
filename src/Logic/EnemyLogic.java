@@ -49,7 +49,7 @@ public class EnemyLogic {
 				continue;
 			}
 			houston.gameLogic.controlCharacterMovement(enemy);
-			
+
 			// Prueft, ob der Player sich mit einem Gegner Ueberschneidet
 			if (houston.player.getBounds().intersects(enemy.getBounds())) {
 				houston.player.decreaseHealth(2);

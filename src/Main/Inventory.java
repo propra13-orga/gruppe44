@@ -4,14 +4,14 @@ public class Inventory {
 
 	Houston houston;
 	Player player;
-	
+
 	// Anzal der Items im Inventar
 	private int healthPack, manaPotion;
 	// Werte, wieviel jedes Item bringt
-	final static int 
+	final static int
 	healthPerPortion	= 30,
 	manaPerPortion		= 60;
-	
+
 	public Inventory(Houston houston) {
 		this.houston = houston;
 		this.player = houston.player;

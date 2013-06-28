@@ -31,7 +31,7 @@ public class MenuCards {
 			houston.c1b3.addActionListener(houston);
 			houston.c1b3.setBounds(284, 420, 200, 40);
 			this.add(houston.c1b3);
-			
+
 			houston.c1b4 = new JButton("Karten Editor");
 			houston.c1b4.addActionListener(houston);
 			houston.c1b4.setBounds(284, 480, 200, 40);
@@ -208,7 +208,7 @@ public class MenuCards {
 		// Baut den Shop
 		public card7(Houston houston) {
 			this.setLayout(null);
-			
+
 			houston.c7l4 = new JLabel(new ImageIcon("./res/img/shop/Club_mate.png"));
 			houston.c7l4.setBounds(50, 200, 200, 149);
 			this.add(houston.c7l4);
@@ -219,15 +219,15 @@ public class MenuCards {
 			ImageIcon healthpack = new ImageIcon("./res/img/tiles/health.png");
 			houston.c7b1.setIcon(healthpack);
 			this.add(houston.c7b1);
-			
+
 			houston.c7l6 = new JLabel("Im Inventar: ");
 			houston.c7l6.setBounds(50, 400, 200, 50);
 			this.add(houston.c7l6);
-			
+
 			houston.c7l8 = new JLabel("0");
 			houston.c7l8.setBounds(130, 400, 200, 50);
 			this.add(houston.c7l8);
-			
+
 			houston.c7l5 = new JLabel(new ImageIcon("./res/img/shop/Killepitsch.png"));
 			houston.c7l5.setBounds(284, 200, 200, 149);
 			this.add(houston.c7l5);
@@ -238,19 +238,19 @@ public class MenuCards {
 			ImageIcon manatrank = new ImageIcon("./res/img/tiles/mana.png");
 			houston.c7b2.setIcon(manatrank);
 			this.add(houston.c7b2);
-			
+
 			houston.c7l7 = new JLabel("Im Inventar: ");
 			houston.c7l7.setBounds(284, 400, 200, 50);
 			this.add(houston.c7l7);
-			
+
 			houston.c7l9 = new JLabel("0");
 			houston.c7l9.setBounds(364, 400, 200, 50);
 			this.add(houston.c7l9);
-			
+
 			houston.c7l10 = new JLabel("Geld: ");
 			houston.c7l10.setBounds(284, 560, 200, 40);
 			this.add(houston.c7l10);
-			
+
 			houston.c7l11 = new JLabel("200 CP");
 			houston.c7l11.setBounds(324, 560, 200, 40);
 			this.add(houston.c7l11);

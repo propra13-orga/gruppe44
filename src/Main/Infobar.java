@@ -44,7 +44,7 @@ public class Infobar {
 		// Zeigt Armor an, falls es angelegt ist
 		if (player.getArmor() != 100)
 			g.drawString("Rüstung", 512 + xo, 13 + yo);
-		
+
 		//Zeichnet die Leben als Herzen
 		BufferedImage heartPicture = null;
 		try {
@@ -54,7 +54,7 @@ public class Infobar {
 			g.drawImage(heartPicture , 210 + xo, 6 + yo, null);
 		if(player.getLives() > 2)
 			g.drawImage(heartPicture , 230 + xo, 6 + yo, null);
-			
+
 		// Zeigt Mana an
 		g.setColor(Color.BLACK);
 		g.drawString("Mana :", 16 + xo, 26 + yo);
@@ -64,7 +64,7 @@ public class Infobar {
 		g.fillRect(96 + xo, 18 + yo, playerMana, 6);
 		g.setColor(Color.BLACK);
 		g.drawLine(96 + playerMana + xo, 18 + yo, 96 + playerMana + xo, 24 + yo);
-		
+
 		// Zeigt Geld an
 		g.setColor(Color.BLACK);
 		g.drawString("Geld :", 310 + xo, 13 + yo);
@@ -84,10 +84,10 @@ public class Infobar {
 		// Zeichnet die gerundete aktuelle Position des Player
 		g.setColor(Color.GRAY);
 		g.drawString("Pos " + "x:"+(int)player.getX()+" y:"+(int)player.getY(), 608+xo, 13+yo);
-		
+
 		// Zeichnet Karteninformationen
 		g.drawString("Map  "+(map.getLevelNumber()+1)+" - "+(map.getMapNumber()+1), 700+xo, 26+yo);
-		
+
 		// Zeichnet die aktuellen FPS (Frames Per Second)
 		g.drawString("FPS: " + houston.fps, 712 + xo, 13 + yo);
 	}

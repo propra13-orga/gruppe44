@@ -1,7 +1,7 @@
 package Main;
 
 /**
- * 
+ *
  * 8 = Spawn/Start
  * 9 = Finish/Ziel
  * 1 = Ground/Boden
@@ -11,12 +11,12 @@ package Main;
  * 4 = Enemy/GegnerOben
  * 7 = Trap/Falle
  * p = Player/Spieler
- * 
+ *
  * Ä, ä \u00c4, \u00e4
  * Ö, ö \u00d6, \u00f6
  * Ü, ü \u00dc, \u00fc
  * ß \u00df
- * ® \u00ae 
+ * ® \u00ae
 */
 
 import java.awt.CardLayout;
@@ -67,14 +67,14 @@ public class Houston implements ActionListener, Runnable {
 	private String currentCard;
 	// Kontainer fuer die "Unterfenster" card1, card2, ...
 	private JPanel cards;
-	// "Unterfenster", die das Startmenue, Einstellungen, etc. beinhalten 
+	// "Unterfenster", die das Startmenue, Einstellungen, etc. beinhalten
 	public JPanel card1, card2, card4, card5, card6, card7;
 	public GamePanel gamePanel;
 	public MapEditor mapEditor;
 	// CardLayout ermoeglicht erst diese Darstellung der unterschiedlichen
 	// Fensterinhalte auf unterschiedlichen "Karten"
 	private CardLayout cl;
-	
+
 	// Durch den Spieler gesteuerter Charakter
 	public Player player;
 	// Die Karte
@@ -98,9 +98,9 @@ public class Houston implements ActionListener, Runnable {
 	// Die Logik der Items
 	public ItemLogic itemLogic;
 
-	
+
 	// Die im Menue vorhandenen Knoepfe
-	JButton 
+	JButton
 	c1b1, //Neues Spiel
 	c1b2, //Einstellungen
 	c1b3, //Mitwirkende
@@ -117,7 +117,7 @@ public class Houston implements ActionListener, Runnable {
 
 	//Spielerauswahl
 	JRadioButton maenlich, weiblich;
-	
+
 	// Knoepfe zur Kartenauswahl fuer Testzwecke
 	JButton c6map1, c6map2, c6map3, c6map4, c6map5, c6map6, c6map7, c6map8, c6map9;
 
@@ -134,8 +134,8 @@ public class Houston implements ActionListener, Runnable {
 	public final static String INTRODUCTION = "INTRODUCTION";
 	public final static String SHOP = "SHOP";
 	public final static String MAPEDITOR = "MAPEDITOR";
-		
-	
+
+
 	// ------------------------------------------------------------
 	public static void main(String[] args) {
 		try {
@@ -158,7 +158,7 @@ public class Houston implements ActionListener, Runnable {
 		// Setzt Hoehe und Breite des Fensterinhaltes
 		this.width = width;
 		this.height = height;
-		
+
 		// Erstellt die einzelnen Card-Panel
 		card1 = new MenuCards.card1(this);	// STARTMENU
 		card2 = new MenuCards.card2(this);	// SETTINGS
@@ -186,26 +186,26 @@ public class Houston implements ActionListener, Runnable {
 		// Erstellt das Hauptfenster und fuegt Cards hinzu
 		frame = buildFrame("DungeonCrawler", cards);
 		frame.pack();
-		
+
 		// Setzt Card, die als erstes angezeigt werden soll
 		currentCard = STARTMENU;
 		cl.show(cards, currentCard);
-		
+
 		// Startet den Game-Loop
 		Thread th = new Thread(this);
 		th.start();
 	}
-	
-	
+
+
 	// Hier wird vor Spielbeginn alles moegliche initialisiert
 	private void initializeCrap() {
 		preferredFps = 35;
 		map = new Map(0, 0, 20, 24);
-		
+
 		player = new Player();
 		inventory = new Inventory(this);
 		shop = new Shop(this);
-		
+
 		story = new Story(0, this);
 		quest = new Quest(0, this);
 		gameLogic = new GameLogic(this);
@@ -214,7 +214,7 @@ public class Houston implements ActionListener, Runnable {
 	@Override
 	public void run() {
 		// GameLoop
-		
+
 		while (frame.isVisible()) {
 			if (gameIsRunning) {
 				computeDelta();
@@ -229,14 +229,14 @@ public class Houston implements ActionListener, Runnable {
 			} catch (InterruptedException e) {}
 		}
 	}
-	
+
 	// Berechnet FPS und Delta
 	private void computeDelta() {
 		delta = System.nanoTime() - last;
 		last = System.nanoTime();
 		fps = ((long) 1e9) / delta;
 	}
-	
+
 	// Baut das Fenster auf und bindet JPanel cards ein
 	private JFrame buildFrame(String titel, JPanel cards) {
 		frame = new JFrame(titel);
@@ -249,7 +249,7 @@ public class Houston implements ActionListener, Runnable {
 		frame.setVisible(true);
 		return frame;
 	}
-	
+
 	// Wechselt die Card und weist die entsprechenden Tastendruecke zu
 	public void changeAppearance(boolean gameOver, boolean gameIsRunning, String name) {
 		// Setzt die aktuelle Card auf die neue Card
@@ -260,22 +260,22 @@ public class Houston implements ActionListener, Runnable {
 		this.gameOver = gameOver;
 		// Weist die Tastendruecke zu
 		mapActions();
-		
+
 		player.stop();
-		
+
 		last = System.nanoTime();
 		// Waechselt von der aktuellen Card auf die neue Card
 		cl.show(cards, name);
 	}
-	
+
 	public void changeAppearance(boolean gameIsRunning, String name) {
 		changeAppearance(gameOver, gameIsRunning, name);
 	}
-	
+
 	public void changeAppearance(String name) {
 		changeAppearance(gameOver, gameIsRunning, name);
 	}
-	
+
 	// Weist, je nach angezeigtem Panel (Card), die entsprechenden Tastendruecke zu
 	private void mapActions() {
 		// Holt die InputMap, um neue Tastendruecke zu registrieren

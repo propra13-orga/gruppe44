@@ -19,7 +19,7 @@ public class ItemLogic {
 
 	private Houston houston;
 	private Map map;
-	
+
 	public ArrayList<Item> items;
 	private Item item;
 	private int itemType;
@@ -40,17 +40,17 @@ public class ItemLogic {
 		File tex_file = new File("./res/img/tiles/texture_array.png");
 		try (BufferedInputStream in = new BufferedInputStream(new FileInputStream(tex_file));) {
 			BufferedImage sprite = ImageIO.read(in);
-			
+
 			BufferedImage tex_delete = sprite.getSubimage(0, 288, 32, 32);
 			BufferedImage tex_health = sprite.getSubimage(0, 192, 32, 32);
 			BufferedImage tex_mana = sprite.getSubimage(0, 160, 32, 32);
 			BufferedImage tex_armor = sprite.getSubimage(32, 166, 32, 58);
-			
+
 			texture.put(0, tex_delete);
 			texture.put(90, tex_health);
 			texture.put(91, tex_mana);
 			texture.put(92, tex_armor);
-			
+
 			itemName.put(0, "Item entfernen");
 			itemName.put(90, "Health Pack");
 			itemName.put(91, "Mana Potion");

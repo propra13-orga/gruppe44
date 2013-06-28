@@ -21,7 +21,7 @@ public class MagicLogic {
 	private Houston houston;
 	private Player player;
 	private EnemyLogic enemyLogic;
-	
+
 	public ArrayList<Magic> magics;
 	private Magic magic;
 	private Enemy enemy;
@@ -33,21 +33,21 @@ public class MagicLogic {
 	public final static String ANA = "ANALYSIS";
 	public final static String LA = "LINEARALGEBRA";
 	public final static String INFO = "INFORMATIK";
-	
+
 	public MagicLogic(Houston houston) {
 		this.houston	= houston;
 		this.player		= houston.player;
 		this.enemyLogic = houston.enemyLogic;
 		texture = new HashMap<>();
 		initializeHashMap();
-		
+
 		magics = new ArrayList<Magic>();
 		setMagic();
 	}
 
 	public void setMagic(){
 	timer = new Timer();
-		
+
 		enemyMagic = new TimerTask(){
 			public void run (){
 				for (Enemy enemy : houston.enemyLogic.enemies) {
@@ -56,9 +56,9 @@ public class MagicLogic {
 						magics.add(new Magic(texture.get(magicType), enemy.getCenterPosition(), player.getCenterPosition(), false, magicType));
 					}
 				}
-			}	
+			}
 		};
-		
+
 		timer.schedule(enemyMagic, 100, 2000);
 	}
 	public void doMagic(Point2D mouseClickPosition) {
@@ -71,10 +71,10 @@ public class MagicLogic {
 	public void doGameUpdates() {
 		for (int i = magics.size() - 1; i >= 0; i--) {
 			magic = magics.get(i);
-			
+
 			for (int j = enemyLogic.enemies.size() - 1; j >= 0; j--) {
 				enemy = enemyLogic.enemies.get(j);
-				
+
 				if((magic.getBounds().intersects(enemy.getBounds())) && (magic.isMagicFromPlayer())) {
 					if(magic.magicType == enemy.enemyField){
 						enemy.decreaseHealth(5);
@@ -101,7 +101,7 @@ public class MagicLogic {
 				magics.remove(i);
 				continue;
 			}
-			
+
 			houston.gameLogic.controlCharacterMovement(magic);
 		}
 	}
