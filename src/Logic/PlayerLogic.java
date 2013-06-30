@@ -14,7 +14,7 @@ public class PlayerLogic {
 
 	private Houston houston;
 	private Player player;
-	int attackDamge = 5;
+	int attackDamage = 5;
 
 	public PlayerLogic(Houston houston) {
 		this.houston = houston;
@@ -50,40 +50,36 @@ public class PlayerLogic {
 	public void attack() {
 		for (Enemy enemy : houston.enemyLogic.enemies) {
 			if (player.attackBox.intersects(enemy.getBounds())) {
-				calculateAtatckDamage();
-				enemy.decreaseHealth(attackDamge);
+				calculateAttackDamage();
+				enemy.decreaseHealth(attackDamage);
 				if(enemy.getHealth() <= 0){
 					if(houston.enemyLogic.bossIsAlive)
 						houston.enemyLogic.bossIsAlive = false;
 					enemy.remove= true;
 					player.increaseMoney(10);
 					player.increaseExperience(15);
-					if (player.getExperience() >=100){
-						player.setPlayerLevel(player.getplayerLevel()+1);
-						player.setExperience( player.getExperience() % 100);
-						//levelUpFrame();
-					}
 				}
 			}
 		}
+		checkExperience();
 	}
-	//erhoeht die Attacke bei allen graden Levlen und 1
-	public void calculateAtatckDamage(){
+	//erhoeht die Attacke bei allen graden Leveln und 1
+	public void calculateAttackDamage(){
 		if(player.getplayerLevel() % 2 == 0){
-			attackDamge ++;
+			attackDamage ++;
 		}
 	}
 	
 	public void levelUpFrame(){
 		Component frame = null;
 		if(player.getplayerLevel() % 2 == 0 && player.getplayerLevel() == 2){
-			JOptionPane.showMessageDialog(frame, "<html>Level aufgesteigen! <p/>" + "La Magie freigeschaltet <p/>" + "Angriff um 1 erh\u00f6t <html>");
+			JOptionPane.showMessageDialog(frame, "<html>Level aufgesteigen! <p/>" + "La Magie freigeschaltet <p/>" + "Angriff um 1 erh\u00f6ht <html>");
 		}else if(player.getplayerLevel() % 2 == 0){
-			JOptionPane.showMessageDialog(frame, "<html>Level aufgesteigen! <p/>" + "Angriff um 1 erh\u00f6t <html>");
+			JOptionPane.showMessageDialog(frame, "<html>Level aufgesteigen! <p/>" + "Angriff um 1 erh\u00f6ht <html>");
 		}else if(player.getplayerLevel() % 2 == 1 && player.getplayerLevel() == 3){
-			JOptionPane.showMessageDialog(frame, "<html>Level aufgesteigen! <p/>" + "Info Magie freigeschaltet <p/>" + "Magie um 1 erh\u00f6t <html>");
+			JOptionPane.showMessageDialog(frame, "<html>Level aufgesteigen! <p/>" + "Info Magie freigeschaltet <p/>" + "Magie um 1 erh\u00f6ht <html>");
 		}else if(player.getplayerLevel() % 2 == 1){
-			JOptionPane.showMessageDialog(frame, "<html>Level aufgesteigen! <p/>" + "Magie um 1 erh\u00f6t <html>");
+			JOptionPane.showMessageDialog(frame, "<html>Level aufgesteigen! <p/>" + "Magie um 1 erh\u00f6ht <html>");
 		}
 	}
 	
@@ -103,5 +99,13 @@ public class PlayerLogic {
 			}else
 				player.magicType = MagicLogic.ANA;
 		}	
+	}
+	
+	public void checkExperience(){
+		if (player.getExperience() >=100){
+			player.setPlayerLevel(player.getplayerLevel()+1);
+			player.setExperience( player.getExperience() % 100);
+			levelUpFrame();
+		}
 	}
 }
