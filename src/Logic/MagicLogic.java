@@ -110,7 +110,7 @@ public class MagicLogic {
 	//erhoeht die Magie bei ungraden Leveln um 1, wenn Level des Speielers nicht 1 ist
 	public void calculateMagicDamage(){
 		if(player.getplayerLevel() % 2 == 1 && player.getplayerLevel() != 1){
-				magicDamge += magicDamge;
+				magicDamge ++;
 		}
 	}
 	

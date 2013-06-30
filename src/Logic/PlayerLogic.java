@@ -65,7 +65,7 @@ public class PlayerLogic {
 	//erhoeht die Attacke bei allen graden Levlen und 1
 	public void calculateAtatckDamage(){
 		if(player.getplayerLevel() % 2 == 0){
-			attackDamge += attackDamge;	
+			attackDamge ++;
 		}
 	}
 	
