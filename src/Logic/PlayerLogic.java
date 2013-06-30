@@ -73,13 +73,13 @@ public class PlayerLogic {
 	public void levelUpFrame(){
 		Component frame = null;
 		if(player.getplayerLevel() % 2 == 0 && player.getplayerLevel() == 2){
-			JOptionPane.showMessageDialog(frame, "<html>Level aufgesteigen! <p/>" + "La Magie freigeschaltet <p/>" + "Angriff um 1 erh\u00f6ht <html>");
+			JOptionPane.showMessageDialog(frame,"<html>Lineare Algebra Magie freigeschaltet <p/>" + "Angriff um 1 erh\u00f6ht <html>", "Level aufgestiegen", JOptionPane.INFORMATION_MESSAGE);
 		}else if(player.getplayerLevel() % 2 == 0){
-			JOptionPane.showMessageDialog(frame, "<html>Level aufgesteigen! <p/>" + "Angriff um 1 erh\u00f6ht <html>");
+			JOptionPane.showMessageDialog(frame, "<html>Angriff um 1 erh\u00f6ht <html>", "Level aufgestiegen", JOptionPane.INFORMATION_MESSAGE);
 		}else if(player.getplayerLevel() % 2 == 1 && player.getplayerLevel() == 3){
-			JOptionPane.showMessageDialog(frame, "<html>Level aufgesteigen! <p/>" + "Info Magie freigeschaltet <p/>" + "Magie um 1 erh\u00f6ht <html>");
+			JOptionPane.showMessageDialog(frame, "<html>Informatik Magie freigeschaltet <p/>" + "Magie um 1 erh\u00f6ht <html>", "Level aufgestiegen", JOptionPane.INFORMATION_MESSAGE);
 		}else if(player.getplayerLevel() % 2 == 1){
-			JOptionPane.showMessageDialog(frame, "<html>Level aufgesteigen! <p/>" + "Magie um 1 erh\u00f6ht <html>");
+			JOptionPane.showMessageDialog(frame, "<html>Magie um 1 erh\u00f6ht <html>", "Level aufgestiegen", JOptionPane.INFORMATION_MESSAGE);
 		}
 	}
 	
