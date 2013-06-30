@@ -10,6 +10,7 @@ public class PlayerLogic {
 
 	private Houston houston;
 	private Player player;
+	int attackDamge = 5;
 
 	public PlayerLogic(Houston houston) {
 		this.houston = houston;
@@ -45,25 +46,44 @@ public class PlayerLogic {
 	public void attack() {
 		for (Enemy enemy : houston.enemyLogic.enemies) {
 			if (player.attackBox.intersects(enemy.getBounds())) {
-				enemy.decreaseHealth(5);
+				calculateAtatckDamage();
+				enemy.decreaseHealth(attackDamge);
 				if(enemy.getHealth() <= 0){
 					if(houston.enemyLogic.bossIsAlive)
 						houston.enemyLogic.bossIsAlive = false;
 					enemy.remove= true;
 					player.increaseMoney(10);
+					player.increaseExperience(55);
+					if (player.getExperience() >=100){
+						player.setPlayerLevel(player.getplayerLevel()+1);
+						player.setExperience( player.getExperience() % 100);					
+					}
 				}
 			}
 		}
 	}
-
+	//erhoeht die Attacke bei allen graden Levlen und 1
+	public void calculateAtatckDamage(){
+		if(player.getplayerLevel() % 2 == 0){
+			attackDamge += attackDamge;	
+		}
+	}
+	
 	public void changeMagicType() {
-		if (player.magicType == MagicLogic.ANA) {
-			player.magicType = MagicLogic.LA;
-		}
-		else if (player.magicType == MagicLogic.LA) {
-			player.magicType = MagicLogic.INFO;
-		}else{
-			player.magicType = MagicLogic.ANA;
-		}
+		//Schaltet die La Magie ab Level 2 frei
+		if(player.getplayerLevel() == 2){
+			if (player.magicType == MagicLogic.ANA) {
+				player.magicType = MagicLogic.LA; 
+			}else if(player.magicType == MagicLogic.LA){
+				player.magicType = MagicLogic.ANA;}
+		// Schaltet die Info Magie ab Level 3 frei	
+		}else if(player.getplayerLevel() > 2){ 
+			if (player.magicType == MagicLogic.ANA) {
+			player.magicType = MagicLogic.LA; 
+			}else if(player.magicType == MagicLogic.LA){
+				player.magicType = MagicLogic.INFO;
+			}else
+				player.magicType = MagicLogic.ANA;
+		}	
 	}
 }

@@ -26,6 +26,7 @@ public class MagicLogic {
 	private Magic magic;
 	private Enemy enemy;
 	private int manaCost = 5;
+	int magicDamge = 5;
 	private Timer timer;
 	private TimerTask enemyMagic;
 	private String magicType;
@@ -76,10 +77,11 @@ public class MagicLogic {
 				enemy = enemyLogic.enemies.get(j);
 
 				if((magic.getBounds().intersects(enemy.getBounds())) && (magic.isMagicFromPlayer())) {
+					calculateMagicDamage();
 					if(magic.magicType == enemy.enemyField){
-						enemy.decreaseHealth(5);
+						enemy.decreaseHealth(magicDamge);
 					}else{
-						enemy.decreaseHealth(10);
+						enemy.decreaseHealth(magicDamge*2);
 					}
 					if(enemy.getHealth() <= 0){
 						if(houston.enemyLogic.bossIsAlive)
@@ -105,7 +107,13 @@ public class MagicLogic {
 			houston.gameLogic.controlCharacterMovement(magic);
 		}
 	}
-
+	//erhoeht die Magie bei ungraden Leveln um 1, wenn Level des Speielers nicht 1 ist
+	public void calculateMagicDamage(){
+		if(player.getplayerLevel() % 2 == 1 && player.getplayerLevel() != 1){
+				magicDamge += magicDamge;
+		}
+	}
+	
 	public void onLevelChange() {
 		magics.clear();
 	}
@@ -114,7 +122,7 @@ public class MagicLogic {
 		try {
 			BufferedImage texture1 = ImageIO.read(new File("./res/img/tiles/ungleichAnalysis.png"));
 			BufferedImage texture2 = ImageIO.read(new File("./res/img/tiles/ungleich.png"));
-			BufferedImage texture3 = ImageIO.read(new File("./res/img/tiles/ungleichInformatik.png"));
+			BufferedImage texture3 = ImageIO.read(new File("./res/img/tiles/ungleichinformatik.png"));
 			texture.put(ANA, texture1);
 			texture.put(LA, texture2);
 			texture.put(INFO, texture3);

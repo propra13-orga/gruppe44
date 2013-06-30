@@ -43,7 +43,7 @@ public class Infobar {
 		g.drawLine(96 + playerHealth + xo, 6 + yo, 96 + playerHealth + xo, 12 + yo);
 		// Zeigt Armor an, falls es angelegt ist
 		if (player.getArmor() != 100)
-			g.drawString("Rüstung", 512 + xo, 13 + yo);
+			g.drawString("R\u00fcstung", 512 + xo, 13 + yo);
 
 		//Zeichnet die Leben als Herzen
 		BufferedImage heartPicture = null;
@@ -88,6 +88,12 @@ public class Infobar {
 		// Zeichnet Karteninformationen
 		g.drawString("Map  "+(map.getLevelNumber()+1)+" - "+(map.getMapNumber()+1), 700+xo, 26+yo);
 
+		// Zeichnet Erfahrung
+		g.drawString("Exp " +player.getExperience()+ "/100", 608 + xo, 26 + yo );
+		
+		// Zeichnet das Level vom Spieler
+		g.drawString("Level " +player.getplayerLevel(), 530+xo, 26+yo);
+		
 		// Zeichnet die aktuellen FPS (Frames Per Second)
 		g.drawString("FPS: " + houston.fps, 712 + xo, 13 + yo);
 	}

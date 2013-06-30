@@ -18,7 +18,9 @@ public class Player extends Movable {
 	private int armor;
 	private int lives;
 	public String magicType;
-
+	int experience;
+	int playerLevel = 1; 
+	
 	public Player() {
 		// Setzt Geschwindigkeit des Player
 		setSpeed(128);
@@ -78,12 +80,33 @@ public class Player extends Movable {
 	}
 
 	// Setzt Health, Mana und Money zurueck
-	public void resetHealthManaMoneyArmorLives(int health, int mana, int money, int armor, int lives) {
+	public void resetPlayerStats(int health, int mana, int money, int armor, int lives, int playerLevel, int experience) {
 		setHealth(health);
 		setMana(mana);
 		setMoney(money);
 		setArmor(armor);
 		setLives(lives);
+		setPlayerLevel(playerLevel);
+		setExperience(experience);
+	}
+	//PLayer Level
+	public void setPlayerLevel(int playerLevel){
+		this.playerLevel = playerLevel;
+	}
+	
+	public int getplayerLevel(){
+		return playerLevel;
+	}
+	//Player Experience
+	public void increaseExperience(int experiencePoints){
+		experience += experiencePoints;
+	}
+	public void setExperience(int experience){
+		this.experience = experience;
+	}
+	
+	public int getExperience(){
+		return experience;
 	}
 
 	// Money
