@@ -19,8 +19,8 @@ public class Player extends Movable {
 	private int lives;
 	public String magicType;
 	int experience;
-	int playerLevel = 1; 
-	
+	int playerLevel = 1;
+
 	public Player() {
 		// Setzt Geschwindigkeit des Player
 		setSpeed(128);
@@ -93,7 +93,7 @@ public class Player extends Movable {
 	public void setPlayerLevel(int playerLevel){
 		this.playerLevel = playerLevel;
 	}
-	
+
 	public int getplayerLevel(){
 		return playerLevel;
 	}
@@ -104,7 +104,7 @@ public class Player extends Movable {
 	public void setExperience(int experience){
 		this.experience = experience;
 	}
-	
+
 	public int getExperience(){
 		return experience;
 	}

@@ -18,14 +18,14 @@ import Main.Player;
 
 public class MagicLogic {
 
-	private Houston houston;
-	private Player player;
-	private EnemyLogic enemyLogic;
+	private final Houston houston;
+	private final Player player;
+	private final EnemyLogic enemyLogic;
 
 	public ArrayList<Magic> magics;
 	private Magic magic;
 	private Enemy enemy;
-	private int manaCost = 5;
+	private final int manaCost = 5;
 	int magicDamge = 5;
 	private Timer timer;
 	private TimerTask enemyMagic;
@@ -47,9 +47,10 @@ public class MagicLogic {
 	}
 
 	public void setMagic(){
-	timer = new Timer();
+		timer = new Timer();
 
 		enemyMagic = new TimerTask(){
+			@Override
 			public void run (){
 				for (Enemy enemy : houston.enemyLogic.enemies) {
 					if(enemy.shoot == 1){
@@ -87,9 +88,10 @@ public class MagicLogic {
 						if(houston.enemyLogic.bossIsAlive)
 							houston.enemyLogic.bossIsAlive = false;
 						enemy.remove= true;
+						player.increaseMoney(10);
+						player.increaseExperience(15);
 					}
 					magic.remove = true;
-					houston.player.increaseMoney(10);
 				}
 			}
 			// Kollisionserkennung mit Magic, die von Gegnern kommt
@@ -110,10 +112,10 @@ public class MagicLogic {
 	//erhoeht die Magie bei ungraden Leveln um 1, wenn Level des Speielers nicht 1 ist
 	public void calculateMagicDamage(){
 		if(player.getplayerLevel() % 2 == 1 && player.getplayerLevel() != 1){
-				magicDamge ++;
+			magicDamge ++;
 		}
 	}
-	
+
 	public void onLevelChange() {
 		magics.clear();
 	}
