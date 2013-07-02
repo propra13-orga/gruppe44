@@ -14,12 +14,12 @@ public abstract class Movable {
 	private int health, mana;
 
 	Point2D resetPoint;
-	BufferedImage texture = null;
-	BufferedImage textures = null;
-	BufferedImage tex_down = null;
-	BufferedImage tex_left = null;
-	BufferedImage tex_right = null;
-	BufferedImage tex_up = null;
+	public BufferedImage texture = null;
+	public BufferedImage textures = null;
+	public BufferedImage tex_down = null;
+	public BufferedImage tex_left = null;
+	public BufferedImage tex_right = null;
+	public BufferedImage tex_up = null;
 
 	// Zeichnet den Charakter
 	public void drawObjects(Graphics2D g) {

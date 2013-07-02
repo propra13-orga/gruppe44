@@ -9,7 +9,7 @@ public class Actions {
 	static class jumpToIngamemenu extends AbstractAction {
 
 		private static final long serialVersionUID = 1L;
-		private Houston houston;
+		private final Houston houston;
 
 		public jumpToIngamemenu(Houston houston) {
 			this.houston = houston;
@@ -26,7 +26,7 @@ public class Actions {
 	static class jumpToGame extends AbstractAction {
 
 		private static final long serialVersionUID = 1L;
-		private Houston houston;
+		private final Houston houston;
 
 		public jumpToGame(Houston houston) {
 			this.houston = houston;
@@ -43,7 +43,7 @@ public class Actions {
 	static class resetPlayer extends AbstractAction {
 
 		private static final long serialVersionUID = 1L;
-		private Houston houston;
+		private final Houston houston;
 
 		public resetPlayer(Houston houston) {
 			this.houston = houston;
@@ -60,7 +60,7 @@ public class Actions {
 	static class moveUp extends AbstractAction {
 
 		private static final long serialVersionUID = 1L;
-		private Houston houston;
+		private final Houston houston;
 
 		public moveUp(Houston houston) {
 			this.houston = houston;
@@ -71,7 +71,6 @@ public class Actions {
 			// System.out.println("pressedUp");
 			houston.gameLogic.npcv = 0;
 			houston.player.setUp(100);
-			houston.player.texture = houston.player.tex_up;
 		}
 
 	}
@@ -79,7 +78,7 @@ public class Actions {
 	static class moveDown extends AbstractAction {
 
 		private static final long serialVersionUID = 1L;
-		private Houston houston;
+		private final Houston houston;
 
 		public moveDown(Houston houston) {
 			this.houston = houston;
@@ -90,7 +89,6 @@ public class Actions {
 			// System.out.println("pressedDown");
 			houston.gameLogic.npcv = 0;
 			houston.player.setDown(100);
-			houston.player.texture = houston.player.tex_down;
 		}
 
 	}
@@ -98,7 +96,7 @@ public class Actions {
 	static class moveLeft extends AbstractAction {
 
 		private static final long serialVersionUID = 1L;
-		private Houston houston;
+		private final Houston houston;
 
 		public moveLeft(Houston houston) {
 			this.houston = houston;
@@ -109,7 +107,6 @@ public class Actions {
 			// System.out.println("pressedLeft");
 			houston.gameLogic.npcv = 0;
 			houston.player.setLeft(100);
-			houston.player.texture = houston.player.tex_left;
 		}
 
 	}
@@ -117,7 +114,7 @@ public class Actions {
 	static class moveRight extends AbstractAction {
 
 		private static final long serialVersionUID = 1L;
-		private Houston houston;
+		private final Houston houston;
 
 		public moveRight(Houston houston) {
 			this.houston = houston;
@@ -128,7 +125,6 @@ public class Actions {
 			// System.out.println("pressedRight");
 			houston.gameLogic.npcv = 0;
 			houston.player.setRight(100);
-			houston.player.texture = houston.player.tex_right;
 		}
 
 	}
@@ -136,7 +132,7 @@ public class Actions {
 	static class releasedUp extends AbstractAction {
 
 		private static final long serialVersionUID = 1L;
-		private Houston houston;
+		private final Houston houston;
 
 		public releasedUp(Houston houston) {
 			this.houston = houston;
@@ -153,7 +149,7 @@ public class Actions {
 	static class releasedDown extends AbstractAction {
 
 		private static final long serialVersionUID = 1L;
-		private Houston houston;
+		private final Houston houston;
 
 		public releasedDown(Houston houston) {
 			this.houston = houston;
@@ -170,7 +166,7 @@ public class Actions {
 	static class releasedLeft extends AbstractAction {
 
 		private static final long serialVersionUID = 1L;
-		private Houston houston;
+		private final Houston houston;
 
 		public releasedLeft(Houston houston) {
 			this.houston = houston;
@@ -187,7 +183,7 @@ public class Actions {
 	static class releasedRight extends AbstractAction {
 
 		private static final long serialVersionUID = 1L;
-		private Houston houston;
+		private final Houston houston;
 
 		public releasedRight(Houston houston) {
 			this.houston = houston;
@@ -204,7 +200,7 @@ public class Actions {
 	static class useHealthPack extends AbstractAction {
 
 		private static final long serialVersionUID = 1L;
-		private Houston houston;
+		private final Houston houston;
 
 		public useHealthPack(Houston houston) {
 			this.houston = houston;
@@ -220,7 +216,7 @@ public class Actions {
 	static class useManaPotion extends AbstractAction {
 
 		private static final long serialVersionUID = 1L;
-		private Houston houston;
+		private final Houston houston;
 
 		public useManaPotion(Houston houston) {
 			this.houston = houston;
@@ -236,7 +232,7 @@ public class Actions {
 	static class interact extends AbstractAction {
 
 		private static final long serialVersionUID = 1L;
-		private Houston houston;
+		private final Houston houston;
 
 		public interact(Houston houston) {
 			this.houston = houston;
@@ -259,7 +255,7 @@ public class Actions {
 	static class attack extends AbstractAction {
 
 		private static final long serialVersionUID = 1L;
-		private Houston houston;
+		private final Houston houston;
 
 		public attack(Houston houston) {
 			this.houston = houston;

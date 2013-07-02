@@ -12,8 +12,8 @@ import Main.Player;
 
 public class PlayerLogic {
 
-	private Houston houston;
-	private Player player;
+	private final Houston houston;
+	private final Player player;
 	int attackDamage = 5;
 
 	public PlayerLogic(Houston houston) {
@@ -33,6 +33,7 @@ public class PlayerLogic {
 
 	public void doGameUpdates() {
 		checkIfPlayerIsStillAlive();
+		setTexture();
 		houston.gameLogic.detectSpecialTiles();
 		houston.gameLogic.controlCharacterMovement(player);
 	}
@@ -69,7 +70,7 @@ public class PlayerLogic {
 			attackDamage ++;
 		}
 	}
-	
+
 	public void levelUpFrame(){
 		Component frame = null;
 		if(player.getplayerLevel() % 2 == 0 && player.getplayerLevel() == 2){
@@ -82,30 +83,41 @@ public class PlayerLogic {
 			JOptionPane.showMessageDialog(frame, "<html>Magie um 1 erh\u00f6ht <html>", "Level aufgestiegen", JOptionPane.INFORMATION_MESSAGE);
 		}
 	}
-	
+
 	public void changeMagicType() {
 		//Schaltet die La Magie ab Level 2 frei
 		if(player.getplayerLevel() == 2){
 			if (player.magicType == MagicLogic.ANA) {
-				player.magicType = MagicLogic.LA; 
+				player.magicType = MagicLogic.LA;
 			}else if(player.magicType == MagicLogic.LA){
 				player.magicType = MagicLogic.ANA;}
-		// Schaltet die Info Magie ab Level 3 frei	
-		}else if(player.getplayerLevel() > 2){ 
+			// Schaltet die Info Magie ab Level 3 frei
+		}else if(player.getplayerLevel() > 2){
 			if (player.magicType == MagicLogic.ANA) {
-			player.magicType = MagicLogic.LA; 
+				player.magicType = MagicLogic.LA;
 			}else if(player.magicType == MagicLogic.LA){
 				player.magicType = MagicLogic.INFO;
 			}else
 				player.magicType = MagicLogic.ANA;
-		}	
+		}
 	}
-	
+
 	public void checkExperience(){
 		if (player.getExperience() >=100){
 			player.setPlayerLevel(player.getplayerLevel()+1);
 			player.setExperience( player.getExperience() % 100);
 			levelUpFrame();
 		}
+	}
+
+	public void setTexture(){
+		if(player.getLeft() > 0)
+			houston.player.texture = houston.player.tex_left;
+		if(player.getRight() > 0)
+			houston.player.texture = houston.player.tex_right;
+		if(player.getUp() > 0)
+			houston.player.texture = houston.player.tex_up;
+		if(player.getDown() > 0)
+			houston.player.texture = houston.player.tex_down;
 	}
 }
