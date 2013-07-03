@@ -17,7 +17,7 @@ package Main;
  * Ü, ü \u00dc, \u00fc
  * ß \u00df
  * ® \u00ae
-*/
+ */
 
 import java.awt.CardLayout;
 import java.awt.Dimension;
@@ -241,12 +241,11 @@ public class Houston implements ActionListener, Runnable {
 	private JFrame buildFrame(String titel, JPanel cards) {
 		frame = new JFrame(titel);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		// frame.setLocationRelativeTo(null);
-		frame.setLocation(0, 0);
 		frame.add(cards);
 		frame.pack();
 		frame.setResizable(false);
 		frame.setVisible(true);
+		frame.setLocationRelativeTo(null);
 		return frame;
 	}
 
