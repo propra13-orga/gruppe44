@@ -41,6 +41,7 @@ import Logic.ItemLogic;
 import Logic.MagicLogic;
 import Logic.PlayerLogic;
 import MapEditor.MapEditor;
+import Network.MultiPlayer;
 
 public class Houston implements ActionListener, Runnable {
 
@@ -71,6 +72,7 @@ public class Houston implements ActionListener, Runnable {
 	public JPanel card1, card2, card4, card5, card6, card7;
 	public GamePanel gamePanel;
 	public MapEditor mapEditor;
+	public MultiPlayer multiPlayer;
 	// CardLayout ermoeglicht erst diese Darstellung der unterschiedlichen
 	// Fensterinhalte auf unterschiedlichen "Karten"
 	private CardLayout cl;
@@ -101,19 +103,20 @@ public class Houston implements ActionListener, Runnable {
 
 	// Die im Menue vorhandenen Knoepfe
 	JButton
-	c1b1, //Neues Spiel
-	c1b2, //Einstellungen
-	c1b3, //Mitwirkende
-	c1b4, //MapEditor
-	c1b5, //Beenden
-	c2b1, //zum Hauptmenue
-	c4b1, //zurueck ins Spiel
-	c4b2, //zum Hauptmenue
-	c5b1, //zum Hauptmenue
-	c6b1, //weiter
-	c7b1, //Healthpack
-	c7b2, //Manatrank
-	c7b3; //zurueck ins Spiel
+	c1b1, // Neues Spiel
+	c1b2, // Einstellungen
+	c1b3, // Mitwirkende
+	c1b4, // MapEditor
+	c1b5, // Beenden
+	c1b6, // Multiplayer
+	c2b1, // zum Hauptmenue
+	c4b1, // zurueck ins Spiel
+	c4b2, // zum Hauptmenue
+	c5b1, // zum Hauptmenue
+	c6b1, // weiter
+	c7b1, // Healthpack
+	c7b2, // Manatrank
+	c7b3; // zurueck ins Spiel
 
 	//Spielerauswahl
 	JRadioButton maenlich, weiblich;
@@ -134,6 +137,7 @@ public class Houston implements ActionListener, Runnable {
 	public final static String INTRODUCTION = "INTRODUCTION";
 	public final static String SHOP = "SHOP";
 	public final static String MAPEDITOR = "MAPEDITOR";
+	public final static String MULTIPLAYER = "MULTIPLAYER";
 
 
 	// ------------------------------------------------------------
@@ -168,6 +172,7 @@ public class Houston implements ActionListener, Runnable {
 		card6 = new MenuCards.card6(this);	// INTRODUCTION
 		card7 = new MenuCards.card7(this);	// SHOP
 		mapEditor = new MapEditor(this);	// MAPEDITOR
+		multiPlayer = new MultiPlayer(this);// MULTIPLAYER
 
 		// Erstellt ein neues Cards-Panel ...
 		cl = new CardLayout();
@@ -182,13 +187,14 @@ public class Houston implements ActionListener, Runnable {
 		cards.add(card6, INTRODUCTION);
 		cards.add(card7, SHOP);
 		cards.add(mapEditor, MAPEDITOR);
+		cards.add(multiPlayer, MULTIPLAYER);
 
 		// Erstellt das Hauptfenster und fuegt Cards hinzu
 		frame = buildFrame("DungeonCrawler", cards);
 		frame.pack();
 
 		// Setzt Card, die als erstes angezeigt werden soll
-		currentCard = STARTMENU;
+		currentCard = MULTIPLAYER;
 		cl.show(cards, currentCard);
 
 		// Startet den Game-Loop
@@ -222,7 +228,6 @@ public class Houston implements ActionListener, Runnable {
 				gameLogic.doGameUpdates(delta);
 				// Zeichnet die "Leinwand" in card4 neu
 				gamePanel.repaint();
-
 			}
 			try {
 				Thread.sleep(1000 / preferredFps);
@@ -379,6 +384,8 @@ public class Houston implements ActionListener, Runnable {
 			changeAppearance(MAPEDITOR);
 		} else if (buttonClicked == c1b5) {
 			System.exit(0);
+		} else if (buttonClicked == c1b6) {
+			changeAppearance(MULTIPLAYER);
 		} else if (buttonClicked == c2b1) {
 			changeAppearance(STARTMENU);
 		} else if (buttonClicked == c4b1) {

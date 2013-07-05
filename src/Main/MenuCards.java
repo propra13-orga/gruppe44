@@ -41,6 +41,11 @@ public class MenuCards {
 			houston.c1b5.addActionListener(houston);
 			houston.c1b5.setBounds(284, 540, 200, 40);
 			this.add(houston.c1b5);
+
+			houston.c1b6 = new JButton("Multiplayer");
+			houston.c1b6.addActionListener(houston);
+			houston.c1b6.setBounds(284, 600, 200, 40);
+			this.add(houston.c1b6);
 		}
 
 	}
