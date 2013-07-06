@@ -89,7 +89,7 @@ public class Infobar {
 		g.drawString("Map  "+(map.getLevelNumber()+1)+" - "+(map.getMapNumber()+1), 700+xo, 26+yo);
 
 		// Zeichnet Erfahrung
-		g.drawString("Exp " +player.getExperience()+ "/100", 608 + xo, 26 + yo );
+		g.drawString("Exp " +player.getExperience()+ "/" + houston.playerLogic.getNeededExperience(), 608 + xo, 26 + yo );
 		
 		// Zeichnet das Level vom Spieler
 		g.drawString("Level " +player.getplayerLevel(), 530+xo, 26+yo);

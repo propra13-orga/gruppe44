@@ -26,7 +26,6 @@ public class MagicLogic {
 	private Magic magic;
 	private Enemy enemy;
 	private final int manaCost = 5;
-	int magicDamge = 5;
 	private Timer timer;
 	private TimerTask enemyMagic;
 	private String magicType;
@@ -78,18 +77,20 @@ public class MagicLogic {
 				enemy = enemyLogic.enemies.get(j);
 
 				if((magic.getBounds().intersects(enemy.getBounds())) && (magic.isMagicFromPlayer())) {
-					calculateMagicDamage();
 					if(magic.magicType == enemy.enemyField){
-						enemy.decreaseHealth(magicDamge);
+						enemy.decreaseHealth(calculateMagicDamage(player.getplayerLevel()));
 					}else{
-						enemy.decreaseHealth(magicDamge*2);
+						enemy.decreaseHealth(calculateMagicDamage(player.getplayerLevel()) + 5);
 					}
 					if(enemy.getHealth() <= 0){
-						if(houston.enemyLogic.bossIsAlive)
+						boolean isBoss = false;
+						if(houston.enemyLogic.bossIsAlive){
 							houston.enemyLogic.bossIsAlive = false;
+							isBoss = true;
+						}
 						enemy.remove= true;
 						player.increaseMoney(10);
-						player.increaseExperience(15);
+						player.increaseExperience(enemy.getExperience(houston.map.getLevelNumber()+1, isBoss));
 						houston.playerLogic.checkExperience();
 					}
 					magic.remove = true;
@@ -111,10 +112,18 @@ public class MagicLogic {
 		}
 	}
 	//erhoeht die Magie bei ungraden Leveln um 1, wenn Level des Speielers nicht 1 ist
-	public void calculateMagicDamage(){
-		if(player.getplayerLevel() % 2 == 1 && player.getplayerLevel() != 1){
-			magicDamge ++;
-		}
+	public int calculateMagicDamage(int playerLevel){
+		if( playerLevel == 1){
+			return 5;
+		}if( playerLevel == 2){
+			return 5;
+		}if( playerLevel == 3){
+			return 10;
+		}if( playerLevel == 4){
+			return 15;
+		}else {
+			return 20;
+			}
 	}
 
 	public void onLevelChange() {

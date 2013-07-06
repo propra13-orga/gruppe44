@@ -18,7 +18,7 @@ public class EnemyLogic {
 	private Map map;
 	public ArrayList<Enemy> enemies;
 	private Enemy enemy;
-	public boolean bossIsAlive;
+	public boolean bossIsAlive = false;
 	BufferedImage textures = null;
 
 	public EnemyLogic(Houston houston) {
@@ -37,6 +37,8 @@ public class EnemyLogic {
 					enemies.add(new Enemy(setTextures(map.getLevelNumber() * 3 + i-3), singleEnemyPosition, 3, map.getLevelNumber() * 3 + i-3));
 			}
 		}
+
+		bossIsAlive = (map.getMapNumber() == 3);
 	}
 
 	public void doGameUpdates() {

@@ -83,7 +83,11 @@ public class GamePanel extends JPanel implements MouseListener {
 		}
 		// linke Maustaste wird gedrueckt
 		if ((e.getButton() == MouseEvent.BUTTON1) && (mouseClickPosition.getY() >= 0)) {
-			houston.magicLogic.doMagic(mouseClickPosition);
+			long delta = System.nanoTime() - houston.lastAttack;
+			if(delta > 500*1000*1000){
+				houston.magicLogic.doMagic(mouseClickPosition);
+				houston.lastAttack = System.nanoTime();
+			}
 		}
 	}
 

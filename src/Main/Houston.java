@@ -57,6 +57,7 @@ public class Houston implements ActionListener, Runnable {
 	long delta = 0;
 	// Letzte Systemzeit, hilft bei Berechnungen zum Gameloop
 	private long last = 0;
+	long lastAttack = 0;
 	long fps = 0;
 	// Speichert die gewuenschte Bildwiederholungsrate
 	private int preferredFps;
