@@ -216,13 +216,17 @@ public class Houston implements ActionListener, Runnable {
 		// GameLoop
 
 		while (frame.isVisible()) {
-			if (gameIsRunning) {
-				computeDelta();
-				// Berechnet z.B. Bewegungen im Spiel
-				gameLogic.doGameUpdates(delta);
-				// Zeichnet die "Leinwand" in card4 neu
-				gamePanel.repaint();
+			//Gebraucht damit das Spiel nach der Anzeige vom LevelupFrame anhaelt
+			//und beim schließen dessen weiterlaeuft
+			synchronized (this) {
+				if (gameIsRunning) {
+					computeDelta();
+					// Berechnet z.B. Bewegungen im Spiel
+					gameLogic.doGameUpdates(delta);
+					// Zeichnet die "Leinwand" in card4 neu
+					gamePanel.repaint();
 
+				}
 			}
 			try {
 				Thread.sleep(1000 / preferredFps);
@@ -233,6 +237,8 @@ public class Houston implements ActionListener, Runnable {
 	// Berechnet FPS und Delta
 	private void computeDelta() {
 		delta = System.nanoTime() - last;
+		//Damit Houston so tut, als waeren nur maximal 100 ms vergangen
+		delta = Math.min(delta, 100 * 1000 * 1000);
 		last = System.nanoTime();
 		fps = ((long) 1e9) / delta;
 	}

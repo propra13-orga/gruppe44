@@ -263,7 +263,11 @@ public class Actions {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			houston.playerLogic.attack();
+			//Gebraucht damit das Spiel nach der Anzeige vom LevelupFrame anhaelt
+			//und beim schließen dessen weiterlaeuft
+			synchronized (houston) {
+				houston.playerLogic.attack();
+			}
 		}
 
 	}

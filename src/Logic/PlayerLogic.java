@@ -59,10 +59,10 @@ public class PlayerLogic {
 					enemy.remove= true;
 					player.increaseMoney(10);
 					player.increaseExperience(15);
+					checkExperience();
 				}
 			}
 		}
-		checkExperience();
 	}
 	//erhoeht die Attacke bei allen graden Leveln und 1
 	public void calculateAttackDamage(){

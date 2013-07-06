@@ -90,6 +90,7 @@ public class MagicLogic {
 						enemy.remove= true;
 						player.increaseMoney(10);
 						player.increaseExperience(15);
+						houston.playerLogic.checkExperience();
 					}
 					magic.remove = true;
 				}
