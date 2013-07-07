@@ -123,7 +123,7 @@ public class MagicLogic {
 			return 15;
 		}else {
 			return 20;
-			}
+		}
 	}
 
 	public void onLevelChange() {
@@ -132,9 +132,9 @@ public class MagicLogic {
 
 	private void initializeHashMap(){
 		try {
-			BufferedImage texture1 = ImageIO.read(new File("./res/img/tiles/ungleichAnalysis.png"));
-			BufferedImage texture2 = ImageIO.read(new File("./res/img/tiles/ungleich.png"));
-			BufferedImage texture3 = ImageIO.read(new File("./res/img/tiles/ungleichinformatik.png"));
+			BufferedImage texture1 = ImageIO.read(new File("./res/img/tiles/analysis.png"));
+			BufferedImage texture2 = ImageIO.read(new File("./res/img/tiles/lineareAlgebra.png"));
+			BufferedImage texture3 = ImageIO.read(new File("./res/img/tiles/informatik.png"));
 			texture.put(ANA, texture1);
 			texture.put(LA, texture2);
 			texture.put(INFO, texture3);
