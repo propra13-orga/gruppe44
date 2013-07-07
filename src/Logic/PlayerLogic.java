@@ -42,8 +42,6 @@ public class PlayerLogic {
 		}
 		if (player.getLives() == 0){
 			houston.changeAppearance(true, false, Houston.STARTMENU);
-			houston.sounds.stopSound(Sounds.Type.GAME);
-			houston.sounds.loopSound(Sounds.Type.MAIN_MENU, 100);
 		}
 	}
 

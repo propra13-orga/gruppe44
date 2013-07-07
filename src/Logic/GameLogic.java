@@ -6,6 +6,7 @@ import Main.Houston;
 import Main.Map;
 import Main.Movable;
 import Main.Player;
+import Main.Sounds;
 import Main.Story;
 
 public class GameLogic {
@@ -46,7 +47,7 @@ public class GameLogic {
 
 	// Startet ein neues Spiel
 	public void setupNewGame(int levelNumber, int mapNumber) {
-		player.resetPlayerStats(100, 100, 120, 100, 3, 3, 0);
+		player.resetPlayerStats(100, 100, 120, 100, 3, 1, 0);
 		houston.inventory.clear();
 
 		changeLevel(levelNumber, mapNumber);
@@ -235,10 +236,7 @@ public class GameLogic {
 	}
 
 	private void die() {
-		houston.sounds.stopSound(Sounds.Type.GAME);
 		houston.changeAppearance(true, false, Houston.STARTMENU);
-		houston.sounds.playSound(Sounds.Type.MAIN_MENU);
-		
 	}
 
 }
