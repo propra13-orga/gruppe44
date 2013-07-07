@@ -9,6 +9,7 @@ import javax.swing.JOptionPane;
 import Main.Enemy;
 import Main.Houston;
 import Main.Player;
+import Main.Sounds;
 
 public class PlayerLogic {
 
@@ -44,10 +45,13 @@ public class PlayerLogic {
 		}
 		if (player.getLives() == 0){
 			houston.changeAppearance(true, false, Houston.STARTMENU);
+			houston.sounds.stopSound(Sounds.Type.GAME);
+			houston.sounds.loopSound(Sounds.Type.MAIN_MENU, 100);
 		}
 	}
 
 	public void attack() {
+		houston.sounds.playSound(Sounds.Type.ATTACK);
 		for (Enemy enemy : houston.enemyLogic.enemies) {
 			if (player.attackBox.intersects(enemy.getBounds())) {
 				enemy.decreaseHealth(getAttackDamage(player.getplayerLevel()));

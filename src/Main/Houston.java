@@ -23,7 +23,10 @@ import java.awt.CardLayout;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.ActionMap;
 import javax.swing.InputMap;
 import javax.swing.JButton;
@@ -98,6 +101,8 @@ public class Houston implements ActionListener, Runnable {
 	public MagicLogic magicLogic;
 	// Die Logik der Items
 	public ItemLogic itemLogic;
+	
+	public Sounds sounds;
 
 
 	// Die im Menue vorhandenen Knoepfe
@@ -201,6 +206,18 @@ public class Houston implements ActionListener, Runnable {
 	// Hier wird vor Spielbeginn alles moegliche initialisiert
 	private void initializeCrap() {
 		preferredFps = 35;
+		try {
+			sounds = new Sounds();
+		} catch (UnsupportedAudioFileException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (LineUnavailableException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		map = new Map(0, 0, 20, 24);
 
 		player = new Player();
@@ -210,6 +227,7 @@ public class Houston implements ActionListener, Runnable {
 		story = new Story(0, this);
 		quest = new Quest(0, this);
 		gameLogic = new GameLogic(this);
+	
 	}
 
 	@Override
@@ -272,6 +290,14 @@ public class Houston implements ActionListener, Runnable {
 		last = System.nanoTime();
 		// Waechselt von der aktuellen Card auf die neue Card
 		cl.show(cards, name);
+		if(name == GAME){
+			sounds.stopAllSounds();
+			sounds.loopSound(Sounds.Type.GAME, 100);
+			}
+		else if (name == SHOP){
+			sounds.stopAllSounds();
+			sounds.loopSound(Sounds.Type.SHOP, 100);			
+		}
 	}
 
 	public void changeAppearance(boolean gameIsRunning, String name) {
@@ -370,7 +396,7 @@ public class Houston implements ActionListener, Runnable {
 
 		// Ermittelt die Quelle des Tastendrucks
 		Object buttonClicked = e.getSource();
-
+		sounds.playSound(Sounds.Type.BUTTON_CLICK);
 		// Kuemmert sich um die Events der einzelnen Menu Buttons
 		if (buttonClicked == c1b1) {
 			changeAppearance(INTRODUCTION);
@@ -391,7 +417,9 @@ public class Houston implements ActionListener, Runnable {
 		} else if (buttonClicked == c4b1) {
 			changeAppearance(true, GAME);
 		} else if (buttonClicked == c4b2) {
+			sounds.stopSound(Sounds.Type.GAME);
 			changeAppearance(true, false, STARTMENU);
+			sounds.playSound(Sounds.Type.MAIN_MENU);
 		} else if (buttonClicked == c5b1) {
 			changeAppearance(STARTMENU);
 
