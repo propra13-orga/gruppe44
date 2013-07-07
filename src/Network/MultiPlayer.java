@@ -5,10 +5,8 @@ import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
-import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.InetAddress;
-import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
@@ -36,7 +34,7 @@ public class MultiPlayer extends JPanel implements ActionListener {
 
 	private JTextArea chatHistory;
 
-	private JTextField
+	public JTextField
 	serverPort,
 	serverIp,
 	clientIp,
@@ -51,13 +49,18 @@ public class MultiPlayer extends JPanel implements ActionListener {
 	disconnectAsClient;
 
 
-	private Thread serverClientThread = null;
-	private Runnable serverThread, clientThread;
+	public Thread serverClientThread = null;
+	public Runnable serverThread, clientThread;
 
 
 	private final static String newline = "\n";
-	private Data input, output;
-	private String messageToSend = "";
+	public final static String ME = "Ich";
+	public final static String OPPONENT = "Er/Sie/Es";
+	public final static String CONSOLE = "Console";
+	public String messageToSend = "";
+	public Boolean serverIsConnectedToClient = false;
+	public Data input, output;
+	public Boolean isOver;
 
 
 	public MultiPlayer(Houston houston) {
@@ -87,6 +90,7 @@ public class MultiPlayer extends JPanel implements ActionListener {
 		chatPanel.add(chatScrollPane);
 
 		chatInput = new JTextField(14);
+		chatInput.setEnabled(false);
 		chatInput.addActionListener(this);
 		chatPanel.add(chatInput);
 
@@ -166,102 +170,11 @@ public class MultiPlayer extends JPanel implements ActionListener {
 
 
 	private void createThreads() {
+		ServerThread server = new ServerThread(this);
+		serverThread = new Thread(server);
 
-		serverThread = new Runnable() {
-			@Override
-			public void run() {
-				System.out.println("Server gestartet. Auf Clients warten ...");
-				int port = Integer.parseInt(serverPort.getText());
-
-
-				while (serverClientThread == Thread.currentThread()) {
-
-					try (ServerSocket server = new ServerSocket(port)) {
-
-					Socket client = server.accept();
-					System.out.println("Verbunden mit Client " + client.getLocalSocketAddress());
-
-					ObjectOutputStream out = new ObjectOutputStream(client.getOutputStream());
-					ObjectInputStream in = new ObjectInputStream(client.getInputStream());
-
-
-					Boolean isOver = false;
-					input = new Data();
-					output = new Data();
-
-					while (!isOver) {
-						try {
-							if ((input = (Data) in.readObject()) != null) {
-								if (input.closeConnection) {
-									isOver = true;
-								}
-								appendChatMessage(input.message);
-							}
-						} catch (IOException e) {
-							isOver = true;
-						}
-						try {
-							Thread.sleep(200);
-						} catch (InterruptedException e) {}
-					} // isOver
-
-					} catch (ClassNotFoundException | IOException e) {
-						System.out.println("Serverfehler: " + e.getMessage());
-						break;
-					}
-
-					System.out.println("Client getrennt.");
-
-				} // Ende von While
-
-				System.out.println("Server beendet.");
-				stop();
-			}
-		};
-
-		clientThread = new Runnable() {
-			@Override
-			public void run() {
-
-				String ip = clientIp.getText();
-				int port = Integer.parseInt(clientPort.getText());
-
-				try (Socket server = new Socket(ip, port)) {
-					System.out.println("Client verbunden.");
-
-					ObjectOutputStream out = new ObjectOutputStream(server.getOutputStream());
-					ObjectInputStream in = new ObjectInputStream(server.getInputStream());
-
-					Boolean isOver = false;
-					input = new Data();
-					output = new Data();
-
-					while (!isOver) {
-						if (messageToSend.length() > 0) {
-							out.reset();
-							output.message = messageToSend;
-							if (messageToSend.contains("/bye")) {
-								output.closeConnection = true;
-								isOver = true;
-							}
-							out.writeObject(output);
-							messageToSend = "";
-						}
-						try {
-							Thread.sleep(200);
-						} catch (InterruptedException e) {}
-
-					} // isOver
-
-				} catch (IOException e) {
-					System.out.println("Clientfehler: " + e.getMessage());
-				}
-
-				System.out.println("Client getrennt!");
-				stop();
-			}
-
-		};
+		ClientThread client = new ClientThread(this);
+		clientThread = new Thread(client);
 	}
 
 
@@ -281,6 +194,7 @@ public class MultiPlayer extends JPanel implements ActionListener {
 
 		// Wenn eine Verbindung aufgebaut wird, schalte alle eingaben aus
 		if ((createServer == false) || (connectAsClient == false)) {
+			chatInput.setEnabled(false);
 			startMenu.setEnabled(false);
 			serverPort.setEnabled(false);
 			clientIp.setEnabled(false);
@@ -294,7 +208,7 @@ public class MultiPlayer extends JPanel implements ActionListener {
 	}
 
 
-	private void stop() {
+	public void stop() {
 		serverClientThread = null;
 		setButtonEnabled(true, false, true, false);
 	}
@@ -312,12 +226,16 @@ public class MultiPlayer extends JPanel implements ActionListener {
 	}
 
 	private void killServer() {
-		try (Socket s = new Socket(serverIp.getText(), Integer.parseInt(serverPort.getText()))) {
-			ObjectOutputStream o = new ObjectOutputStream(s.getOutputStream());
-			Data data = new Data();
-			data.closeConnection = true;
-			o.writeObject(data);
-		} catch (NumberFormatException | IOException e) {}
+		if (serverIsConnectedToClient) {
+			disconnectClient();
+		} else {
+			try (Socket s = new Socket(serverIp.getText(), Integer.parseInt(serverPort.getText()))) {
+				ObjectOutputStream o = new ObjectOutputStream(s.getOutputStream());
+				Data data = new Data();
+				data.closeConnection = true;
+				o.writeObject(data);
+			} catch (NumberFormatException | IOException e) {}
+		}
 		stop();
 	}
 
@@ -334,15 +252,19 @@ public class MultiPlayer extends JPanel implements ActionListener {
 
 	private void disconnectClient() {
 		sendChatMessage("/bye");
-		appendChatMessage("/bye");
+		appendChatMessage("/bye", MultiPlayer.ME);
 	}
 
-	private void appendChatMessage(String message) {
+	public void appendChatMessage(String message, String author) {
 		message = message.trim();
 		if (message.length() > 0) {
-			chatHistory.append(message + newline);
+			chatHistory.append(author + ": " + message + newline);
 			chatHistory.setCaretPosition(chatHistory.getDocument().getLength());
 		}
+	}
+
+	public void appendChatMessage(String message) {
+		appendChatMessage(message, MultiPlayer.CONSOLE);
 	}
 
 	private void sendChatMessage(String message) {
@@ -366,7 +288,7 @@ public class MultiPlayer extends JPanel implements ActionListener {
 			disconnectClient();
 		} else if (buttonClicked == chatInput) {
 			sendChatMessage(chatInput.getText());
-			appendChatMessage(chatInput.getText());
+			appendChatMessage(chatInput.getText(), MultiPlayer.ME);
 			chatInput.setText("");
 		}
 	}
