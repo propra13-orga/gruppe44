@@ -185,6 +185,8 @@ public class GameLogic {
 				backToLastCheckpoint();
 				player.decreaseHealth(25);
 			} else if (value == 9) {
+				houston.sounds.stopSound(Sounds.Type.DOOR);
+				houston.sounds.playSound(Sounds.Type.DOOR);
 				nextMap();
 			}
 		}
@@ -233,7 +235,10 @@ public class GameLogic {
 	}
 
 	private void die() {
+		houston.sounds.stopSound(Sounds.Type.GAME);
 		houston.changeAppearance(true, false, Houston.STARTMENU);
+		houston.sounds.playSound(Sounds.Type.MAIN_MENU);
+		
 	}
 
 }

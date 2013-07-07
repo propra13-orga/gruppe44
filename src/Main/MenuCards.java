@@ -16,7 +16,7 @@ public class MenuCards {
 		// Baut das Hauptmenue
 		public card1(Houston houston) {
 			this.setLayout(null);
-
+			houston.sounds.loopSound(Sounds.Type.MAIN_MENU, 100);
 			houston.c1b1 = new JButton("Neues Spiel");
 			houston.c1b1.addActionListener(houston);
 			houston.c1b1.setBounds(284, 300, 200, 40);

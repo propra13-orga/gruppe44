@@ -85,6 +85,7 @@ public class GamePanel extends JPanel implements MouseListener {
 		if ((e.getButton() == MouseEvent.BUTTON1) && (mouseClickPosition.getY() >= 0)) {
 			long delta = System.nanoTime() - houston.lastAttack;
 			if(delta > 500*1000*1000){
+				houston.sounds.playSound(Sounds.Type.MAGIC);
 				houston.magicLogic.doMagic(mouseClickPosition);
 				houston.lastAttack = System.nanoTime();
 			}
