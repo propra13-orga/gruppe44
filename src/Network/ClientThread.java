@@ -14,7 +14,7 @@ public class ClientThread implements Runnable {
 	}
 
 	@Override
-	public synchronized void run() {
+	public void run() {
 		String ip = mp.clientIp.getText();
 		int port = Integer.parseInt(mp.clientPort.getText());
 
@@ -51,7 +51,6 @@ public class ClientThread implements Runnable {
 				try {
 					Thread.sleep(200);
 				} catch (InterruptedException e) {}
-
 			} // isOver
 
 		} catch (IOException e) {

@@ -14,7 +14,7 @@ public class ReaderThread implements Runnable {
 	}
 
 	@Override
-	public synchronized void run() {
+	public void run() {
 		while (!mp.isOver) {
 			try {
 				if ((mp.input = (Data) in.readObject()) != null) {

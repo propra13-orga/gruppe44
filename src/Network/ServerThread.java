@@ -15,7 +15,7 @@ public class ServerThread implements Runnable{
 	}
 
 	@Override
-	public synchronized void run() {
+	public void run() {
 		System.out.println("Server gestartet. Auf Clients warten ...");
 		int port = Integer.parseInt(mp.serverPort.getText());
 
@@ -45,7 +45,6 @@ public class ServerThread implements Runnable{
 			while (!mp.isOver) {
 				// Daten schreiben
 				if (mp.messageToSend.length() > 0) {
-					System.out.print("["+mp.messageToSend+"] ");
 					out.reset();
 					mp.output.message = mp.messageToSend;
 					if (mp.messageToSend.contains("/bye")) {
@@ -53,7 +52,6 @@ public class ServerThread implements Runnable{
 						mp.isOver = true;
 					}
 					out.writeObject(mp.output);
-					System.out.println("senden: " + mp.output.message);
 					mp.messageToSend = "";
 				}
 				// Schlaaaaaaaafen ... nur kurz
