@@ -1,8 +1,8 @@
 package Main;
 
 import java.awt.event.ActionEvent;
-import javax.swing.AbstractAction;
 
+import javax.swing.AbstractAction;
 
 public class Actions {
 
@@ -263,14 +263,10 @@ public class Actions {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			//Gebraucht damit das Spiel nach der Anzeige vom LevelupFrame anhaelt
-			//und beim schließen dessen weiterlaeuft
-			synchronized (houston) {
-				long delta = System.nanoTime() - houston.lastAttack;
-				if(delta > 500*1000*1000){
-					houston.playerLogic.attack();
-					houston.lastAttack = System.nanoTime();
-				}
+			long delta = System.nanoTime() - houston.lastAttack;
+			if (delta > 500 * 1000 * 1000) {
+				houston.playerLogic.attack();
+				houston.lastAttack = System.nanoTime();
 			}
 		}
 

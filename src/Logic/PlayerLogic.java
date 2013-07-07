@@ -1,10 +1,7 @@
 package Logic;
 
 
-import java.awt.Component;
 import java.awt.geom.Point2D;
-
-import javax.swing.JOptionPane;
 
 import Main.Enemy;
 import Main.Houston;
@@ -56,7 +53,7 @@ public class PlayerLogic {
 					if(houston.enemyLogic.bossIsAlive){
 						houston.enemyLogic.bossIsAlive = false;
 						isBoss = true;
-						}						
+					}
 					enemy.remove= true;
 					player.increaseMoney(10);
 					player.increaseExperience(enemy.getExperience(houston.map.getLevelNumber()+1, isBoss));
@@ -66,7 +63,7 @@ public class PlayerLogic {
 		}
 	}
 	//erhoeht die Attacke bei allen graden Leveln und 1
-	
+
 	public int getAttackDamage(int playerLevel){
 		if( playerLevel == 1){
 			return 10;
@@ -78,23 +75,6 @@ public class PlayerLogic {
 			return 16;
 		}else {
 			return 20;
-			}
-	}
-
-	public void levelUpFrame(){
-		Component frame = null;
-		if(player.getplayerLevel() == 2){
-			JOptionPane.showMessageDialog(frame, "<html>Lineare Algebra Magie freigeschaltet <html>", 
-					"Level aufgestiegen", JOptionPane.INFORMATION_MESSAGE);
-		}else if(player.getplayerLevel() == 3){
-			JOptionPane.showMessageDialog(frame, "<html>Angriff um 3 erh\u00f6ht <p/>" + "Magie um 5 erh\u00f6ht <html>",
-					"Level aufgestiegen", JOptionPane.INFORMATION_MESSAGE);
-		}else if(player.getplayerLevel() == 4){
-			JOptionPane.showMessageDialog(frame,"<html>Info Magie freigeschaltet <p/>" + "Angriff um 3 erh\u00f6ht" + "Magie um 5 erh\u00f6ht <html>",
-					"Level aufgestiegen", JOptionPane.INFORMATION_MESSAGE);
-		}else if(player.getplayerLevel() == 5){
-			JOptionPane.showMessageDialog(frame, "<html>Angriff um 3 erh\u00f6ht <p/>" + "Magie um 5 erh\u00f6ht <html>",
-					"Level aufgestiegen", JOptionPane.INFORMATION_MESSAGE);
 		}
 	}
 
@@ -115,20 +95,20 @@ public class PlayerLogic {
 				player.magicType = MagicLogic.ANA;
 		}
 	}
-	
+
 	public int getNeededExperience(){
 		switch (player.getplayerLevel()){
-		
+
 		case 1:
 			return 100;
 		case 2:
 			return 150;
 		case 3:
-			return 350;
+			return 300;
 		case 4:
-			return 580;
+			return 500;
 		default:
-			return 999;
+			return 750;
 		}
 	}
 
@@ -136,10 +116,9 @@ public class PlayerLogic {
 		if (player.getExperience() >= getNeededExperience()){
 			player.setExperience( player.getExperience() % getNeededExperience());
 			player.setPlayerLevel(player.getplayerLevel()+1);
-			levelUpFrame();
-		}	
+		}
 	}
-	
+
 
 	public void setTexture(){
 		if(player.getLeft() > 0)

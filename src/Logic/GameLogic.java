@@ -2,20 +2,24 @@ package Logic;
 
 import java.awt.geom.Point2D;
 
-import Main.*;
+import Main.Houston;
+import Main.Map;
+import Main.Movable;
+import Main.Player;
+import Main.Story;
 
 public class GameLogic {
 
-	private Houston houston;
-	private Player player;
-	private Map map;
-	private EnemyLogic enemyLogic;
-	private PlayerLogic playerLogic;
-	private MagicLogic magicLogic;
-	private ItemLogic itemLogic;
-	private Story story;
+	private final Houston houston;
+	private final Player player;
+	private final Map map;
+	private final EnemyLogic enemyLogic;
+	private final PlayerLogic playerLogic;
+	private final MagicLogic magicLogic;
+	private final ItemLogic itemLogic;
+	private final Story story;
 
-	private Point2D topLeft, topRight, bottomLeft, bottomRight;
+	private final Point2D topLeft, topRight, bottomLeft, bottomRight;
 	double tlX, tlY; // Temporaere Character Ecke
 	private long delta;
 	private double dX, dY;

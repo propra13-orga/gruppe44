@@ -67,14 +67,14 @@ public class Houston implements ActionListener, Runnable {
 	// Gibt an, welche Card im Fenster gerade aktiv ist
 	private String currentCard;
 	// Kontainer fuer die "Unterfenster" card1, card2, ...
-	private JPanel cards;
+	private final JPanel cards;
 	// "Unterfenster", die das Startmenue, Einstellungen, etc. beinhalten
 	public JPanel card1, card2, card4, card5, card6, card7;
 	public GamePanel gamePanel;
 	public MapEditor mapEditor;
 	// CardLayout ermoeglicht erst diese Darstellung der unterschiedlichen
 	// Fensterinhalte auf unterschiedlichen "Karten"
-	private CardLayout cl;
+	private final CardLayout cl;
 
 	// Durch den Spieler gesteuerter Charakter
 	public Player player;
@@ -219,15 +219,13 @@ public class Houston implements ActionListener, Runnable {
 		while (frame.isVisible()) {
 			//Gebraucht damit das Spiel nach der Anzeige vom LevelupFrame anhaelt
 			//und beim schließen dessen weiterlaeuft
-			synchronized (this) {
-				if (gameIsRunning) {
-					computeDelta();
-					// Berechnet z.B. Bewegungen im Spiel
-					gameLogic.doGameUpdates(delta);
-					// Zeichnet die "Leinwand" in card4 neu
-					gamePanel.repaint();
 
-				}
+			if (gameIsRunning) {
+				computeDelta();
+				// Berechnet z.B. Bewegungen im Spiel
+				gameLogic.doGameUpdates(delta);
+				// Zeichnet die "Leinwand" in card4 neu
+				gamePanel.repaint();
 			}
 			try {
 				Thread.sleep(1000 / preferredFps);
@@ -238,8 +236,6 @@ public class Houston implements ActionListener, Runnable {
 	// Berechnet FPS und Delta
 	private void computeDelta() {
 		delta = System.nanoTime() - last;
-		//Damit Houston so tut, als waeren nur maximal 100 ms vergangen
-		delta = Math.min(delta, 100 * 1000 * 1000);
 		last = System.nanoTime();
 		fps = ((long) 1e9) / delta;
 	}

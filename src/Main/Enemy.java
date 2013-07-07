@@ -4,12 +4,13 @@ import java.awt.Graphics2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
+
 import Logic.MagicLogic;
 
 public class Enemy extends Movable{
 	public boolean remove;
 	private int direction;
-	private int enemyType;
+	public final int enemyType;
 	public int shoot;
 	public String enemyField;
 
@@ -68,22 +69,22 @@ public class Enemy extends Movable{
 	public void onWallHit() {
 		turn180();
 	}
-	
+
 	public int getExperience(int levelNumber, boolean isBoss){
 		if(levelNumber == 1){
 			if(isBoss){
 				return 30;
 			}else return 15;
-			}
+		}
 		else if(levelNumber == 2){
 			if(isBoss){
 				return 50;
-			}else return 21;	
-			} 
+			}else return 20;
+		}
 		else {
 			if(isBoss){
 				return 100;
-			}else return 32;
+			}else return 30;
 		}
 	}
 }
