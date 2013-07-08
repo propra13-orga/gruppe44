@@ -19,7 +19,6 @@ public class Enemy extends Movable{
 		setBounds(new Rectangle2D.Double(resetPoint.getX(), resetPoint.getY(), 28, 28));
 
 		this.direction = direction;
-		setDirection();
 		this.enemyType = enemyType;
 		setEnemyType();
 
