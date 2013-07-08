@@ -202,7 +202,6 @@ public class Houston implements ActionListener, Runnable {
 	// Hier wird vor Spielbeginn alles moegliche initialisiert
 	private void initializeCrap() {
 		preferredFps = 35;
-		sounds = new Sounds(this);
 		map = new Map(0, 0, 20, 24);
 
 		player = new Player();
@@ -212,6 +211,7 @@ public class Houston implements ActionListener, Runnable {
 		story = new Story(0, this);
 		quest = new Quest(0, this);
 		gameLogic = new GameLogic(this);
+		sounds = new Sounds(this);
 	}
 
 	@Override

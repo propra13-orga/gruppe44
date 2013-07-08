@@ -107,7 +107,6 @@ public class Sounds {
 		if(houston.currentCard == "GAME"){
 			loopSound(Sounds.Type.GAME, 100);
 		}else{
-			playSound(Sounds.Type.MAIN_MENU);
 			loopSound(Sounds.Type.MAIN_MENU, 100);
 		}
 	}
