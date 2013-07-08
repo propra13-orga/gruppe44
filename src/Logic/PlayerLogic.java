@@ -76,7 +76,7 @@ public class PlayerLogic {
 		}if( playerLevel == 4){
 			return 16;
 		}else {
-			return 20;
+			return 19;
 		}
 	}
 
