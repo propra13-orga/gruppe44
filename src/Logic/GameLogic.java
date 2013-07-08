@@ -186,7 +186,6 @@ public class GameLogic {
 				backToLastCheckpoint();
 				player.decreaseHealth(25);
 			} else if (value == 9) {
-				houston.sounds.stopSound(Sounds.Type.DOOR);
 				houston.sounds.playSound(Sounds.Type.DOOR);
 				nextMap();
 			}
