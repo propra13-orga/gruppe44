@@ -13,15 +13,15 @@ import javax.swing.JPanel;
 public class GamePanel extends JPanel implements MouseListener {
 
 	private static final long serialVersionUID = 1L;
-	private final Houston houston;
-	private final Player player;
-	private final Map map;
-	private final Infobar infobar;
+	private Houston houston;
+	private Player player;
+	private Map map;
+	private Infobar infobar;
 
-	private final Font plainFont;
-	private final Color bgColor;
-	private final int heightOfInfobar = 32;
-	private final Point2D mouseClickPosition;
+	private Font plainFont;
+	private Color bgColor;
+	private int heightOfInfobar = 32;
+	private Point2D mouseClickPosition;
 
 	public GamePanel(Houston houston) {
 		this.houston	= houston;

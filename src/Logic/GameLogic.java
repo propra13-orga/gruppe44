@@ -11,16 +11,16 @@ import Main.Story;
 
 public class GameLogic {
 
-	private final Houston houston;
-	private final Player player;
-	private final Map map;
-	private final EnemyLogic enemyLogic;
-	private final PlayerLogic playerLogic;
-	private final MagicLogic magicLogic;
-	private final ItemLogic itemLogic;
-	private final Story story;
+	private Houston houston;
+	private Player player;
+	private Map map;
+	private EnemyLogic enemyLogic;
+	private PlayerLogic playerLogic;
+	private MagicLogic magicLogic;
+	private ItemLogic itemLogic;
+	private Story story;
 
-	private final Point2D topLeft, topRight, bottomLeft, bottomRight;
+	private Point2D topLeft, topRight, bottomLeft, bottomRight;
 	double tlX, tlY; // Temporaere Character Ecke
 	private long delta;
 	private double dX, dY;

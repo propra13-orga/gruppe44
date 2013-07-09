@@ -14,8 +14,8 @@ import Main.Map;
 
 public class EnemyLogic {
 
-	private final Houston houston;
-	private final Map map;
+	private Houston houston;
+	private Map map;
 	public ArrayList<Enemy> enemies;
 	private Enemy enemy;
 	public boolean bossIsAlive;

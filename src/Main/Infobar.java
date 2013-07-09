@@ -10,13 +10,13 @@ import javax.imageio.ImageIO;
 
 public class Infobar {
 
-	private final Houston houston;
-	private final Player player;
-	private final Map map;
-	private final Inventory inventory;
+	private Houston houston;
+	private Player player;
+	private Map map;
+	private Inventory inventory;
 
 	// X Offset, Y Offset
-	private final int xo, yo;
+	private int xo, yo;
 	private int playerHealth, playerMana;
 
 	public Infobar(Houston houston, int xOffset, int yOffset) {

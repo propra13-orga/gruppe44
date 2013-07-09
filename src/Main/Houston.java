@@ -46,8 +46,8 @@ import Network.MultiPlayer;
 public class Houston implements ActionListener, Runnable {
 
 	// Speichert die Hoehe und Breite des Fensterinhalts
-	public final int height;
-	public final int width;
+	public int height;
+	public int width;
 
 	// gameIsRunning und gameOver sind fuer die Menuefuehrung
 	// und den Spielverlauf von Bedeutung
@@ -68,7 +68,7 @@ public class Houston implements ActionListener, Runnable {
 	// Gibt an, welche Card im Fenster gerade aktiv ist
 	public String currentCard;
 	// Kontainer fuer die "Unterfenster" card1, card2, ...
-	private final JPanel cards;
+	private JPanel cards;
 	// "Unterfenster", die das Startmenue, Einstellungen, etc. beinhalten
 	public JPanel card1, card2, card4, card5, card6, card7;
 	public GamePanel gamePanel;
@@ -76,7 +76,7 @@ public class Houston implements ActionListener, Runnable {
 	public MultiPlayer multiPlayer;
 	// CardLayout ermoeglicht erst diese Darstellung der unterschiedlichen
 	// Fensterinhalte auf unterschiedlichen "Karten"
-	private final CardLayout cl;
+	private CardLayout cl;
 
 	// Durch den Spieler gesteuerter Charakter
 	public Player player;

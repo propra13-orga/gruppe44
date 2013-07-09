@@ -10,7 +10,7 @@ import Logic.MagicLogic;
 public class Enemy extends Movable{
 	public boolean remove;
 	private int direction;
-	public final int enemyType;
+	public int enemyType;
 	public int shoot;
 	public String enemyField;
 
