@@ -77,7 +77,7 @@ public class Infobar {
 		g.drawString("Attacke " + houston.playerLogic.getAttackDamage(player.getplayerLevel()), 500 + xo, 13 + yo );
 
 		//Zeichnet Schaden des Zaubers
-		g.drawString("Zauber " + houston.magicLogic.calculateMagicDamage(player.getplayerLevel()) +"/" + houston.magicLogic.calculateMagicDamage(player.getplayerLevel())*2, 500 + xo, 26 + yo );
+		g.drawString("Zauber " + houston.magicLogic.calculateMagicDamage(player.getplayerLevel()) +"/" + (houston.magicLogic.calculateMagicDamage(player.getplayerLevel()) + 5), 500 + xo, 26 + yo );
 
 		// Zeichnet das Level vom Spieler
 		g.drawString("Level " +player.getplayerLevel(), 435 + xo, 13 + yo);
