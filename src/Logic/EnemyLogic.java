@@ -14,8 +14,8 @@ import Main.Map;
 
 public class EnemyLogic {
 
-	private Houston houston;
-	private Map map;
+	private final Houston houston;
+	private final Map map;
 	public ArrayList<Enemy> enemies;
 	private Enemy enemy;
 	public boolean bossIsAlive;
@@ -43,6 +43,10 @@ public class EnemyLogic {
 		for (int i = enemies.size() - 1; i >= 0; i--) {
 			enemy = enemies.get(i);
 
+			//Prueft, ob es ein Bossgegner ist
+			if((enemy.enemyType == 2) || (enemy.enemyType == 5) || (enemy.enemyType == 8)){
+				bossIsAlive = true;
+			}
 			// Filtert die zu loeschenden Enemies raus
 			if (enemy.remove) {
 				enemies.remove(i);

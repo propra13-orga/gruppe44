@@ -13,15 +13,15 @@ import javax.swing.JPanel;
 public class GamePanel extends JPanel implements MouseListener {
 
 	private static final long serialVersionUID = 1L;
-	private Houston houston;
-	private Player player;
-	private Map map;
-	private Infobar infobar;
+	private final Houston houston;
+	private final Player player;
+	private final Map map;
+	private final Infobar infobar;
 
-	private Font plainFont;
-	private Color bgColor;
+	private final Font plainFont;
+	private final Color bgColor;
 	private final int heightOfInfobar = 32;
-	private Point2D mouseClickPosition;
+	private final Point2D mouseClickPosition;
 
 	public GamePanel(Houston houston) {
 		this.houston	= houston;
@@ -75,6 +75,7 @@ public class GamePanel extends JPanel implements MouseListener {
 		g.dispose();
 	} // Ab hier ist Schluss mit Zeichnen
 
+	@Override
 	public void mouseClicked(MouseEvent e) {
 		mouseClickPosition.setLocation(e.getX(), e.getY() - heightOfInfobar);
 		// rechte Maustaste wird gedrueckt
@@ -83,7 +84,11 @@ public class GamePanel extends JPanel implements MouseListener {
 		}
 		// linke Maustaste wird gedrueckt
 		if ((e.getButton() == MouseEvent.BUTTON1) && (mouseClickPosition.getY() >= 0)) {
-			houston.magicLogic.doMagic(mouseClickPosition);
+			long delta = System.nanoTime() - houston.lastAttack;
+			if(delta > 500*1000*1000){
+				houston.magicLogic.doMagic(mouseClickPosition);
+				houston.lastAttack = System.nanoTime();
+			}
 		}
 	}
 

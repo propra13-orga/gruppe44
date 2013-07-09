@@ -4,12 +4,13 @@ import java.awt.Graphics2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
+
 import Logic.MagicLogic;
 
 public class Enemy extends Movable{
 	public boolean remove;
 	private int direction;
-	private int enemyType;
+	public final int enemyType;
 	public int shoot;
 	public String enemyField;
 
@@ -18,7 +19,6 @@ public class Enemy extends Movable{
 		setBounds(new Rectangle2D.Double(resetPoint.getX(), resetPoint.getY(), 28, 28));
 
 		this.direction = direction;
-		setDirection();
 		this.enemyType = enemyType;
 		setEnemyType();
 
@@ -54,11 +54,11 @@ public class Enemy extends Movable{
 		case 0: shoot = 0;		setHealth(10);	enemyField = MagicLogic.ANA; 		break; // Gegner Level 1, schiesst nicht
 		case 1: shoot = 1;		setHealth(10);	enemyField = MagicLogic.ANA; 		break; // Gegner Level 1, schiesst
 		case 2: shoot = 1;		setHealth(60);	enemyField = MagicLogic.ANA; 		break; // Bossgegner Level 1
-		case 3: shoot = 0;		setHealth(20);	enemyField = MagicLogic.LA; 		break; // Gegner Level 2, schiesst nicht
-		case 4: shoot = 1;		setHealth(20);	enemyField = MagicLogic.LA; 		break; // Gegner Level 2, schiesst
+		case 3: shoot = 0;		setHealth(25);	enemyField = MagicLogic.LA; 		break; // Gegner Level 2, schiesst nicht
+		case 4: shoot = 1;		setHealth(25);	enemyField = MagicLogic.LA; 		break; // Gegner Level 2, schiesst
 		case 5: shoot = 1;		setHealth(80);	enemyField = MagicLogic.LA; 		break; // Bossgegner Level 2
-		case 6: shoot = 0;		setHealth(30);	enemyField = MagicLogic.INFO; 		break; // Gegner Level 3, schiesst nicht
-		case 7: shoot = 1;		setHealth(30);	enemyField = MagicLogic.INFO; 		break; // Gegner Level 3, schiesst
+		case 6: shoot = 0;		setHealth(50);	enemyField = MagicLogic.INFO; 		break; // Gegner Level 3, schiesst nicht
+		case 7: shoot = 1;		setHealth(50);	enemyField = MagicLogic.INFO; 		break; // Gegner Level 3, schiesst
 		case 8: shoot = 1;		setHealth(100);	enemyField = MagicLogic.INFO; 		break; // Bossgegner Level 3
 		default: break;
 		}
@@ -67,5 +67,23 @@ public class Enemy extends Movable{
 	@Override
 	public void onWallHit() {
 		turn180();
+	}
+
+	public int getExperience(int levelNumber, boolean isBoss){
+		if(levelNumber == 1){
+			if(isBoss){
+				return 30;
+			}else return 15;
+		}
+		else if(levelNumber == 2){
+			if(isBoss){
+				return 50;
+			}else return 20;
+		}
+		else {
+			if(isBoss){
+				return 100;
+			}else return 30;
+		}
 	}
 }

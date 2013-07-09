@@ -58,6 +58,7 @@ public class Houston implements ActionListener, Runnable {
 	long delta = 0;
 	// Letzte Systemzeit, hilft bei Berechnungen zum Gameloop
 	private long last = 0;
+	long lastAttack = 0;
 	long fps = 0;
 	// Speichert die gewuenschte Bildwiederholungsrate
 	private int preferredFps;
@@ -65,9 +66,9 @@ public class Houston implements ActionListener, Runnable {
 	// Das Fenster, der Rahmen
 	public JFrame frame;
 	// Gibt an, welche Card im Fenster gerade aktiv ist
-	private String currentCard;
+	public String currentCard;
 	// Kontainer fuer die "Unterfenster" card1, card2, ...
-	private JPanel cards;
+	private final JPanel cards;
 	// "Unterfenster", die das Startmenue, Einstellungen, etc. beinhalten
 	public JPanel card1, card2, card4, card5, card6, card7;
 	public GamePanel gamePanel;
@@ -75,7 +76,7 @@ public class Houston implements ActionListener, Runnable {
 	public MultiPlayer multiPlayer;
 	// CardLayout ermoeglicht erst diese Darstellung der unterschiedlichen
 	// Fensterinhalte auf unterschiedlichen "Karten"
-	private CardLayout cl;
+	private final CardLayout cl;
 
 	// Durch den Spieler gesteuerter Charakter
 	public Player player;
@@ -99,6 +100,7 @@ public class Houston implements ActionListener, Runnable {
 	public MagicLogic magicLogic;
 	// Die Logik der Items
 	public ItemLogic itemLogic;
+	public Sounds sounds;
 
 
 	// Die im Menue vorhandenen Knoepfe
@@ -215,6 +217,7 @@ public class Houston implements ActionListener, Runnable {
 		story = new Story(0, this);
 		quest = new Quest(0, this);
 		gameLogic = new GameLogic(this);
+		sounds = new Sounds(this);
 	}
 
 	@Override
@@ -222,6 +225,9 @@ public class Houston implements ActionListener, Runnable {
 		// GameLoop
 
 		while (frame.isVisible()) {
+			//Gebraucht damit das Spiel nach der Anzeige vom LevelupFrame anhaelt
+			//und beim schließen dessen weiterlaeuft
+
 			if (gameIsRunning) {
 				computeDelta();
 				// Berechnet z.B. Bewegungen im Spiel
@@ -266,6 +272,7 @@ public class Houston implements ActionListener, Runnable {
 		mapActions();
 
 		player.stop();
+		sounds.setSound();
 
 		last = System.nanoTime();
 		// Waechselt von der aktuellen Card auf die neue Card
@@ -368,7 +375,7 @@ public class Houston implements ActionListener, Runnable {
 
 		// Ermittelt die Quelle des Tastendrucks
 		Object buttonClicked = e.getSource();
-
+		sounds.playSound(Sounds.Type.BUTTON_CLICK);
 		// Kuemmert sich um die Events der einzelnen Menu Buttons
 		if (buttonClicked == c1b1) {
 			changeAppearance(INTRODUCTION);

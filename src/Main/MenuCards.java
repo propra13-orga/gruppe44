@@ -16,7 +16,6 @@ public class MenuCards {
 		// Baut das Hauptmenue
 		public card1(Houston houston) {
 			this.setLayout(null);
-
 			houston.c1b1 = new JButton("Neues Spiel");
 			houston.c1b1.addActionListener(houston);
 			houston.c1b1.setBounds(284, 300, 200, 40);
@@ -191,14 +190,14 @@ public class MenuCards {
 
 			JLabel label = new JLabel(
 					"<html>06:30 Der Wecker klingelt. <p/>" +
-					"06:35 Der Wecker klingelt nochmal. <p/>" +
-					"06:40 Der Wecker klingelt nochmal. <p/>" +
-					"06:45 Der Wecker klingelt nochmal. <p/>" +
-					"Musterstudierender steht auf. Zeit: Knapp. Motivation: M\u00e4\u00dfig. <p/>" +
-					"Was w\u00fcrde in der Uni nur auf Musterstudierender warten? <p/>" +
-					"Erste Vorlesung: Ein bisschen mit dem Handy spielen. <p/>" +
-					"\u00dcbung: Sich anstrengen nicht einzuschlafen. <p/>" +
-					"Dann ab in die Schweinemensa. <p/>" +
+							"06:35 Der Wecker klingelt nochmal. <p/>" +
+							"06:40 Der Wecker klingelt nochmal. <p/>" +
+							"06:45 Der Wecker klingelt nochmal. <p/>" +
+							"Musterstudierender steht auf. Zeit: Knapp. Motivation: M\u00e4\u00dfig. <p/>" +
+							"Was w\u00fcrde in der Uni nur auf Musterstudierender warten? <p/>" +
+							"Erste Vorlesung: Ein bisschen mit dem Handy spielen. <p/>" +
+							"\u00dcbung: Sich anstrengen nicht einzuschlafen. <p/>" +
+							"Dann ab in die Schweinemensa. <p/>" +
 					"Doch was Musterstudierender nicht wusste, heute sollte kein gew\u00f6hnlicher Tag werden....<html>");
 			label.setBounds(100, 20, 600, 300);
 			this.add(label);

@@ -15,6 +15,7 @@ import Main.Enemy;
 import Main.Houston;
 import Main.Magic;
 import Main.Player;
+import Main.Sounds;
 
 public class MagicLogic {
 
@@ -26,7 +27,6 @@ public class MagicLogic {
 	private Magic magic;
 	private Enemy enemy;
 	private final int manaCost = 5;
-	int magicDamge = 5;
 	private Timer timer;
 	private TimerTask enemyMagic;
 	private String magicType;
@@ -65,6 +65,7 @@ public class MagicLogic {
 	}
 	public void doMagic(Point2D mouseClickPosition) {
 		if (houston.player.getMana() >= manaCost) {
+			houston.sounds.playSound(Sounds.Type.MAGIC);
 			player.decreaseMana(manaCost);
 			magics.add(new Magic(texture.get(player.magicType), player.getCenterPosition(), mouseClickPosition, true, player.magicType));
 		}
@@ -78,18 +79,21 @@ public class MagicLogic {
 				enemy = enemyLogic.enemies.get(j);
 
 				if((magic.getBounds().intersects(enemy.getBounds())) && (magic.isMagicFromPlayer())) {
-					calculateMagicDamage();
 					if(magic.magicType == enemy.enemyField){
-						enemy.decreaseHealth(magicDamge);
+						enemy.decreaseHealth(calculateMagicDamage(player.getplayerLevel()));
 					}else{
-						enemy.decreaseHealth(magicDamge*2);
+						enemy.decreaseHealth(calculateMagicDamage(player.getplayerLevel()) + 5);
 					}
 					if(enemy.getHealth() <= 0){
-						if(houston.enemyLogic.bossIsAlive)
+						boolean isBoss = false;
+						if(houston.enemyLogic.bossIsAlive){
 							houston.enemyLogic.bossIsAlive = false;
+							isBoss = true;
+						}
 						enemy.remove= true;
 						player.increaseMoney(10);
-						player.increaseExperience(15);
+						player.increaseExperience(enemy.getExperience(houston.map.getLevelNumber()+1, isBoss));
+						houston.playerLogic.checkExperience();
 					}
 					magic.remove = true;
 				}
@@ -110,9 +114,17 @@ public class MagicLogic {
 		}
 	}
 	//erhoeht die Magie bei ungraden Leveln um 1, wenn Level des Speielers nicht 1 ist
-	public void calculateMagicDamage(){
-		if(player.getplayerLevel() % 2 == 1 && player.getplayerLevel() != 1){
-			magicDamge ++;
+	public int calculateMagicDamage(int playerLevel){
+		if( playerLevel == 1){
+			return 5;
+		}if( playerLevel == 2){
+			return 5;
+		}if( playerLevel == 3){
+			return 10;
+		}if( playerLevel == 4){
+			return 15;
+		}else {
+			return 20;
 		}
 	}
 
@@ -122,9 +134,9 @@ public class MagicLogic {
 
 	private void initializeHashMap(){
 		try {
-			BufferedImage texture1 = ImageIO.read(new File("./res/img/tiles/ungleichAnalysis.png"));
-			BufferedImage texture2 = ImageIO.read(new File("./res/img/tiles/ungleich.png"));
-			BufferedImage texture3 = ImageIO.read(new File("./res/img/tiles/ungleichinformatik.png"));
+			BufferedImage texture1 = ImageIO.read(new File("./res/img/tiles/analysis.png"));
+			BufferedImage texture2 = ImageIO.read(new File("./res/img/tiles/lineareAlgebra.png"));
+			BufferedImage texture3 = ImageIO.read(new File("./res/img/tiles/informatik.png"));
 			texture.put(ANA, texture1);
 			texture.put(LA, texture2);
 			texture.put(INFO, texture3);

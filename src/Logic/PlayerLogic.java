@@ -1,20 +1,17 @@
 package Logic;
 
 
-import java.awt.Component;
 import java.awt.geom.Point2D;
-
-import javax.swing.JOptionPane;
 
 import Main.Enemy;
 import Main.Houston;
 import Main.Player;
+import Main.Sounds;
 
 public class PlayerLogic {
 
 	private final Houston houston;
 	private final Player player;
-	int attackDamage = 5;
 
 	public PlayerLogic(Houston houston) {
 		this.houston = houston;
@@ -49,38 +46,37 @@ public class PlayerLogic {
 	}
 
 	public void attack() {
+		houston.sounds.playSound(Sounds.Type.ATTACK);
 		for (Enemy enemy : houston.enemyLogic.enemies) {
 			if (player.attackBox.intersects(enemy.getBounds())) {
-				calculateAttackDamage();
-				enemy.decreaseHealth(attackDamage);
+				enemy.decreaseHealth(getAttackDamage(player.getplayerLevel()));
 				if(enemy.getHealth() <= 0){
-					if(houston.enemyLogic.bossIsAlive)
+					boolean isBoss = false;
+					if(houston.enemyLogic.bossIsAlive){
 						houston.enemyLogic.bossIsAlive = false;
+						isBoss = true;
+					}
 					enemy.remove= true;
 					player.increaseMoney(10);
-					player.increaseExperience(15);
+					player.increaseExperience(enemy.getExperience(houston.map.getLevelNumber()+1, isBoss));
+					checkExperience();
 				}
 			}
 		}
-		checkExperience();
 	}
 	//erhoeht die Attacke bei allen graden Leveln und 1
-	public void calculateAttackDamage(){
-		if(player.getplayerLevel() % 2 == 0){
-			attackDamage ++;
-		}
-	}
 
-	public void levelUpFrame(){
-		Component frame = null;
-		if(player.getplayerLevel() % 2 == 0 && player.getplayerLevel() == 2){
-			JOptionPane.showMessageDialog(frame,"<html>Lineare Algebra Magie freigeschaltet <p/>" + "Angriff um 1 erh\u00f6ht <html>", "Level aufgestiegen", JOptionPane.INFORMATION_MESSAGE);
-		}else if(player.getplayerLevel() % 2 == 0){
-			JOptionPane.showMessageDialog(frame, "<html>Angriff um 1 erh\u00f6ht <html>", "Level aufgestiegen", JOptionPane.INFORMATION_MESSAGE);
-		}else if(player.getplayerLevel() % 2 == 1 && player.getplayerLevel() == 3){
-			JOptionPane.showMessageDialog(frame, "<html>Informatik Magie freigeschaltet <p/>" + "Magie um 1 erh\u00f6ht <html>", "Level aufgestiegen", JOptionPane.INFORMATION_MESSAGE);
-		}else if(player.getplayerLevel() % 2 == 1){
-			JOptionPane.showMessageDialog(frame, "<html>Magie um 1 erh\u00f6ht <html>", "Level aufgestiegen", JOptionPane.INFORMATION_MESSAGE);
+	public int getAttackDamage(int playerLevel){
+		if( playerLevel == 1){
+			return 10;
+		}if( playerLevel == 2){
+			return 10;
+		}if( playerLevel == 3){
+			return 13;
+		}if( playerLevel == 4){
+			return 16;
+		}else {
+			return 19;
 		}
 	}
 
@@ -102,13 +98,29 @@ public class PlayerLogic {
 		}
 	}
 
-	public void checkExperience(){
-		if (player.getExperience() >=100){
-			player.setPlayerLevel(player.getplayerLevel()+1);
-			player.setExperience( player.getExperience() % 100);
-			levelUpFrame();
+	public int getNeededExperience(){
+		switch (player.getplayerLevel()){
+
+		case 1:
+			return 100;
+		case 2:
+			return 150;
+		case 3:
+			return 300;
+		case 4:
+			return 500;
+		default:
+			return 750;
 		}
 	}
+
+	public void checkExperience(){
+		if (player.getExperience() >= getNeededExperience()){
+			player.setExperience( player.getExperience() % getNeededExperience());
+			player.setPlayerLevel(player.getplayerLevel()+1);
+		}
+	}
+
 
 	public void setTexture(){
 		if(player.getLeft() > 0)
