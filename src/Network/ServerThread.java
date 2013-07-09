@@ -6,7 +6,7 @@ import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 
-public class ServerThread implements Runnable{
+public class ServerThread implements Runnable {
 
 	MultiPlayer mp;
 
@@ -16,9 +16,8 @@ public class ServerThread implements Runnable{
 
 	@Override
 	public void run() {
-		System.out.println("Server gestartet. Auf Clients warten ...");
+		mp.appendChatMessage("Server gestartet. Auf Client warten ...");
 		int port = Integer.parseInt(mp.serverPort.getText());
-
 
 		while (mp.serverClientThread == Thread.currentThread()) {
 
@@ -27,7 +26,7 @@ public class ServerThread implements Runnable{
 			Socket client = server.accept();
 			mp.serverIsConnectedToClient = true;
 			mp.chatInput.setEnabled(true);
-			System.out.println("Verbunden mit Client " + client.getLocalSocketAddress());
+			mp.appendChatMessage("Verbunden mit Client " + client.getLocalSocketAddress());
 
 			ObjectOutputStream out = new ObjectOutputStream(client.getOutputStream());
 			ObjectInputStream in = new ObjectInputStream(client.getInputStream());
@@ -61,17 +60,17 @@ public class ServerThread implements Runnable{
 			} // isOver
 
 			} catch (IOException e) {
-				System.out.println("Serverfehler: " + e.getMessage());
+				mp.appendChatMessage("Serverfehler: " + e.getMessage());
 				break;
 			}
 
-			System.out.println("Client getrennt.");
+			mp.appendChatMessage("Client getrennt.");
 			mp.serverIsConnectedToClient = false;
 			mp.chatInput.setEnabled(false);
 
 		} // Ende von While
 
-		System.out.println("Server beendet.");
+		mp.appendChatMessage("Server beendet.");
 		mp.stop();
 	}
 

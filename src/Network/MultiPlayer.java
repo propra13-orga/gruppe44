@@ -1,7 +1,10 @@
 package Network;
 
 import java.awt.Font;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.awt.GridLayout;
+import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
@@ -76,8 +79,12 @@ public class MultiPlayer extends JPanel implements ActionListener {
 
 		// ChatPanel
 		TitledBorder chatBorder = BorderFactory.createTitledBorder("Chat");
+		GridBagConstraints gbc = new GridBagConstraints();
+		gbc.fill = GridBagConstraints.BOTH;
+		gbc.insets = new Insets(5, 0, 0, 5);
+
 		chatPanel = new JPanel();
-		chatPanel.setLayout(new GridLayout(0, 1, 5, 5));
+		chatPanel.setLayout(new GridBagLayout());
 		chatPanel.setBorder(chatBorder);
 		chatPanel.setBounds(20, 80, 500, 240);
 
@@ -87,12 +94,21 @@ public class MultiPlayer extends JPanel implements ActionListener {
 		chatHistory.setLineWrap(true);
 		chatHistory.setWrapStyleWord(true);
 		JScrollPane chatScrollPane = new JScrollPane(chatHistory);
-		chatPanel.add(chatScrollPane);
+		gbc.weightx = 1;
+		gbc.weighty = 1;
+		gbc.gridx = 0;
+		gbc.gridy = 0;
+		gbc.gridheight = 4;
+		chatPanel.add(chatScrollPane, gbc);
 
-		chatInput = new JTextField(14);
+		chatInput = new JTextField(30);
 		chatInput.setEnabled(false);
 		chatInput.addActionListener(this);
-		chatPanel.add(chatInput);
+		gbc.weighty = 0;
+		gbc.gridx = 0;
+		gbc.gridy = 4;
+		gbc.gridheight = 1;
+		chatPanel.add(chatInput, gbc);
 
 		this.add(chatPanel);
 
@@ -200,6 +216,7 @@ public class MultiPlayer extends JPanel implements ActionListener {
 			clientIp.setEnabled(false);
 			clientPort.setEnabled(false);
 		} else {
+			chatInput.setEnabled(false);
 			startMenu.setEnabled(true);
 			serverPort.setEnabled(true);
 			clientIp.setEnabled(true);

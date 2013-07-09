@@ -19,7 +19,7 @@ public class ClientThread implements Runnable {
 		int port = Integer.parseInt(mp.clientPort.getText());
 
 		try (Socket server = new Socket(ip, port)) {
-			System.out.println("Client verbunden.");
+			mp.appendChatMessage("Client verbunden mit " + server.getLocalSocketAddress());
 			mp.chatInput.setEnabled(true);
 
 			ObjectOutputStream out = new ObjectOutputStream(server.getOutputStream());
@@ -54,10 +54,10 @@ public class ClientThread implements Runnable {
 			} // isOver
 
 		} catch (IOException e) {
-			System.out.println("Clientfehler: " + e.getMessage());
+			mp.appendChatMessage("Clientfehler: " + e.getMessage());
 		}
 
-		System.out.println("Client getrennt!");
+		mp.appendChatMessage("Client getrennt!");
 		mp.chatInput.setEnabled(false);
 		mp.stop();
 	}
