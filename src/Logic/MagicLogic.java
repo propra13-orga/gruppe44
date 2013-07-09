@@ -87,7 +87,6 @@ public class MagicLogic {
 					if(enemy.getHealth() <= 0){
 						boolean isBoss = false;
 						if(houston.enemyLogic.bossIsAlive){
-							houston.enemyLogic.bossIsAlive = false;
 							isBoss = true;
 						}
 						enemy.remove= true;

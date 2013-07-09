@@ -49,6 +49,9 @@ public class EnemyLogic {
 			}
 			// Filtert die zu loeschenden Enemies raus
 			if (enemy.remove) {
+				if(bossIsAlive){
+					bossIsAlive = false;
+				}
 				enemies.remove(i);
 				continue;
 			}
