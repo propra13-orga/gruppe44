@@ -8,16 +8,22 @@ import Main.Houston;
 import Main.Player;
 import Main.Sounds;
 
+/** enthaelt die Logik vom Spieler */
 public class PlayerLogic {
 
 	private final Houston houston;
 	private final Player player;
 
+	/**
+	 * initialisiert den Spieler
+	 * @param houston
+	 */
 	public PlayerLogic(Houston houston) {
 		this.houston = houston;
 		this.player = houston.player;
 	}
 
+	/** Sucht und setzt die Ursprungsposition des Player */
 	public void onLevelChange() {
 		// Sucht und setzt die Ursprungsposition des Player
 		Point2D spawn = new Point2D.Double();
@@ -28,6 +34,11 @@ public class PlayerLogic {
 		houston.player.resetPosition();
 	}
 
+	/**
+	 * prueft, ob der Spieler noch lebt;
+	 * legt die Textur fest;
+	 * kontrolliert die Bewegung
+	 */
 	public void doGameUpdates() {
 		checkIfPlayerIsStillAlive();
 		setTexture();
@@ -45,6 +56,7 @@ public class PlayerLogic {
 		}
 	}
 
+	/** Spieler greift mit Leertaste an */
 	public void attack() {
 		houston.sounds.playSound(Sounds.Type.ATTACK);
 		for (Enemy enemy : houston.enemyLogic.enemies) {
@@ -63,8 +75,12 @@ public class PlayerLogic {
 			}
 		}
 	}
-	//erhoeht die Attacke bei allen graden Leveln und 1
 
+	/**
+	 * errechnet wieviel Schaden eine Attacke bringt, abhaengig vom Erfahrungslevel
+	 * @param playerLevel
+	 * @return damage
+	 */
 	public int getAttackDamage(int playerLevel){
 		if( playerLevel == 1){
 			return 10;
@@ -79,6 +95,7 @@ public class PlayerLogic {
 		}
 	}
 
+	/** wechselt den Zauber vom Spieler */
 	public void changeMagicType() {
 		//Schaltet die La Magie ab Level 2 frei
 		if(player.getplayerLevel() == 2){
@@ -97,6 +114,10 @@ public class PlayerLogic {
 		}
 	}
 
+	/**
+	 * errechnet abhaengig vom Erfahrungslevel, wieviele Erfahrungspunkte benoetigt werden, um ein Level aufzusteigen
+	 * @return needed Experience
+	 */
 	public int getNeededExperience(){
 		switch (player.getplayerLevel()){
 
@@ -113,6 +134,7 @@ public class PlayerLogic {
 		}
 	}
 
+	/** laesst den Spieler ein Erfahrungslevel aufsteigen, wenn er genug Erfahrungspunkte hat */
 	public void checkExperience(){
 		if (player.getExperience() >= getNeededExperience()){
 			player.setExperience( player.getExperience() % getNeededExperience());
@@ -121,6 +143,7 @@ public class PlayerLogic {
 	}
 
 
+	/** legt die Textur vom Spieler fest, abhaengig von der Richtung in die er geht */
 	public void setTexture(){
 		if(player.getLeft() > 0)
 			houston.player.texture = houston.player.tex_left;

@@ -7,13 +7,29 @@ import java.awt.image.BufferedImage;
 
 import Logic.MagicLogic;
 
+/** Gegnerklasse */
 public class Enemy extends Movable{
+
+	/** gibt an, ob der Gegner tod ist und somit von der Karte entfernt werden muss */
 	public boolean remove;
 	private int direction;
+
+	/** enthaelt folgende Informationen ueber den Gegner; Lebenspunkte; Zauberfaehigkeit; verwendeter Zauber */
 	public int enemyType;
+
+	/** gibt die Zauberfaehigkeit an; 1 kann zaubern; 0 kann nicht zaubern */
 	public int shoot;
+
+	/** verwendeter Zauber; ANA, LA oder INFO */
 	public String enemyField;
 
+	/**
+	 * Initialisiert den Gegner
+	 * @param textures
+	 * @param resetPoint
+	 * @param direction
+	 * @param enemyType
+	 */
 	public Enemy (BufferedImage textures, Point2D resetPoint, int direction, int enemyType){
 		setSpeed(128);
 		setBounds(new Rectangle2D.Double(resetPoint.getX(), resetPoint.getY(), 28, 28));
@@ -28,6 +44,10 @@ public class Enemy extends Movable{
 		tex_up = textures.getSubimage(0, 145, 32, 45);
 	}
 
+	/**
+	 * Zeichnet die Gegner
+	 * @see Main.Movable#drawObjects(java.awt.Graphics2D)
+	 */
 	@Override
 	public void drawObjects(Graphics2D g) {
 		setDirection();
@@ -64,11 +84,21 @@ public class Enemy extends Movable{
 		}
 	}
 
+	/**
+	 * Gegner dreht sich um 180 Grad bei Wandkontakt
+	 * @see Main.Movable#onWallHit()
+	 */
 	@Override
 	public void onWallHit() {
 		turn180();
 	}
 
+	/**
+	 * Gibt an wieviel Erfahrungspunkte das toeten des Gegners dem Spieler bringt
+	 * @param levelNumber
+	 * @param isBoss
+	 * @return Anzahl der Erfahrungspunkte
+	 */
 	public int getExperience(int levelNumber, boolean isBoss){
 		if(levelNumber == 1){
 			if(isBoss){

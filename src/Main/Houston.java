@@ -43,10 +43,14 @@ import Logic.PlayerLogic;
 import MapEditor.MapEditor;
 import Network.MultiPlayer;
 
+/** Hauptklasse */
 public class Houston implements ActionListener, Runnable {
 
-	// Speichert die Hoehe und Breite des Fensterinhalts
+
+	/** Hoehe des Fensters */
 	public int height;
+
+	/** Breite des Fensters */
 	public int width;
 
 	// gameIsRunning und gameOver sind fuer die Menuefuehrung
@@ -63,43 +67,61 @@ public class Houston implements ActionListener, Runnable {
 	// Speichert die gewuenschte Bildwiederholungsrate
 	private int preferredFps;
 
-	// Das Fenster, der Rahmen
+	/** Das Fenster, der Rahmen */
 	public JFrame frame;
-	// Gibt an, welche Card im Fenster gerade aktiv ist
+
+	/** Gibt an, welche Card im Fenster gerade aktiv ist */
 	public String currentCard;
 	// Kontainer fuer die "Unterfenster" card1, card2, ...
 	private JPanel cards;
-	// "Unterfenster", die das Startmenue, Einstellungen, etc. beinhalten
+
+	/** "Unterfenster", die das Startmenue, Einstellungen, etc. beinhalten */
 	public JPanel card1, card2, card4, card5, card6, card7;
+
+	/** Spielfenster */
 	public GamePanel gamePanel;
+
+	/** Karten- und Leveleditor */
 	public MapEditor mapEditor;
 	public MultiPlayer multiPlayer;
 	// CardLayout ermoeglicht erst diese Darstellung der unterschiedlichen
 	// Fensterinhalte auf unterschiedlichen "Karten"
 	private CardLayout cl;
 
-	// Durch den Spieler gesteuerter Charakter
+	/** Durch den Spieler gesteuerter Charakter */
 	public Player player;
-	// Die Karte
+
+	/** Die Karte */
 	public Map map;
-	// Das Inventar hält Items, die z.B. eingesammelt werden
+
+	/** Das Inventar haelt Items, die z.B. eingesammelt werden */
 	public Inventory inventory;
-	// Im Shop können Items gekauft werden
+
+	/** Im Shop koennen Items gekauft werden */
 	public Shop shop;
-	//Quests
+
+	/** Quests und Raetsel */
 	public Quest quest;
-	// Die Geschichte
+
+	/** Die Geschichte des Spiels */
 	public Story story;
-	// In der Logik werden Berechnungen zur Laufzeit getaetigt
+
+	/** In der Logik werden Berechnungen zur Laufzeit getaetigt */
 	public GameLogic gameLogic;
-	// Das unterstuetzende Gehirn des Player
+
+	/** Das unterstuetzende Gehirn des Player */
 	public PlayerLogic playerLogic;
-	// Das Gehirn der Gegner
+
+	/** Das Gehirn der Gegner */
 	public EnemyLogic enemyLogic;
-	// Die Logik der Magie
+
+	/** Die Logik der Magie */
 	public MagicLogic magicLogic;
-	// Die Logik der Items
+
+	/** Die Logik der Items */
 	public ItemLogic itemLogic;
+
+	/** Die Sounds */
 	public Sounds sounds;
 
 
@@ -156,6 +178,14 @@ public class Houston implements ActionListener, Runnable {
 	}
 	// ------------------------------------------------------------
 
+	/**
+	 * Spiel wird initialisiert:
+	 * ruft initializeCrap auf;
+	 * erstellt das Spielfenster;
+	 * laedt die Karten
+	 * @param width
+	 * @param height
+	 */
 	public Houston(int width, int height) {
 
 		// Initialisiert allen moeglichen Kram, vorm ersten Spielstart
@@ -220,6 +250,9 @@ public class Houston implements ActionListener, Runnable {
 		sounds = new Sounds(this);
 	}
 
+	/** GameLoop
+	 * @see java.lang.Runnable#run()
+	 */
 	@Override
 	public void run() {
 		// GameLoop
@@ -260,7 +293,12 @@ public class Houston implements ActionListener, Runnable {
 		return frame;
 	}
 
-	// Wechselt die Card und weist die entsprechenden Tastendruecke zu
+	/**
+	 * Wechselt die Card und weist die entsprechenden Tastendruecke zu
+	 * @param gameOver
+	 * @param gameIsRunning
+	 * @param name
+	 */
 	public void changeAppearance(boolean gameOver, boolean gameIsRunning, String name) {
 		// Setzt die aktuelle Card auf die neue Card
 		currentCard = name;
@@ -279,10 +317,19 @@ public class Houston implements ActionListener, Runnable {
 		cl.show(cards, name);
 	}
 
+	/**
+	 * ruft changeAppearance(boolean gameOver, boolean gameIsRunning, String name) auf
+	 * @param gameIsRunning
+	 * @param name
+	 */
 	public void changeAppearance(boolean gameIsRunning, String name) {
 		changeAppearance(gameOver, gameIsRunning, name);
 	}
 
+	/**
+	 * ruft changeAppearance(boolean gameOver, boolean gameIsRunning, String name) auf
+	 * @param name
+	 */
 	public void changeAppearance(String name) {
 		changeAppearance(gameOver, gameIsRunning, name);
 	}
@@ -370,6 +417,9 @@ public class Houston implements ActionListener, Runnable {
 		am.put("attack", new Actions.attack(this));
 	}
 
+	/** kontrolliert die Bouttonklicks
+	 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
+	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
 

@@ -4,12 +4,15 @@ import java.awt.event.ActionEvent;
 
 import javax.swing.AbstractAction;
 
+/** Reaktion auf Tastendruck */
 public class Actions {
 
+	/** oeffnet das Ingamemenu */
 	static class jumpToIngamemenu extends AbstractAction {
 
 		private static final long serialVersionUID = 1L;
 		private final Houston houston;
+
 
 		public jumpToIngamemenu(Houston houston) {
 			this.houston = houston;
@@ -23,6 +26,7 @@ public class Actions {
 
 	}
 
+	/** oeffnet das Spiel */
 	static class jumpToGame extends AbstractAction {
 
 		private static final long serialVersionUID = 1L;
@@ -40,6 +44,7 @@ public class Actions {
 
 	}
 
+	/** Setzt den Spieler an die Ursprungsposition */
 	static class resetPlayer extends AbstractAction {
 
 		private static final long serialVersionUID = 1L;
@@ -57,6 +62,7 @@ public class Actions {
 
 	}
 
+	/** Spieler geht nach oben */
 	static class moveUp extends AbstractAction {
 
 		private static final long serialVersionUID = 1L;
@@ -75,6 +81,7 @@ public class Actions {
 
 	}
 
+	/** Spieler geht nach unten */
 	static class moveDown extends AbstractAction {
 
 		private static final long serialVersionUID = 1L;
@@ -93,6 +100,7 @@ public class Actions {
 
 	}
 
+	/** Spieler geht nach links */
 	static class moveLeft extends AbstractAction {
 
 		private static final long serialVersionUID = 1L;
@@ -111,6 +119,7 @@ public class Actions {
 
 	}
 
+	/**  Spieler geht nach rechts */
 	static class moveRight extends AbstractAction {
 
 		private static final long serialVersionUID = 1L;
@@ -129,6 +138,7 @@ public class Actions {
 
 	}
 
+	/** Spieler geht nicht mehr nach oben */
 	static class releasedUp extends AbstractAction {
 
 		private static final long serialVersionUID = 1L;
@@ -146,6 +156,7 @@ public class Actions {
 
 	}
 
+	/** Spieler geht nicht mehr nach unten */
 	static class releasedDown extends AbstractAction {
 
 		private static final long serialVersionUID = 1L;
@@ -163,6 +174,7 @@ public class Actions {
 
 	}
 
+	/** Spieler geht nicht mehr nach links */
 	static class releasedLeft extends AbstractAction {
 
 		private static final long serialVersionUID = 1L;
@@ -180,6 +192,7 @@ public class Actions {
 
 	}
 
+	/** Spieler geht nicht mehr nach rechts */
 	static class releasedRight extends AbstractAction {
 
 		private static final long serialVersionUID = 1L;
@@ -197,6 +210,7 @@ public class Actions {
 
 	}
 
+	/** Spieler nimmt sein Healthpack ein */
 	static class useHealthPack extends AbstractAction {
 
 		private static final long serialVersionUID = 1L;
@@ -213,6 +227,7 @@ public class Actions {
 
 	}
 
+	/** Spieler nimmt sein Manapotion */
 	static class useManaPotion extends AbstractAction {
 
 		private static final long serialVersionUID = 1L;
@@ -229,6 +244,7 @@ public class Actions {
 
 	}
 
+	/** Spieler spricht mit dem NPC oder betritt den Shop, abhaengig von seiner aktuellen Position */
 	static class interact extends AbstractAction {
 
 		private static final long serialVersionUID = 1L;
@@ -252,6 +268,7 @@ public class Actions {
 
 	}
 
+	/** Spieler greift an */
 	static class attack extends AbstractAction {
 
 		private static final long serialVersionUID = 1L;

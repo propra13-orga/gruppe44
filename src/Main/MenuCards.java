@@ -7,13 +7,17 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 
+/** enthaelt alle im Spiel verwendeten Karten */
 public class MenuCards {
 
 	static class card1 extends JPanel {
 
 		private static final long serialVersionUID = 1L;
 
-		// Baut das Hauptmenue
+		/**
+		 * Baut das Hauptmenue
+		 * @param houston
+		 */
 		public card1(Houston houston) {
 			this.setLayout(null);
 			houston.c1b1 = new JButton("Neues Spiel");
@@ -53,7 +57,10 @@ public class MenuCards {
 
 		private static final long serialVersionUID = 1L;
 
-		// Baut das Einstellungsfenster
+		/**
+		 * Baut das Einstellungsfenster
+		 * @param houston
+		 */
 		public card2(Houston houston) {
 			this.setLayout(null);
 
@@ -84,7 +91,10 @@ public class MenuCards {
 
 		private static final long serialVersionUID = 1L;
 
-		// Baut das Spielmenue
+		/**
+		 * Baut das Spielmenue
+		 * @param houston
+		 */
 		public card4(Houston houston) {
 			this.setLayout(null);
 
@@ -105,7 +115,10 @@ public class MenuCards {
 
 		private static final long serialVersionUID = 1L;
 
-		// Baut das Mitwirkendenfenster
+		/**
+		 * Baut das Mitwirkendenfenster
+		 * @param houston
+		 */
 		public card5(Houston houston) {
 			this.setLayout(null);
 
@@ -141,7 +154,10 @@ public class MenuCards {
 
 		private static final long serialVersionUID = 1L;
 
-		// Baut das Introductionfenster
+		/**
+		 * Baut das Introductionfenster
+		 * @param houston
+		 */
 		public card6(Houston houston) {
 			this.setLayout(null);
 
@@ -209,7 +225,10 @@ public class MenuCards {
 
 		private static final long serialVersionUID = 1L;
 
-		// Baut den Shop
+		/**
+		 * Baut den Shop
+		 * @param houston
+		 */
 		public card7(Houston houston) {
 			this.setLayout(null);
 

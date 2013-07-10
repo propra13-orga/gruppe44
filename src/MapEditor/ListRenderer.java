@@ -13,8 +13,10 @@ import javax.swing.border.EmptyBorder;
 import Main.Houston;
 import Main.Level;
 
+/** Darstellung der Listen fuer den Karteneditor */
 public class ListRenderer {
 
+	/** Listet die MapURls im Karteneditor auf */
 	static class MapUrlListRenderer extends JLabel implements ListCellRenderer<Object> {
 
 		private static final long serialVersionUID = 1L;
@@ -46,6 +48,7 @@ public class ListRenderer {
 
 	}
 
+	/** Listet alle Kachel im Karteneditor auf */
 	static class MapListRenderer extends JLabel implements ListCellRenderer<Object> {
 
 		private static final long serialVersionUID = 1L;
@@ -80,6 +83,7 @@ public class ListRenderer {
 
 	}
 
+	/** Listet die Gegner im Karteneditor auf */
 	static class EnemyListRenderer extends JLabel implements ListCellRenderer<Object> {
 
 		private static final long serialVersionUID = 1L;
@@ -114,6 +118,7 @@ public class ListRenderer {
 
 	}
 
+	/** Listet die Items im Karteneditor auf */
 	static class ItemListRenderer extends JLabel implements ListCellRenderer<Object> {
 
 		private static final long serialVersionUID = 1L;

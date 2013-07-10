@@ -1,5 +1,6 @@
 package Main;
 
+/** Inventar des Spielers */
 public class Inventory {
 
 	Houston houston;
@@ -12,51 +13,56 @@ public class Inventory {
 	healthPerPortion	= 30,
 	manaPerPortion		= 60;
 
+	/**
+	 * Initialisiert das Inventar
+	 * @param houston
+	 */
 	public Inventory(Houston houston) {
 		this.houston = houston;
 		this.player = houston.player;
 	}
 
-	// Setzt healthPack und ManaPotion auf 0 zurueck
+	/** Setzt healthPack und ManaPotion auf 0 zurueck */
 	public void clear() {
 		healthPack = manaPotion = 0;
 	}
 
-	// Gibt die Anzahl an HealthPack im Inventar zurueck
+	/** @return Anzahl healthPack */
 	public int getCountOfHealthPack() {
 		return healthPack;
 	}
 
-	// Erhoeht die Anzahl an HealthPack um 1
+	/** Erhoeht die Anzahl an HealthPack um 1, solang es weniger als 3 sind */
 	public void addHealthPack() {
 		if (healthPack < 3)
 			healthPack++;
 	}
 
-	// Veringert die Anzahl an HealthPack um 1
+	/** Verringert die Anzahl an HealthPack um 1, solang der Spieler mindestens 1 besitzt */
 	public void subHealthPack() {
 		if (healthPack > 0)
 			healthPack--;
 	}
 
-	// Gibt die Anzahl an ManaPotion im Inventar zurueck
+
+	/** @return Anzahl manaPotion */
 	public int getCountOfManaPotion() {
 		return manaPotion;
 	}
 
-	// Erhoeht die Anzahl an ManaPotion um 1
+	/** Erhoeht die Anzahl an ManaPotion um 1, solang es weniger als 3 sind */
 	public void addManaPotion() {
 		if (manaPotion < 3)
 			manaPotion++;
 	}
 
-	// Veringert die Anzahl an ManaPotion um 1
+	/** Veringert die Anzahl an ManaPotion um 1, solang der Spieler mindestens 1 besitzt */
 	public void subManaPotion() {
 		if (manaPotion > 0)
 			manaPotion--;
 	}
 
-	// Benutzt ein Healthpack und veraendert entsprechend das Leben des Spielers
+	/** Benutzt ein Healthpack und veraendert entsprechend das Leben des Spielers */
 	public void useHealthPack() {
 		if (healthPack > 0) {
 			subHealthPack();
@@ -73,7 +79,7 @@ public class Inventory {
 		}
 	}
 
-	// Benutzt ein ManaPotion und veraendert entsprechend das Mana des Spielers
+	/** Benutzt ein ManaPotion und veraendert entsprechend das Mana des Spielers */
 	public void useManaPotion() {
 		if (manaPotion > 0) {
 			subManaPotion();

@@ -37,6 +37,7 @@ import Main.Houston;
 import Main.Level;
 import Main.Map;
 
+/** Klasse vom Karteneditor */
 public class MapEditor extends JPanel implements ActionListener, MouseListener, MouseMotionListener, ListSelectionListener, ChangeListener {
 
 	private static final long serialVersionUID = 1L;
@@ -49,6 +50,8 @@ public class MapEditor extends JPanel implements ActionListener, MouseListener, 
 	up, down, saveMapUrls, add, del;
 	private JTabbedPane tabbedPane;
 	private int indexOfSelectedTab;
+
+	/** Darstellung der Liste der MapUrls */
 	public DefaultListModel<Object> mapUrlListModel;
 	private JList<Object> currentList;
 	private JList<Object> mapUrlList, mapList, enemyList, itemList;
@@ -69,6 +72,10 @@ public class MapEditor extends JPanel implements ActionListener, MouseListener, 
 	private Point2D[] undoTilePositions;
 	private boolean mapIsDifferentThanOriginal;
 
+	/**
+	 * initialisiert den Karteneditor
+	 * @param houston
+	 */
 	public MapEditor(Houston houston) {
 		this.houston = houston;
 		this.map = houston.map;
@@ -79,6 +86,9 @@ public class MapEditor extends JPanel implements ActionListener, MouseListener, 
 		addMouseMotionListener(this);
 	}
 
+	/** Zeichnet den Karteneditor
+	 * @see javax.swing.JComponent#paintComponent(java.awt.Graphics)
+	 */
 	@Override
 	protected void paintComponent(Graphics gr) {
 		Graphics2D g = (Graphics2D) gr;
@@ -110,7 +120,7 @@ public class MapEditor extends JPanel implements ActionListener, MouseListener, 
 			for (int col = 0; col < 24; col++) {
 				value = map.itemArray[row][col];
 				if (value != 0)
-				g.drawImage(houston.itemLogic.texture.get(value), col * 32, row * 32 - houston.itemLogic.texture.get(value).getHeight() + 32 , null);
+					g.drawImage(houston.itemLogic.texture.get(value), col * 32, row * 32 - houston.itemLogic.texture.get(value).getHeight() + 32 , null);
 			}
 		}
 
@@ -125,10 +135,12 @@ public class MapEditor extends JPanel implements ActionListener, MouseListener, 
 		undoButton.setEnabled(false);
 	}
 
+	/** zeigt das Editor Fenster an */
 	public void showEditorWindow() {
 		createEditorWindow();
 	}
 
+	/** schliesst den Karteneditor */
 	public void hideEditorWindow() {
 		editorWindowFrame.dispose();
 	}
@@ -401,6 +413,10 @@ public class MapEditor extends JPanel implements ActionListener, MouseListener, 
 		mapIsDifferentThanOriginal = true;
 	}
 
+	/**
+	 * kontrolliert die Buttons
+	 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
+	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		// Ermittelt die Quelle des Tastendrucks
@@ -449,6 +465,11 @@ public class MapEditor extends JPanel implements ActionListener, MouseListener, 
 		repaint();
 	}
 
+
+	/**
+	 * Kontrolliert die Mausklicks im Karteneditior
+	 * @see java.awt.event.MouseListener#mouseClicked(java.awt.event.MouseEvent)
+	 */
 	@Override
 	public void mouseClicked(MouseEvent e) {
 		Object clickLocation = e.getSource();
@@ -491,13 +512,28 @@ public class MapEditor extends JPanel implements ActionListener, MouseListener, 
 		}
 	}
 
+	/** nicht benoetigt */
 	@Override public void mousePressed(MouseEvent e) {}
+
+	/** nicht benoetigt */
 	@Override public void mouseReleased(MouseEvent e) {}
+
+	/** nicht benoetigt */
 	@Override public void mouseEntered(MouseEvent e) {}
+
+	/** nicht benoetigt */
 	@Override public void mouseExited(MouseEvent e) {}
+
+	/** nicht benoetigt */
 	@Override public void mouseDragged(MouseEvent e) {}
+
+	/** nicht benoetigt */
 	@Override public void mouseMoved(MouseEvent e) {}
 
+	/**
+	 * veraendert den Wert der Kachel
+	 * @see javax.swing.event.ListSelectionListener#valueChanged(javax.swing.event.ListSelectionEvent)
+	 */
 	@Override
 	public void valueChanged(ListSelectionEvent e) {
 		if (e.getValueIsAdjusting() == false) {
@@ -515,6 +551,10 @@ public class MapEditor extends JPanel implements ActionListener, MouseListener, 
 		}
 	}
 
+	/**
+	 * prueft, ob eine Karte veraendert wurde
+	 * @see javax.swing.event.ChangeListener#stateChanged(javax.swing.event.ChangeEvent)
+	 */
 	@Override
 	public void stateChanged(ChangeEvent e) {
 		indexOfSelectedTab = tabbedPane.getSelectedIndex();

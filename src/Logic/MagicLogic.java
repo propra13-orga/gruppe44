@@ -17,12 +17,14 @@ import Main.Magic;
 import Main.Player;
 import Main.Sounds;
 
+/** enthaelt die Logik des Zaubers */
 public class MagicLogic {
 
 	private final Houston houston;
 	private final Player player;
 	private final EnemyLogic enemyLogic;
 
+	/** Magicarray, enthaelt alle aktiven Zauber */
 	public ArrayList<Magic> magics;
 	private Magic magic;
 	private Enemy enemy;
@@ -30,11 +32,23 @@ public class MagicLogic {
 	private Timer timer;
 	private TimerTask enemyMagic;
 	private String magicType;
+
+	/** enthaelt die Texturen der unterschiedlichen Zauber */
 	public HashMap<String, BufferedImage> texture;
+
+	/** String ANALYSIS */
 	public final static String ANA = "ANALYSIS";
+
+	/** String LINEAREALGEBRA */
 	public final static String LA = "LINEARALGEBRA";
+
+	/** String INFORMATIK */
 	public final static String INFO = "INFORMATIK";
 
+	/**
+	 * initialisiert das Magicarray
+	 * @param houston
+	 */
 	public MagicLogic(Houston houston) {
 		this.houston	= houston;
 		this.player		= houston.player;
@@ -46,10 +60,15 @@ public class MagicLogic {
 		setMagic();
 	}
 
+	/** prueft welche Gegner gerade zaubern und erstellt den Zauber */
 	public void setMagic(){
 		timer = new Timer();
 
 		enemyMagic = new TimerTask(){
+
+			/** fuegt Zauber vom Gegner dem Array hinzu
+			 * @see java.util.TimerTask#run()
+			 */
 			@Override
 			public void run (){
 				for (Enemy enemy : houston.enemyLogic.enemies) {
@@ -63,6 +82,11 @@ public class MagicLogic {
 
 		timer.schedule(enemyMagic, 100, 2000);
 	}
+
+	/**
+	 * Spieler Zauber per Mausklick
+	 * @param mouseClickPosition
+	 */
 	public void doMagic(Point2D mouseClickPosition) {
 		if (houston.player.getMana() >= manaCost) {
 			houston.sounds.playSound(Sounds.Type.MAGIC);
@@ -71,6 +95,7 @@ public class MagicLogic {
 		}
 	}
 
+	/** prueft, ob der Zauber vom Spieler den Gegner bzw der Zauber vom Gegner den Spieler trifft und reagiert entsprechend */
 	public void doGameUpdates() {
 		for (int i = magics.size() - 1; i >= 0; i--) {
 			magic = magics.get(i);
@@ -112,7 +137,12 @@ public class MagicLogic {
 			houston.gameLogic.controlCharacterMovement(magic);
 		}
 	}
-	//erhoeht die Magie bei ungraden Leveln um 1, wenn Level des Speielers nicht 1 ist
+
+	/**
+	 * erhoeht die Magie bei ungraden Leveln um 5
+	 * @param playerLevel
+	 * @return MagicDamage
+	 */
 	public int calculateMagicDamage(int playerLevel){
 		if( playerLevel == 1){
 			return 5;
@@ -127,6 +157,7 @@ public class MagicLogic {
 		}
 	}
 
+	/** entfernt alle Zauber bei Level wechsel */
 	public void onLevelChange() {
 		magics.clear();
 	}

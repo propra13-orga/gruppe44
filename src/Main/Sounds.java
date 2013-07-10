@@ -12,6 +12,7 @@ import javax.sound.sampled.DataLine;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
 
+/** Soundklasse */
 public class Sounds {
 
 	private final Houston houston;
@@ -20,6 +21,7 @@ public class Sounds {
 	Clip myClip;
 	Clip[] clips;
 
+	/** Ordnet den Namen eine Zahl zu */
 	public enum Type {
 		MAIN_MENU(0),
 		DOOR(1),
@@ -35,14 +37,19 @@ public class Sounds {
 			code = c;
 		}
 
+		/**
+		 * @return code
+		 */
 		public int getCode() {
 			return code;
 		}
 	}
 
-
-	// das Clip Array wird spaeter noch verkleinert, und die Zahlen des Arrays umbennant
-	// zum aendern der Musik den Pfad einfach in das Array packen
+	/**
+	 * das Clip Array wird spaeter noch verkleinert, und die Zahlen des Arrays umbennant
+	 * zum aendern der Musik den Pfad einfach in das Array packen
+	 * @param houston
+	 */
 	public Sounds(Houston houston) {
 		this.houston = houston;
 		//inizialisiert die Clips in ein Array
@@ -59,8 +66,11 @@ public class Sounds {
 		setSound();
 	}
 
-	//wandelt den Path in einen Sound Clip umder abgespielt werden kann
-
+	/**
+	 * wandelt den Path in einen Sound Clip umder abgespielt werden kann
+	 * @param adress
+	 * @return Clip
+	 */
 	public Clip inizialeSound(String adress) {
 		try {
 			myInputStream = AudioSystem.getAudioInputStream(new File (adress));
@@ -77,12 +87,18 @@ public class Sounds {
 		return myClip;
 	}
 
-	//spielt den Clip ab
+	/**
+	 * spielt den Clip ab
+	 * @param type
+	 */
 	public void playSound(Type type){
 		stopSound(type);
 		clips[type.getCode()].start();}
 
-
+	/**
+	 * stopt den Clip
+	 * @param type
+	 */
 	public  void stopSound(Type type){
 		Clip clip = clips[type.getCode()];
 		clip.stop();
@@ -91,17 +107,24 @@ public class Sounds {
 		clip.setFramePosition(0);
 	}
 
+	/**
+	 * Soundloop
+	 * @param type
+	 * @param count
+	 */
 	public void loopSound(Type type, int count){
 		stopSound(type);
 		clips[type.getCode()].loop(count);
 	}
 
+	/** stopt alle Sounds */
 	public void stopAllSounds(){
 		for(Type type : EnumSet.allOf(Type.class)){
 			stopSound(type);
 		}
 	}
 
+	/** spielt Hintergrundsound passend zur aktuellen Karte ab */
 	public void setSound(){
 		stopAllSounds();
 		if(houston.currentCard == "GAME"){
