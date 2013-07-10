@@ -61,7 +61,7 @@ public class Houston implements ActionListener, Runnable {
 	long lastAttack = 0;
 	long fps = 0;
 	// Speichert die gewuenschte Bildwiederholungsrate
-	private int preferredFps;
+	public int preferredFps;
 
 	// Das Fenster, der Rahmen
 	public JFrame frame;

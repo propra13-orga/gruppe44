@@ -65,6 +65,10 @@ public class GamePanel extends JPanel implements MouseListener {
 		for (int i = houston.enemyLogic.enemies.size() - 1; i >= 0; i--)
 			houston.enemyLogic.enemies.get(i).drawObjects(g);
 
+		// Zeichnet Mitspieler
+		if (houston.multiPlayer.ready)
+			houston.multiPlayer.drawObjects(g);
+
 		// Zeichnet den Player
 		player.drawObjects(g);
 

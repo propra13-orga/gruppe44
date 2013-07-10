@@ -67,6 +67,8 @@ public class GameLogic {
 	// Berechnet z.B. alle Bewegungen und Kollisionen im Spiel
 	public void doGameUpdates(long delta) {
 		this.delta = delta;
+		if (houston.multiPlayer.ready)
+			houston.multiPlayer.doGameUpdates();
 
 		playerLogic.doGameUpdates();
 		enemyLogic.doGameUpdates();
