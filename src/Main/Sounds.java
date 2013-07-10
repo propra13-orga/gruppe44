@@ -55,7 +55,7 @@ public class Sounds {
 		//inizialisiert die Clips in ein Array
 		clips = new Clip[EnumSet.allOf(Type.class).size()];
 		clips [Type.MAIN_MENU.getCode()] = inizialeSound( "./res/sounds/dark_house_break_loop_with_drums_and_bass_120_bpm.wav");
-		clips [Type.DOOR.getCode()] = inizialeSound("./res/sounds/door_hinge_creak_version_5.wav");
+		clips [Type.DOOR.getCode()] = inizialeSound("./res/sounds/door-open-1.wav");
 		clips [Type.ATTACK.getCode()] = inizialeSound("./res/sounds/knife_stab.wav");
 		clips [Type.BUTTON_CLICK.getCode()] = inizialeSound("./res/sounds/portable_heater_radiator_switch_click_001.wav");
 		clips [Type.MAGIC.getCode()] = inizialeSound("./res/sounds/fire_torch_pass_by_large_heavy_with_crackle_1.wav");
@@ -126,12 +126,12 @@ public class Sounds {
 
 	/** spielt Hintergrundsound passend zur aktuellen Karte ab */
 	public void setSound(){
-		stopAllSounds();
-		if(houston.currentCard == "GAME"){
-			loopSound(Sounds.Type.GAME, 100);
-		}else{
-			loopSound(Sounds.Type.MAIN_MENU, 100);
-		}
+//		stopAllSounds();
+//		if(houston.currentCard == "GAME"){
+//			loopSound(Sounds.Type.GAME, 100);
+//		}else{
+//			loopSound(Sounds.Type.MAIN_MENU, 100);
+//		}
 	}
 }
 

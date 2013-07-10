@@ -1,17 +1,21 @@
 package Network;
 
 import java.awt.Font;
+import java.awt.Graphics2D;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.net.InetAddress;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import java.util.Map;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -27,25 +31,30 @@ import Main.Houston;
 public class MultiPlayer extends JPanel implements ActionListener {
 
 	private static final long serialVersionUID = 1L;
-	private Houston houston;
+	public Houston houston;
 
 
 	private JPanel
 	chatPanel,
+	gamePanel,
 	serverPanel,
 	clientPanel;
 
 	private JTextArea chatHistory;
 
 	public JTextField
+	gameStatus,
 	serverPort,
 	serverIp,
 	clientIp,
 	clientPort,
 	chatInput;
 
-	private JButton
+	public JButton
+	readyToPlay,
+	notReadyToPlay,
 	startMenu,
+	backToGame,
 	createServer,
 	killServer,
 	connectAsClient,
@@ -54,16 +63,26 @@ public class MultiPlayer extends JPanel implements ActionListener {
 
 	public Thread serverClientThread = null;
 	public Runnable serverThread, clientThread;
+	private String type;
 
 
-	private final static String newline = "\n";
 	public final static String ME = "Ich";
 	public final static String OPPONENT = "Er/Sie/Es";
 	public final static String CONSOLE = "Console";
+	private final static String newline = "\n";
+	public final static String BYE = "/bye";
+
+	public final static String NOBODYREADY = "Du bist noch nicht bereit.";
+	public final static String OPPONENTREADY = "Mitspieler ist bereit. Du auch?";
+	public final static String YOUREADY = "Du bist bereit. Dein Mitspieler noch nicht";
+	public final static String GAMESTARTS = "Spiel startet ...";
+
+
 	public String messageToSend = "";
 	public Boolean serverIsConnectedToClient = false;
 	public Data input, output;
 	public Boolean isOver;
+	public boolean ready;
 
 
 	public MultiPlayer(Houston houston) {
@@ -76,6 +95,11 @@ public class MultiPlayer extends JPanel implements ActionListener {
 		startMenu.addActionListener(this);
 		startMenu.setBounds(houston.width - 220, 20, 200, 30);
 		this.add(startMenu);
+
+		backToGame = new JButton("Zur\u00fcck ins Spiel");
+		backToGame.addActionListener(this);
+		backToGame.setBounds(houston.width - 450, 20, 200, 30);
+		this.add(backToGame);
 
 		// ChatPanel
 		TitledBorder chatBorder = BorderFactory.createTitledBorder("Chat");
@@ -112,6 +136,37 @@ public class MultiPlayer extends JPanel implements ActionListener {
 
 		this.add(chatPanel);
 
+		// GamePanel
+		TitledBorder gameBorder = BorderFactory.createTitledBorder("Game");
+		gamePanel = new JPanel();
+		gamePanel.setLayout(new GridBagLayout());
+		gamePanel.setBorder(gameBorder);
+		gamePanel.setBounds(20, 340, 500, 240);
+
+		gameStatus = new JTextField();
+		gameStatus.setEditable(false);
+		gbc.gridx = 0;
+		gbc.gridy = 0;
+		gbc.gridwidth = 3;
+		gamePanel.add(gameStatus, gbc);
+
+		notReadyToPlay = new JButton("Nicht Bereit");
+		notReadyToPlay.addActionListener(this);
+		notReadyToPlay.setEnabled(false);
+		gbc.gridx = 0;
+		gbc.gridy = 1;
+		gbc.gridwidth = 1;
+		gamePanel.add(notReadyToPlay, gbc);
+
+		readyToPlay = new JButton("Bereit");
+		readyToPlay.addActionListener(this);
+		readyToPlay.setEnabled(false);
+		gbc.gridx = 1;
+		gbc.gridwidth = 2;
+		gamePanel.add(readyToPlay, gbc);
+
+		this.add(gamePanel);
+
 		// ServerPanel
 		TitledBorder serverBorder = BorderFactory.createTitledBorder("Server");
 		serverPanel = new JPanel();
@@ -122,7 +177,7 @@ public class MultiPlayer extends JPanel implements ActionListener {
 		JLabel serverIpLabel = new JLabel("IP");
 		serverPanel.add(serverIpLabel);
 		serverIp = new JTextField(14);
-		serverIp.setEnabled(false);
+		serverIp.setEditable(false);
 		serverPanel.add(serverIp);
 
 		JLabel serverPortLabel = new JLabel("Port");
@@ -195,6 +250,7 @@ public class MultiPlayer extends JPanel implements ActionListener {
 
 
 	private void assignThread(String type) {
+		this.type = type;
 		if ((serverClientThread == null) && type.contains("server")) {
 			serverClientThread = new Thread(serverThread);
 		} else if ((serverClientThread == null) && type.contains("client")) {
@@ -202,7 +258,7 @@ public class MultiPlayer extends JPanel implements ActionListener {
 		}
 	}
 
-	private void setButtonEnabled(Boolean createServer, Boolean killServer, Boolean connectAsClient, Boolean disconnectAsClient) {
+	private void setClientServerButtonEnabled(Boolean createServer, Boolean killServer, Boolean connectAsClient, Boolean disconnectAsClient) {
 		this.createServer.setEnabled(createServer);
 		this.killServer.setEnabled(killServer);
 		this.connectAsClient.setEnabled(connectAsClient);
@@ -210,31 +266,44 @@ public class MultiPlayer extends JPanel implements ActionListener {
 
 		// Wenn eine Verbindung aufgebaut wird, schalte alle eingaben aus
 		if ((createServer == false) || (connectAsClient == false)) {
-			chatInput.setEnabled(false);
 			startMenu.setEnabled(false);
 			serverPort.setEnabled(false);
 			clientIp.setEnabled(false);
 			clientPort.setEnabled(false);
 		} else {
-			chatInput.setEnabled(false);
 			startMenu.setEnabled(true);
 			serverPort.setEnabled(true);
 			clientIp.setEnabled(true);
 			clientPort.setEnabled(true);
+		}
+		chatInput.setEnabled(false);
+	}
+
+	public void setReadyToPlayButtonEnabled(Boolean enableButtons) {
+		if (enableButtons == true) {
+			readyToPlay.setEnabled(!ready);
+			notReadyToPlay.setEnabled(ready);
+		} else {
+			readyToPlay.setEnabled(false);
+			notReadyToPlay.setEnabled(false);
 		}
 	}
 
 
 	public void stop() {
 		serverClientThread = null;
-		setButtonEnabled(true, false, true, false);
+
+		setClientServerButtonEnabled(true, false, true, false);
+		ready = false;
+		setReadyToPlayButtonEnabled(false);
+		gameStatus.setText("");
 	}
 
 
 	private void createServer() {
 		if ((serverClientThread == null) || !(serverClientThread.getState() == Thread.State.TERMINATED)) {
 			messageToSend = "";
-			setButtonEnabled(false, true, false, false);
+			setClientServerButtonEnabled(false, true, false, false);
 			assignThread("server");
 			serverClientThread.start();
 		} else {
@@ -259,7 +328,7 @@ public class MultiPlayer extends JPanel implements ActionListener {
 	private void connectClient() {
 		if ((serverClientThread == null) || !(serverClientThread.getState() == Thread.State.TERMINATED)) {
 			messageToSend = "";
-			setButtonEnabled(false, false, false, true);
+			setClientServerButtonEnabled(false, false, false, true);
 			assignThread("client");
 			serverClientThread.start();
 		} else {
@@ -268,8 +337,8 @@ public class MultiPlayer extends JPanel implements ActionListener {
 	}
 
 	private void disconnectClient() {
-		sendChatMessage("/bye");
-		appendChatMessage("/bye", MultiPlayer.ME);
+		sendChatMessage(MultiPlayer.BYE);
+		appendChatMessage(MultiPlayer.BYE, MultiPlayer.ME);
 	}
 
 	public void appendChatMessage(String message, String author) {
@@ -286,6 +355,32 @@ public class MultiPlayer extends JPanel implements ActionListener {
 
 	private void sendChatMessage(String message) {
 		messageToSend = message.trim();
+	}
+
+	private void sendReady(Boolean ready) {
+		output.ready = ready;
+	}
+
+	public void changeGameStatus(String status) {
+		gameStatus.setText(status);
+	}
+
+	public void handleGameStatus() {
+		if (input.ready && ready) {
+			changeGameStatus(MultiPlayer.GAMESTARTS);
+			startMultiplayerGame();
+		} else if (input.ready && !ready) {
+			changeGameStatus(MultiPlayer.OPPONENTREADY);
+		} else if (!input.ready && ready) {
+			changeGameStatus(MultiPlayer.YOUREADY);
+		} else {
+			changeGameStatus(MultiPlayer.NOBODYREADY);
+		}
+	}
+
+	private void startMultiplayerGame() {
+
+		 houston.changeAppearance(false, true, Houston.GAME);
 	}
 
 
@@ -307,8 +402,30 @@ public class MultiPlayer extends JPanel implements ActionListener {
 			sendChatMessage(chatInput.getText());
 			appendChatMessage(chatInput.getText(), MultiPlayer.ME);
 			chatInput.setText("");
+		} else if (buttonClicked == readyToPlay) {
+			ready = true;
+			setReadyToPlayButtonEnabled(true);
+			handleGameStatus();
+			sendReady(true);
+		} else if (buttonClicked == notReadyToPlay) {
+			ready = false;
+			setReadyToPlayButtonEnabled(true);
+			handleGameStatus();
+			sendReady(false);
+		} else if (buttonClicked == backToGame) {
+			System.out.println(backToGame.getText());
 		}
 	}
+
+
+	public void doGameUpdates() {
+		output.playerBounds.setRect(houston.player.getBounds());
+	}
+
+	public void drawObjects(Graphics2D g) {
+		g.fillRect((int) input.playerBounds.getX(), (int) input.playerBounds.getY(), (int) input.playerBounds.getWidth(), (int) input.playerBounds.getHeight());
+	}
+
 
 
 }

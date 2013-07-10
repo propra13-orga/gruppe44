@@ -98,7 +98,7 @@ public class MenuCards {
 		public card4(Houston houston) {
 			this.setLayout(null);
 
-			houston.c4b1 = new JButton("zur\u00fcck ins Spiel");
+			houston.c4b1 = new JButton("Zur\u00fcck ins Spiel");
 			houston.c4b1.addActionListener(houston);
 			houston.c4b1.setBounds(284, 300, 200, 40);
 			this.add(houston.c4b1);

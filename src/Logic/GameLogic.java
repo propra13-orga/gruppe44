@@ -81,6 +81,8 @@ public class GameLogic {
 	 */
 	public void doGameUpdates(long delta) {
 		this.delta = delta;
+		if (houston.multiPlayer.ready)
+			houston.multiPlayer.doGameUpdates();
 
 		playerLogic.doGameUpdates();
 		enemyLogic.doGameUpdates();
