@@ -286,4 +286,27 @@ public class MenuCards {
 
 	}
 
+	static class card8 extends JPanel {
+
+		private static final long serialVersionUID = 1L;
+
+		/**
+		 * Baut das Gewonnen Fenster
+		 * @param houston
+		 */
+		public card8(Houston houston) {
+			this.setLayout(null);
+
+			JLabel won = new JLabel("Gewonnen!");
+			won.setBounds(284, 320, 200, 40);
+			this.add(won);
+
+			houston.c8b1 = new JButton("Zur\u00fcck");
+			houston.c8b1.addActionListener(houston);
+			houston.c8b1.setBounds(284, 360, 200, 40);
+			this.add(houston.c8b1);
+		}
+
+	}
+
 }

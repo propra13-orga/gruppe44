@@ -106,9 +106,9 @@ public class GameLogic {
 			} else {
 				// Spiel gewonnen
 				if (houston.multiPlayer.isOver == false)
-					houston.multiPlayer.exitGame();
+					houston.multiPlayer.exitGame(Houston.WON);
 				else
-					houston.changeAppearance(true, false, Houston.STARTMENU);
+					houston.changeAppearance(true, false, Houston.WON);
 			}
 		}
 	}

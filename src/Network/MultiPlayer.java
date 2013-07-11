@@ -390,7 +390,7 @@ public class MultiPlayer extends JPanel implements ActionListener {
 			exitGame();
 		}
 		if ((input.mapNumber > houston.map.getMapNumber() && input.levelNumber == houston.map.getLevelNumber()) ||
-			(input.levelNumber > houston.map.getLevelNumber())) {
+				(input.levelNumber > houston.map.getLevelNumber())) {
 			houston.gameLogic.changeLevel(input.levelNumber, input.mapNumber);
 		}
 	}
@@ -448,11 +448,15 @@ public class MultiPlayer extends JPanel implements ActionListener {
 	}
 
 
-	public void exitGame() {
+	public void exitGame(String cardName) {
 		sendReady(false);
-		houston.changeAppearance(true, false, Houston.MULTIPLAYER);
+		houston.changeAppearance(true, false, cardName);
 		handleGameStatus();
 		setReadyToPlayButtonEnabled(true);
+	}
+
+	public void exitGame() {
+		exitGame(Houston.MULTIPLAYER);
 	}
 
 

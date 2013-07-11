@@ -75,7 +75,7 @@ public class Houston implements ActionListener, Runnable {
 	private JPanel cards;
 
 	/** "Unterfenster", die das Startmenue, Einstellungen, etc. beinhalten */
-	public JPanel card1, card2, card4, card5, card6, card7;
+	public JPanel card1, card2, card4, card5, card6, card7, card8;
 
 	/** Spielfenster */
 	public GamePanel gamePanel;
@@ -136,7 +136,8 @@ public class Houston implements ActionListener, Runnable {
 	c6b1, // weiter
 	c7b1, // Healthpack
 	c7b2, // Manatrank
-	c7b3; // zurueck ins Spiel
+	c7b3, // zurueck ins Spiel
+	c8b1; // zurueck
 
 	//Spielerauswahl
 	JRadioButton maenlich, weiblich;
@@ -158,6 +159,7 @@ public class Houston implements ActionListener, Runnable {
 	public final static String SHOP = "SHOP";
 	public final static String MAPEDITOR = "MAPEDITOR";
 	public final static String MULTIPLAYER = "MULTIPLAYER";
+	public final static String WON = "WON";
 
 
 	// ------------------------------------------------------------
@@ -199,6 +201,7 @@ public class Houston implements ActionListener, Runnable {
 		card5 = new MenuCards.card5(this);	// CREDITS
 		card6 = new MenuCards.card6(this);	// INTRODUCTION
 		card7 = new MenuCards.card7(this);	// SHOP
+		card8 = new MenuCards.card8(this); 	// WON
 		mapEditor = new MapEditor(this);	// MAPEDITOR
 		multiPlayer = new MultiPlayer(this);// MULTIPLAYER
 
@@ -214,6 +217,7 @@ public class Houston implements ActionListener, Runnable {
 		cards.add(card5, CREDITS);
 		cards.add(card6, INTRODUCTION);
 		cards.add(card7, SHOP);
+		cards.add(card8, WON);
 		cards.add(mapEditor, MAPEDITOR);
 		cards.add(multiPlayer, MULTIPLAYER);
 
@@ -222,7 +226,7 @@ public class Houston implements ActionListener, Runnable {
 		frame.pack();
 
 		// Setzt Card, die als erstes angezeigt werden soll
-		currentCard = MULTIPLAYER;
+		currentCard = STARTMENU;
 		cl.show(cards, currentCard);
 
 		// Startet den Game-Loop
@@ -445,6 +449,11 @@ public class Houston implements ActionListener, Runnable {
 			changeAppearance(true, false, STARTMENU);
 		} else if (buttonClicked == c5b1) {
 			changeAppearance(STARTMENU);
+		} else if (buttonClicked == c8b1) {
+			if (multiPlayer.ready)
+				changeAppearance(MULTIPLAYER);
+			else
+				changeAppearance(true, false, STARTMENU);
 
 			// Kuemmert sich um die Auswahl des Spielers
 		} else if (buttonClicked == maenlich) {
