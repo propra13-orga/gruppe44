@@ -8,6 +8,7 @@ import Main.Movable;
 import Main.Player;
 import Main.Story;
 
+/** enthaelt die Logic vom Spiel */
 public class GameLogic {
 
 	private Houston houston;
@@ -23,9 +24,15 @@ public class GameLogic {
 	double tlX, tlY; // Temporaere Character Ecke
 	private long delta;
 	private double dX, dY;
+
+	/** Wert einer Kachel */
 	public int value;
 	public int npcv;
 
+	/**
+	 * Initialisiert die anderen Logiken und die Eckpunkte des Charakters
+	 * @param houston
+	 */
 	public GameLogic(Houston houston) {
 		this.houston	= houston;
 		this.player		= houston.player;
@@ -44,7 +51,11 @@ public class GameLogic {
 		bottomRight		= new Point2D.Double();
 	}
 
-	// Startet ein neues Spiel
+	/**
+	 * Startet ein neues Spiel
+	 * @param levelNumber
+	 * @param mapNumber
+	 */
 	public void setupNewGame(int levelNumber, int mapNumber) {
 		player.resetPlayerStats(100, 100, 120, 100, 3, 1, 0);
 		houston.inventory.clear();
@@ -63,7 +74,10 @@ public class GameLogic {
 		itemLogic.onLevelChange();
 	}
 
-	// Berechnet z.B. alle Bewegungen und Kollisionen im Spiel
+	/**
+	 * Berechnet z.B. alle Bewegungen und Kollisionen im Spiel
+	 * @param delta
+	 */
 	public void doGameUpdates(long delta) {
 		this.delta = delta;
 		if (houston.multiPlayer.ready)
@@ -99,7 +113,10 @@ public class GameLogic {
 		}
 	}
 
-	// Setzt die Tastendruecke um in die Bewegung des Charakter
+	/**
+	 * Setzt die Tastendruecke um in die Bewegung des Charakter
+	 * @param character
+	 */
 	public void controlCharacterMovement(Movable character) {
 		dX = dY = 0;
 		getCharacterCorners(character);
@@ -176,7 +193,7 @@ public class GameLogic {
 			character.move(dX, dY);
 	}
 
-	// Ermittelt, ob sich der Player auf einer Speziellen Kachel befindet, und leitet entsprechende Massnahmen ein
+	/** Ermittelt, ob sich der Player auf einer Speziellen Kachel befindet, und leitet entsprechende Massnahmen ein */
 	public void detectSpecialTiles() {
 		if (player.isMoving()) {
 			try {

@@ -5,15 +5,28 @@ import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 
+/** Klasse vom Zauber */
 public class Magic extends Movable {
 
 	private BufferedImage texture;
 	private Point2D centerPosition;
 	private Point2D endPosition;
+
+	/** gibt an, ob der Zauber geloescht werden kann */
 	public boolean remove;
 	private boolean magicFromPlayer;
+
+	/** gibt den Zaubertyp an; ANALYSIS, LINEAREALGEBRA oder INFORMATIK */
 	public String magicType;
 
+	/**
+	 * erstellt den Zauber abhaengig von den Parametern
+	 * @param texture
+	 * @param centerPosition
+	 * @param endPosition
+	 * @param playerMagic
+	 * @param magicType
+	 */
 	public Magic(BufferedImage texture, Point2D centerPosition, Point2D endPosition, boolean playerMagic, String magicType) {
 		this.texture = texture;
 		this.centerPosition = centerPosition;
@@ -28,24 +41,41 @@ public class Magic extends Movable {
 		calculateDirection();
 	}
 
+	/** @return magicFromPlayer */
 	public boolean isMagicFromPlayer() {
 		return magicFromPlayer;
 	}
 
+	/**
+	 * gibt an, dass die Magie vom Spieler ist
+	 * @param magicFromPlayer
+	 */
 	public void setMagicFromPlayer(boolean magicFromPlayer) {
 		this.magicFromPlayer = magicFromPlayer;
 	}
 
+	/**
+	 * legt den Magietyp fest
+	 * @param magicType
+	 */
 	public void setMagicType(String magicType){
 		this.magicType = magicType;
 	}
 
+	/** Startposition des Zaubers beim Erzeuger
+	 * @see Main.Movable#move(double, double)
+	 */
 	@Override
 	public void move(double dX, double dY) {
 		super.move(dX, dY);
 		centerPosition = getCenterPosition();
 	}
 
+
+	/** Zeichnet den Zauber
+	 * @see Main.Movable#drawObjects(java.awt.Graphics2D)
+	 */
+	@Override
 	public void drawObjects(Graphics2D g) {
 		g.drawImage(texture, (int) getBounds().getX(), (int) getBounds().getY(), null);
 	}
@@ -72,6 +102,9 @@ public class Magic extends Movable {
 		}
 	}
 
+	/** Zauber wird entfernt, wenn er auf eine Wand trifft
+	 * @see Main.Movable#onWallHit()
+	 */
 	@Override
 	public void onWallHit() {
 		remove = true;

@@ -1,6 +1,7 @@
 package Main;
 
 
+/** Klasse vom Shop im Spiel */
 public class Shop {
 
 	private Houston houston;
@@ -12,14 +13,20 @@ public class Shop {
 	priceForHealthPack = 40,
 	priceForManaPotion = 80;
 
+	/**
+	 * initialisiert den Shop
+	 * @param houston
+	 */
 	public Shop(Houston houston) {
 		this.houston = houston;
 		this.player = houston.player;
 		this.inventory = houston.inventory;
 	}
 
-	// Aktiviert/deaktiviert die erlaubten Kaufbutton und
-	// passt die Texte der Infolabel ensprechend aktueller Werte
+	/**
+	 * Aktiviert/deaktiviert die erlaubten Kaufbutton und
+	 * passt die Texte der Infolabel ensprechend aktueller Werte
+	 */
 	public void resetShopView() {
 		// Aktualisiert den Text der Informationslabel
 		houston.c7l11.setText(player.getMoney() + " CP");
@@ -41,14 +48,14 @@ public class Shop {
 		}
 	}
 
-	// Kauft ein HealthPack
+	/** Kauft ein HealthPack */
 	public void buyHealthPack() {
 		player.decreaseMoney(priceForHealthPack);
 		inventory.addHealthPack();
 		resetShopView();
 	}
 
-	// Kauft ein ManaPotion
+	/** Kauft ein ManaPotion */
 	public void buyManaPotion() {
 		player.decreaseMoney(priceForManaPotion);
 		inventory.addManaPotion();

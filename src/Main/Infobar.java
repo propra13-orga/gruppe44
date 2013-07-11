@@ -8,6 +8,7 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
+/** Infoleiste im SPielfenster */
 public class Infobar {
 
 	private Houston houston;
@@ -19,6 +20,11 @@ public class Infobar {
 	private int xo, yo;
 	private int playerHealth, playerMana;
 
+	/**
+	 * @param houston
+	 * @param xOffset
+	 * @param yOffset
+	 */
 	public Infobar(Houston houston, int xOffset, int yOffset) {
 		this.houston = houston;
 		this.player = houston.player;
@@ -28,6 +34,10 @@ public class Infobar {
 		this.yo = yOffset;
 	}
 
+	/**
+	 * Zeichnet die Infobar
+	 * @param g
+	 */
 	public void drawObjects(Graphics2D g) {
 		playerHealth = player.getHealth();
 		playerMana = player.getMana();

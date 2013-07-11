@@ -17,23 +17,42 @@ import java.util.HashMap;
 
 import javax.imageio.ImageIO;
 
+/** Klasse der Karten */
 public class Map {
 
 	private int rows;
 	private int cols;
+
+	/** enthaelt die Werte der Kacheln der aktuellen Karte */
 	public int[][] mapArray;
+
+	/** enthaelt die Positionen und Typen der Gegner der aktuellen Karte */
 	public int[][] enemyArray;
+
+	/** enthaelt die Positionen und Typen der Items der aktuellen Karte */
 	public int[][] itemArray;
 
 	private int levelNumber, mapNumber;
 	private String mapUrl;
 	private String mapUrlsPath = "./res/maps/map_urls.txt";
+
+	/** enthaelt alle MapUrls */
 	public ArrayList<Level> mapUrls;
 	private HashMap<Integer, Boolean> walkable =  new HashMap<>();
+
+	/** enthaelt die Texturen der Kacheln */
 	public HashMap<Integer, BufferedImage> texture =  new HashMap<>();
+
+	/** enthaelt die Namen der Texturen der Kacheln */
 	public HashMap<Integer, String> textureName = new HashMap<>();
 
-
+	/**
+	 * laedt die ausgewaehlte Karte
+	 * @param levelNumber
+	 * @param mapNumber
+	 * @param rows
+	 * @param cols
+	 */
 	public Map(int levelNumber, int mapNumber, int rows, int cols) {
 		// Setzt die Zeilen- und Spaltenanzahl
 		this.rows = rows;
@@ -57,7 +76,11 @@ public class Map {
 		clearMap(0);
 	}
 
-	// Zeichnet die Karte
+
+	/**
+	 * Zeichnet die Karte
+	 * @param g
+	 */
 	public void drawObjects(Graphics2D g) {
 		int value;
 
@@ -80,6 +103,7 @@ public class Map {
 		} catch (IOException e) {e.printStackTrace();}
 	}
 
+	/** schreibt die Pfade der MapUrls zurueck */
 	public void writeBackMapUrls() {
 		try (BufferedWriter bw = new BufferedWriter(new FileWriter(mapUrlsPath))) {
 			Level l;
@@ -135,6 +159,10 @@ public class Map {
 		} catch (IOException e) {e.printStackTrace();}
 	}
 
+	/**
+	 * erstellt eine leere Karte
+	 * @param value
+	 */
 	public void clearMap(int value) {
 		for (int row = 0; row < rows; row++) {
 			Arrays.fill(mapArray[row], value);
@@ -143,17 +171,17 @@ public class Map {
 		}
 	}
 
-	// Gibt die aktuelle Kartennummer zurueck
+	/** @return aktuelle Kartennummer */
 	public int getMapNumber() {
 		return mapNumber;
 	}
 
-	// Gibt die aktuelle Levelnummer zurueck
+	/** @return aktuelle Levelnummer */
 	public int getLevelNumber() {
 		return levelNumber;
 	}
 
-	// Gibt die Anzahl an Level zurueck
+	/** @return  Anzahl an Level */
 	public int getCountOfLevel() {
 		int count = 0;
 		for (int i = 0, lastValue = -1; i < mapUrls.size(); i++) {
@@ -165,7 +193,10 @@ public class Map {
 		return count;
 	}
 
-	// Gibt die Anzahl an Karten in bestimmtem Level zurueck
+	/**
+	 * @param level
+	 * @return Anzahl an Karten in bestimmtem Level zurueck
+	 */
 	public int getCountOfMapsByLevel(int level) {
 		int count = 0;
 		for (int i = 0; i < mapUrls.size(); i++) {
@@ -185,18 +216,21 @@ public class Map {
 		return "";
 	}
 
-	// Gibt die Anzahl an Karten im aktuellen Level zurueck
+	/** @return Anzahl an Karten im aktuellen Level */
 	public int getCountOfMapsByLevel() {
 		return getCountOfMapsByLevel(levelNumber);
 	}
 
-	// Laedt die aktuelle Karte neu
+	/** Laedt die aktuelle Karte neu */
 	public void renewMap() {
 		renewMap(levelNumber, mapNumber);
 	}
 
-	// Erneuert/ersetzt die aktuelle Karte durch die Karte,
-	// die durch mapNumber referenzierte ist
+	/**
+	 * Erneuert/ersetzt die aktuelle Karte durch die Karte, die durch mapNumber referenzierte ist
+	 * @param levelNumber
+	 * @param mapNumber
+	 */
 	public void renewMap(int levelNumber, int mapNumber) {
 		this.levelNumber = levelNumber;
 		this.mapNumber = mapNumber;
@@ -211,6 +245,10 @@ public class Map {
 		readMapByFile(mapUrl);
 	}
 
+	/**
+	 * liest die Karte
+	 * @param path
+	 */
 	public void readMapByFile(String path) {
 		try (BufferedReader br = new BufferedReader(new FileReader(path));) {
 			if (br.readLine().contains("map")) {
@@ -240,6 +278,10 @@ public class Map {
 		}
 	}
 
+	/**
+	 * speichert die Karte an den angegebenen Pfad
+	 * @param path
+	 */
 	public void saveMapToFile(String path) {
 		try (BufferedWriter bw = new BufferedWriter(new FileWriter(path));) {
 			arrayToBufferedWriter(bw, mapArray, "map");
@@ -264,7 +306,12 @@ public class Map {
 		}
 	}
 
-	// Sucht und uebergibt eine Position im array mit dem Wert value
+	/**
+	 * Sucht eine Position in der Karte mit dem Wert value
+	 * @param array
+	 * @param value
+	 * @return position
+	 */
 	public Point2D singleSearch(int[][] array, int value) {
 		for (int row = 0; row < rows; row++) {
 			for (int col = 0; col < cols; col++) {
@@ -276,6 +323,12 @@ public class Map {
 		return null;
 	}
 
+	/**
+	 * Sucht alle Position in der Karte mit dem Wert value
+	 * @param array
+	 * @param value
+	 * @return Positions
+	 */
 	public ArrayList<Point2D> multiSearch(int[][] array, int value) {
 		ArrayList<Point2D> entityPositions = new ArrayList<Point2D>();
 		for (int row = 0; row < rows; row++) {

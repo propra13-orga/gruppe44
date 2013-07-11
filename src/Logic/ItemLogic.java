@@ -15,17 +15,27 @@ import Main.Houston;
 import Main.Item;
 import Main.Map;
 
+/** enthaelt die Logic der Items */
 public class ItemLogic {
 
 	private Houston houston;
 	private Map map;
 
+	/** Itemsarray, enthaelt alle Items der aktuellen Karte */
 	public ArrayList<Item> items;
 	private Item item;
 	private int itemType;
+
+	/** enthaelt die Texturen der unterschiedlichen Items */
 	public HashMap<Integer, BufferedImage> texture;
+
+	/** enthaelt die Namen der unterschiedlichen Items */
 	public HashMap<Integer, String> itemName;
 
+	/**
+	 * initialisiert die Itemarrays
+	 * @param houston
+	 */
 	public ItemLogic(Houston houston) {
 		this.houston = houston;
 		this.map = houston.map;
@@ -58,6 +68,7 @@ public class ItemLogic {
 		} catch (IOException e) {e.printStackTrace();}
 	}
 
+	/** liest die Items aus der Karte und erstellt diese */
 	public void onLevelChange() {
 		items.clear();
 
@@ -75,6 +86,10 @@ public class ItemLogic {
 		}
 	}
 
+	/**
+	 * entfernt aufgenommene Items von der Karte;
+	 * prueft ob der Spieler ein Item aufgenommen hat
+	 */
 	public void doGameUpdates() {
 		for (int i = items.size() - 1; i >= 0; i--) {
 			item = items.get(i);

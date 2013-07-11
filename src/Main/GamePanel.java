@@ -10,6 +10,8 @@ import java.awt.geom.Point2D;
 
 import javax.swing.JPanel;
 
+/** Spielfenster */
+
 public class GamePanel extends JPanel implements MouseListener {
 
 	private static final long serialVersionUID = 1L;
@@ -23,6 +25,10 @@ public class GamePanel extends JPanel implements MouseListener {
 	private int heightOfInfobar = 32;
 	private Point2D mouseClickPosition;
 
+	/**
+	 * Spielfenster
+	 * @param houston
+	 */
 	public GamePanel(Houston houston) {
 		this.houston	= houston;
 		this.player		= houston.player;
@@ -79,6 +85,12 @@ public class GamePanel extends JPanel implements MouseListener {
 		g.dispose();
 	} // Ab hier ist Schluss mit Zeichnen
 
+	/**
+	 * Mausklick:
+	 * rechtsklick veraendert den Zauber des Spielers;
+	 * linksklick der Spieler zaubert
+	 * @see java.awt.event.MouseListener#mouseClicked(java.awt.event.MouseEvent)
+	 */
 	@Override
 	public void mouseClicked(MouseEvent e) {
 		mouseClickPosition.setLocation(e.getX(), e.getY() - heightOfInfobar);
@@ -92,18 +104,22 @@ public class GamePanel extends JPanel implements MouseListener {
 		}
 	}
 
+	/** nicht benoetigt */
 	@Override
 	public void mouseEntered(MouseEvent arg0) {
 	}
 
+	/** nicht benoetigt */
 	@Override
 	public void mouseExited(MouseEvent arg0) {
 	}
 
+	/** nicht benoetigt */
 	@Override
 	public void mousePressed(MouseEvent arg0) {
 	}
 
+	/** nicht benoetigt */
 	@Override
 	public void mouseReleased(MouseEvent arg0) {
 	}

@@ -12,21 +12,31 @@ import Main.Enemy;
 import Main.Houston;
 import Main.Map;
 
+/** enthaelt die Logic der Gegner */
 public class EnemyLogic {
 
 	private Houston houston;
 	private Map map;
+
+	/** Gegnerarray, enthaelt alle Gegner der aktuellen Karte */
 	public ArrayList<Enemy> enemies;
 	private Enemy enemy;
+
+	/** gibt an, ob der Bossgegner noch lebt */
 	public boolean bossIsAlive;
 	BufferedImage textures = null;
 
+	/**
+	 * erstellt das Gegnerarray
+	 * @param houston
+	 */
 	public EnemyLogic(Houston houston) {
 		this.houston = houston;
 		this.map = houston.map;
 		enemies = new ArrayList<Enemy>();
 	}
 
+	/** liest die Gegner aus der Karte und erstellt diese */
 	public void onLevelChange() {
 		enemies.clear();
 		for(int i = 0; i<6; i++){
@@ -39,6 +49,11 @@ public class EnemyLogic {
 		}
 	}
 
+	/**
+	 * entfernt getoetete Gegner;
+	 * bewegt die Gegner;
+	 * prueft ob Spieler und Gegner sich ueberschneiden und fuegt dem Spieler ggf Schaden zu
+	 */
 	public void doGameUpdates() {
 		for (int i = enemies.size() - 1; i >= 0; i--) {
 			enemy = enemies.get(i);
