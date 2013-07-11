@@ -8,14 +8,11 @@ import java.awt.GridLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.geom.Point2D;
-import java.awt.geom.Rectangle2D;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.net.InetAddress;
 import java.net.Socket;
 import java.net.UnknownHostException;
-import java.util.Map;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -63,7 +60,6 @@ public class MultiPlayer extends JPanel implements ActionListener {
 
 	public Thread serverClientThread = null;
 	public Runnable serverThread, clientThread;
-	private String type;
 
 
 	public final static String ME = "Ich";
@@ -81,8 +77,8 @@ public class MultiPlayer extends JPanel implements ActionListener {
 	public String messageToSend = "";
 	public Boolean serverIsConnectedToClient = false;
 	public Data input, output;
-	public Boolean isOver;
-	public boolean ready;
+	public Boolean isOver = true;
+	public boolean ready = false;
 
 
 	public MultiPlayer(Houston houston) {
@@ -97,6 +93,7 @@ public class MultiPlayer extends JPanel implements ActionListener {
 		this.add(startMenu);
 
 		backToGame = new JButton("Zur\u00fcck ins Spiel");
+		backToGame.setEnabled(false);
 		backToGame.addActionListener(this);
 		backToGame.setBounds(houston.width - 450, 20, 200, 30);
 		this.add(backToGame);
@@ -250,7 +247,6 @@ public class MultiPlayer extends JPanel implements ActionListener {
 
 
 	private void assignThread(String type) {
-		this.type = type;
 		if ((serverClientThread == null) && type.contains("server")) {
 			serverClientThread = new Thread(serverThread);
 		} else if ((serverClientThread == null) && type.contains("client")) {
@@ -277,6 +273,7 @@ public class MultiPlayer extends JPanel implements ActionListener {
 			clientPort.setEnabled(true);
 		}
 		chatInput.setEnabled(false);
+		backToGame.setEnabled(false);
 	}
 
 	public void setReadyToPlayButtonEnabled(Boolean enableButtons) {
@@ -357,7 +354,8 @@ public class MultiPlayer extends JPanel implements ActionListener {
 		messageToSend = message.trim();
 	}
 
-	private void sendReady(Boolean ready) {
+	public void sendReady(Boolean ready) {
+		this.ready = ready;
 		output.ready = ready;
 	}
 
@@ -365,22 +363,41 @@ public class MultiPlayer extends JPanel implements ActionListener {
 		gameStatus.setText(status);
 	}
 
+	public void handleChat() {
+		appendChatMessage(input.message, MultiPlayer.OPPONENT);
+	}
+
 	public void handleGameStatus() {
-		if (input.ready && ready) {
-			changeGameStatus(MultiPlayer.GAMESTARTS);
-			startMultiplayerGame();
-		} else if (input.ready && !ready) {
-			changeGameStatus(MultiPlayer.OPPONENTREADY);
-		} else if (!input.ready && ready) {
-			changeGameStatus(MultiPlayer.YOUREADY);
-		} else {
-			changeGameStatus(MultiPlayer.NOBODYREADY);
+		if (!houston.gameIsRunning && houston.gameOver) {
+			if (input.ready && ready) {
+				changeGameStatus(MultiPlayer.GAMESTARTS);
+				startMultiplayerGame();
+			} else if (input.ready && !ready) {
+				changeGameStatus(MultiPlayer.OPPONENTREADY);
+			} else if (!input.ready && ready) {
+				changeGameStatus(MultiPlayer.YOUREADY);
+			} else {
+				changeGameStatus(MultiPlayer.NOBODYREADY);
+			}
+		}
+	}
+
+	public void handleGameUpdatesByNetworkInput() {
+		if (houston.gameIsRunning && !input.ready) {
+			exitGame();
+		}
+		if (!houston.gameIsRunning && !houston.gameOver && !input.ready) {
+			exitGame();
+		}
+		if ((input.mapNumber > houston.map.getMapNumber() && input.levelNumber == houston.map.getLevelNumber()) ||
+			(input.levelNumber > houston.map.getLevelNumber())) {
+			houston.gameLogic.changeLevel(input.levelNumber, input.mapNumber);
 		}
 	}
 
 	private void startMultiplayerGame() {
-
-		 houston.changeAppearance(false, true, Houston.GAME);
+		houston.gameLogic.setupNewGame(0, 0);
+		houston.changeAppearance(false, true, Houston.GAME);
 	}
 
 
@@ -403,28 +420,41 @@ public class MultiPlayer extends JPanel implements ActionListener {
 			appendChatMessage(chatInput.getText(), MultiPlayer.ME);
 			chatInput.setText("");
 		} else if (buttonClicked == readyToPlay) {
-			ready = true;
-			setReadyToPlayButtonEnabled(true);
-			handleGameStatus();
 			sendReady(true);
-		} else if (buttonClicked == notReadyToPlay) {
-			ready = false;
-			setReadyToPlayButtonEnabled(true);
 			handleGameStatus();
-			sendReady(false);
+			setReadyToPlayButtonEnabled(true);
+		} else if (buttonClicked == notReadyToPlay) {
+			exitGame();
 		} else if (buttonClicked == backToGame) {
-			System.out.println(backToGame.getText());
+			if (!houston.gameOver) {
+				houston.changeAppearance(false, true, Houston.GAME);
+			}
 		}
 	}
 
 
 	public void doGameUpdates() {
 		output.playerBounds.setRect(houston.player.getBounds());
+		output.mapNumber = houston.map.getMapNumber();
+		output.playerIsAllive = (houston.player.getLives() > 0);
+		output.levelNumber = houston.map.getLevelNumber();
 	}
 
 	public void drawObjects(Graphics2D g) {
-		g.fillRect((int) input.playerBounds.getX(), (int) input.playerBounds.getY(), (int) input.playerBounds.getWidth(), (int) input.playerBounds.getHeight());
+		g.drawImage(houston.player.texture, (int) input.playerBounds.getX()-2, (int) input.playerBounds.getY()-18, null);
 	}
+
+	public void onLevelChange() {
+	}
+
+
+	public void exitGame() {
+		sendReady(false);
+		houston.changeAppearance(true, false, Houston.MULTIPLAYER);
+		handleGameStatus();
+		setReadyToPlayButtonEnabled(true);
+	}
+
 
 
 

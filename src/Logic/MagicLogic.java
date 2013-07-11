@@ -15,7 +15,6 @@ import Main.Enemy;
 import Main.Houston;
 import Main.Magic;
 import Main.Player;
-import Main.Sounds;
 
 public class MagicLogic {
 
@@ -65,7 +64,6 @@ public class MagicLogic {
 	}
 	public void doMagic(Point2D mouseClickPosition) {
 		if (houston.player.getMana() >= manaCost) {
-			houston.sounds.playSound(Sounds.Type.MAGIC);
 			player.decreaseMana(manaCost);
 			magics.add(new Magic(texture.get(player.magicType), player.getCenterPosition(), mouseClickPosition, true, player.magicType));
 		}

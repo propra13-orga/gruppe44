@@ -1,12 +1,10 @@
 package Logic;
 
-
 import java.awt.geom.Point2D;
 
 import Main.Enemy;
 import Main.Houston;
 import Main.Player;
-import Main.Sounds;
 
 public class PlayerLogic {
 
@@ -41,12 +39,14 @@ public class PlayerLogic {
 			player.increaseHealth(100);
 		}
 		if (player.getLives() == 0){
-			houston.changeAppearance(true, false, Houston.STARTMENU);
+			if (houston.multiPlayer.isOver == false)
+				houston.multiPlayer.exitGame();
+			else
+				houston.changeAppearance(true, false, Houston.STARTMENU);
 		}
 	}
 
 	public void attack() {
-		houston.sounds.playSound(Sounds.Type.ATTACK);
 		for (Enemy enemy : houston.enemyLogic.enemies) {
 			if (player.attackBox.intersects(enemy.getBounds())) {
 				enemy.decreaseHealth(getAttackDamage(player.getplayerLevel()));

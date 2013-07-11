@@ -25,6 +25,7 @@ public class ClientThread implements Runnable {
 			// Wenn die Verbindung steht, stelle einige Werte ein
 			mp.appendChatMessage("Client verbunden mit " + server.getLocalSocketAddress());
 			mp.chatInput.setEnabled(true);
+			mp.backToGame.setEnabled(true);
 			mp.setReadyToPlayButtonEnabled(true);
 			mp.changeGameStatus(MultiPlayer.NOBODYREADY);
 

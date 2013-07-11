@@ -51,14 +51,13 @@ public class Houston implements ActionListener, Runnable {
 
 	// gameIsRunning und gameOver sind fuer die Menuefuehrung
 	// und den Spielverlauf von Bedeutung
-	private boolean gameIsRunning = false;
-	private boolean gameOver = true;
+	public boolean gameIsRunning = false;
+	public boolean gameOver = true;
 	// Delta ermoeglicht die Berechnung von konstanten
 	// Bewegungen im Spiel, unabhaengig von den FPS
 	long delta = 0;
 	// Letzte Systemzeit, hilft bei Berechnungen zum Gameloop
 	private long last = 0;
-	long lastAttack = 0;
 	long fps = 0;
 	// Speichert die gewuenschte Bildwiederholungsrate
 	public int preferredFps;
@@ -100,7 +99,6 @@ public class Houston implements ActionListener, Runnable {
 	public MagicLogic magicLogic;
 	// Die Logik der Items
 	public ItemLogic itemLogic;
-	public Sounds sounds;
 
 
 	// Die im Menue vorhandenen Knoepfe
@@ -217,7 +215,6 @@ public class Houston implements ActionListener, Runnable {
 		story = new Story(0, this);
 		quest = new Quest(0, this);
 		gameLogic = new GameLogic(this);
-		sounds = new Sounds(this);
 	}
 
 	@Override
@@ -272,7 +269,6 @@ public class Houston implements ActionListener, Runnable {
 		mapActions();
 
 		player.stop();
-		sounds.setSound();
 
 		last = System.nanoTime();
 		// Waechselt von der aktuellen Card auf die neue Card
@@ -375,7 +371,7 @@ public class Houston implements ActionListener, Runnable {
 
 		// Ermittelt die Quelle des Tastendrucks
 		Object buttonClicked = e.getSource();
-		sounds.playSound(Sounds.Type.BUTTON_CLICK);
+
 		// Kuemmert sich um die Events der einzelnen Menu Buttons
 		if (buttonClicked == c1b1) {
 			changeAppearance(INTRODUCTION);
@@ -445,6 +441,7 @@ public class Houston implements ActionListener, Runnable {
 		} else if (buttonClicked == c7b3) {
 			changeAppearance(true, GAME);
 		}
+
 	}
 
 }

@@ -22,8 +22,9 @@ public class ReaderThread implements Runnable {
 						mp.isOver = true;
 					}
 
-					handleChat();
+					mp.handleChat();
 					mp.handleGameStatus();
+					mp.handleGameUpdatesByNetworkInput();
 				}
 			} catch (IOException | ClassNotFoundException e) {
 				mp.isOver = true;
@@ -31,8 +32,5 @@ public class ReaderThread implements Runnable {
 		}
 	}
 
-	private void handleChat() {
-		mp.appendChatMessage(mp.input.message, MultiPlayer.OPPONENT);
-	}
 
 }

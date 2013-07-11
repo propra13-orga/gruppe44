@@ -6,7 +6,6 @@ import Main.Houston;
 import Main.Map;
 import Main.Movable;
 import Main.Player;
-import Main.Sounds;
 import Main.Story;
 
 public class GameLogic {
@@ -54,7 +53,7 @@ public class GameLogic {
 	}
 
 	// Springt zum angegebenen Level.
-	private void changeLevel(int levelNumber, int mapNumber) {
+	public void changeLevel(int levelNumber, int mapNumber) {
 		map.renewMap(levelNumber, mapNumber);
 		story.renewStory(mapNumber);
 
@@ -92,7 +91,10 @@ public class GameLogic {
 				changeLevel((map.getLevelNumber() + 1), 0);
 			} else {
 				// Spiel gewonnen
-				houston.changeAppearance(true, false, Houston.STARTMENU);
+				if (houston.multiPlayer.isOver == false)
+					houston.multiPlayer.exitGame();
+				else
+					houston.changeAppearance(true, false, Houston.STARTMENU);
 			}
 		}
 	}
@@ -188,7 +190,6 @@ public class GameLogic {
 				backToLastCheckpoint();
 				player.decreaseHealth(25);
 			} else if (value == 9) {
-				houston.sounds.playSound(Sounds.Type.DOOR);
 				nextMap();
 			}
 		}

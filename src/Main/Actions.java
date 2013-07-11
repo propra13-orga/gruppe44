@@ -18,7 +18,11 @@ public class Actions {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			// System.out.println("ESC -> Ingamemenu");
-			houston.changeAppearance(false, false, Houston.INGAMEMENU);
+			if (houston.multiPlayer.ready) {
+				houston.changeAppearance(false, false, Houston.MULTIPLAYER);
+			} else {
+				houston.changeAppearance(false, false, Houston.INGAMEMENU);
+			}
 		}
 
 	}
@@ -263,11 +267,7 @@ public class Actions {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			long delta = System.nanoTime() - houston.lastAttack;
-			if (delta > 500 * 1000 * 1000) {
-				houston.playerLogic.attack();
-				houston.lastAttack = System.nanoTime();
-			}
+			houston.playerLogic.attack();
 		}
 
 	}

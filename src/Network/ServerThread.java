@@ -31,6 +31,7 @@ public class ServerThread implements Runnable {
 				// Wenn die Verbindung steht, stelle einige Werte ein
 				mp.serverIsConnectedToClient = true;
 				mp.chatInput.setEnabled(true);
+				mp.backToGame.setEnabled(true);
 				mp.setReadyToPlayButtonEnabled(true);
 				mp.changeGameStatus(MultiPlayer.NOBODYREADY);
 				mp.appendChatMessage("Verbunden mit Client " + client.getLocalSocketAddress());
@@ -85,6 +86,7 @@ public class ServerThread implements Runnable {
 			mp.appendChatMessage("Client getrennt.");
 			mp.serverIsConnectedToClient = false;
 			mp.chatInput.setEnabled(false);
+			mp.backToGame.setEnabled(false);
 			mp.ready = false;
 			mp.setReadyToPlayButtonEnabled(false);
 			mp.changeGameStatus("");
