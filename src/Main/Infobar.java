@@ -78,26 +78,26 @@ public class Infobar {
 		g.drawString(player.getMoney() + " CP", 255 + xo, 26 + yo);
 
 		// Zeigt Anzahl an HealthPacks und ManaPotions an
-		g.drawString("Health Packs :", 315 + xo, 13 + yo);
-		g.drawString(inventory.getCountOfHealthPack() + "/3", 405 + xo, 13 + yo);
-		g.drawString("Mana Potions :", 315 + xo, 26 + yo);
-		g.drawString(inventory.getCountOfManaPotion() + "/3", 405 + xo, 26 + yo);
-
-		//Zeichnet Schaden des Angriffes
-		g.drawString("Attacke " + houston.playerLogic.getAttackDamage(player.getplayerLevel()), 500 + xo, 13 + yo );
-
-		//Zeichnet Schaden des Zaubers
-		g.drawString("Zauber " + houston.magicLogic.calculateMagicDamage(player.getplayerLevel()) +"/" + (houston.magicLogic.calculateMagicDamage(player.getplayerLevel()) + 5), 500 + xo, 26 + yo );
+		g.drawString("Heiltrank :", 310 + xo, 13 + yo);
+		g.drawString(inventory.getCountOfHealthPack() + "/3", 380 + xo, 13 + yo);
+		g.drawString("Manatrank :", 310 + xo, 26 + yo);
+		g.drawString(inventory.getCountOfManaPotion() + "/3", 380 + xo, 26 + yo);
 
 		// Zeichnet das Level vom Spieler
-		g.drawString("Level " +player.getplayerLevel(), 435 + xo, 13 + yo);
+		g.drawString("Level " +player.getplayerLevel(), 420 + xo, 13 + yo);
 
 		// Zeichnet Erfahrung
-		g.drawString("Exp " +player.getExperience()+ "/" + houston.playerLogic.getNeededExperience(), 435 + xo, 26 + yo );
+		g.drawString("Exp " +player.getExperience()+ "/" + houston.playerLogic.getNeededExperience(), 420 + xo, 26 + yo );
+
+		//Zeichnet Schaden des Angriffes
+		g.drawString("Attacke " + houston.playerLogic.getAttackDamage(player.getplayerLevel()), 495 + xo, 13 + yo );
+
+		//Zeichnet Schaden des Zaubers
+		g.drawString("Zauber " + houston.magicLogic.calculateMagicDamage(player.getplayerLevel()) +"/" + (houston.magicLogic.calculateMagicDamage(player.getplayerLevel()) + 5), 495 + xo, 26 + yo );
 
 		// "Moechtest du zum Shop?" anzeigen
 		if (houston.gameLogic.value == 5) {
-			g.drawString("M\u00f6chtest du zum Shop?", 575 + xo, 13 + yo);
+			g.drawString("M\u00f6chtest du zum Shop?", 570 + xo, 13 + yo);
 		}
 
 		// Zeigt Armor an, falls es angelegt ist

@@ -298,7 +298,7 @@ public class MenuCards {
 			this.setLayout(null);
 
 			JLabel won = new JLabel("Gewonnen!");
-			won.setBounds(284, 320, 200, 40);
+			won.setBounds(352, 320, 200, 40);
 			this.add(won);
 
 			houston.c8b1 = new JButton("Zur\u00fcck");
