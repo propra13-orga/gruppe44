@@ -1,11 +1,18 @@
 package Main;
 
+
+import java.awt.Component;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
-
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JDialog;
+import javax.swing.JLabel;
+import javax.swing.JTextField;
 import javax.swing.WindowConstants;
 
 public class Quest {
@@ -15,8 +22,10 @@ public class Quest {
 	private String questUrl;
 	private String[] questUrls;
 	private BufferedReader questBuffer;
-	private ArrayList<String> questText;
-	private boolean questDone = false;
+	static ArrayList<String> questText;
+	static String solution;
+	static int complength;
+	String tempcl;
 	private int mapNumber;
 
 	public Quest(int mapNumber, Houston houston) {
@@ -28,34 +37,36 @@ public class Quest {
 		questUrls[1] = "./res/quest/quest2.txt";
 		questUrls[2] = "./res/quest/quest3.txt";
 		questUrls[3] = "./res/quest/quest4.txt";
-		questUrls[4] = "./res/quest/quest5.txt";
 
 		questText = new ArrayList<String>();
 
 		try {
-			initializeStory();
+			initializeQuest();
 		} catch (IOException e) {e.printStackTrace();}
 	}
 
-	private void initializeStory() throws IOException {
+	private void initializeQuest() throws IOException {
 		questUrl = questUrls[mapNumber];
-		//readStoryFile();
-		//assignFileContentToStoryText();
+		readQuestFile();
+		assignFileContentToQuestText();
+		solution = questText.get(1);
+		tempcl = questText.get(2);
+		complength = Integer.parseInt(tempcl);
 	}
 
-	public void renewStory(int mapNumber) {
+	public void renewQuest(int mapNumber) {
 		this.mapNumber = mapNumber;
 		try {
-			initializeStory();
+			initializeQuest();
 		} catch (IOException e) {e.printStackTrace();}
 	}
 
-	private void readStoryFile() throws IOException {
+	private void readQuestFile() throws IOException {
 		FileReader fr = new FileReader(questUrl);
 		questBuffer = new BufferedReader(fr);
 	}
 
-	private void assignFileContentToStoryText() {
+	private void assignFileContentToQuestText() {
 		String tempLine;
 
 		try {
@@ -66,13 +77,79 @@ public class Quest {
 	}
 
 	public void doQuest() {
-		JDialog questDialog = new JDialog();
+		final JDialog questDialog = new JDialog();
+		final JDialog bitchDialog = new JDialog();
+		JButton button1 = new JButton("Klick Mich");
+		final JTextField textField = new JTextField("Eingabe" , 1 );
+		questDialog.setLayout(null);
+		JLabel questLabel = new JLabel(questText.get(0));
+		JLabel bitchPlease = new JLabel(new ImageIcon("./res/img/albert.jpg"));
+		
+		questLabel.setBounds(50, 0, 390, 100);
+		textField.setBounds(150,70,200,30);
+		button1.setBounds(190, 120, 120, 30);
+		
+		
+		ActionListener textMsg = new ActionListener() {
+			
+			
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				System.out.println(textField.getText());
+				if (questCheck(textField.getText()) == true) {
+				questDialog.dispose();	
+				}
+				else {
+					bitchDialog.setVisible(true);
+					}
+				}
+				
+			
+
+			
+		};
+		
 		questDialog.setTitle("R\u00e4tsel");
-		questDialog.setSize(300,175);
+		questDialog.setSize(500, 250);
 		questDialog.setModal(true);
+		questDialog.add(button1);
+		questDialog.add(textField);
+		questDialog.add(questLabel);
+		questDialog.setResizable(false);
 		questDialog.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
+		
+		bitchDialog.setSize(501, 382);
+		bitchDialog.setModal(true);
+		bitchDialog.setResizable(false);
+		bitchDialog.add(bitchPlease);
+		
+		button1.addActionListener(textMsg);
+		
+		textField.addFocusListener(new java.awt.event.FocusAdapter() {
+			public void focusGained(java.awt.event.FocusEvent evt) {
+				try {
+					Thread.sleep(1200);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+				textField.setText("");
+				
+		        }
+		});		
+		
 		questDialog.setVisible(true);
-		houston.gameLogic.npcv = 0;
+	}
+
+	 static boolean questCheck(String input){
+		if ((input.equals("/quit")) == true ){
+			return true;}
+		else if((solution.contains(input) == true) && input.length() >= complength){
+			return true;
+		}
+			return false;
+		
+	}
 
 	}
-}
+

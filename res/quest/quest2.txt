@@ -1,0 +1,3 @@
+Wie lautet die Bernoullische Ungleichung
+(1+x)^n>=1+nx
+6
