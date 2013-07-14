@@ -2,7 +2,7 @@
 ---
 ## Inhaltsverzeichnis
 
-- [Charaktere](#charaktere)  
+- [Charaktere](#-charaktere)  
     - Spieler/in
     - Analysis Professor
     - Lineare Algebra Professor
@@ -43,7 +43,7 @@
     - Chat
     - Spiel starten
 
-## Charaktere
+## <a id="-charakter"></a> Charaktere
 
 ###Spieler/in
 ![](res/img/benutzerhandbuch/spieler.png) Ein ganz normaler Musterstudent!
