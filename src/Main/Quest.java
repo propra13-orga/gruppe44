@@ -30,6 +30,7 @@ public class Quest {
 	static int complength;
 	String tempcl;
 	private int mapNumber;
+	public boolean solved;
 
 	/**
 	 * initialisiert die Quests
@@ -54,6 +55,7 @@ public class Quest {
 	}
 
 	private void initializeQuest() throws IOException {
+		solved = false;
 		questUrl = questUrls[mapNumber];
 		readQuestFile();
 		assignFileContentToQuestText();
@@ -113,6 +115,7 @@ public class Quest {
 			public void actionPerformed(ActionEvent e) {
 				if (questCheck(textField.getText()) == true) {
 					player.increaseExperience((mapNumber+1) * 10);
+					solved = true;
 					questDialog.dispose();
 				}
 				else {
@@ -137,18 +140,16 @@ public class Quest {
 
 		button1.addActionListener(textMsg);
 
+		textField.addActionListener(textMsg);
 		textField.addFocusListener(new java.awt.event.FocusAdapter() {
 			@Override
 			public void focusGained(java.awt.event.FocusEvent evt) {
-				try {
-					Thread.sleep(1200);
-				} catch (InterruptedException e) {
-					e.printStackTrace();
-				}
 				textField.setText("");
 			}
 		});
 
+		questDialog.setLocationRelativeTo(null);
+		bitchDialog.setLocationRelativeTo(null);
 		questDialog.setVisible(true);
 	}
 

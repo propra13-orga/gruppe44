@@ -266,7 +266,9 @@ public class Actions {
 			} else if (houston.gameLogic.npcv == 1) {
 				houston.story.showText();
 			} else if (houston.gameLogic.npcv == 2) {
-				houston.quest.doQuest();
+				if(!houston.quest.solved){
+					houston.quest.doQuest();
+				}
 			}
 		}
 

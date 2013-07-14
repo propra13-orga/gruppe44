@@ -135,7 +135,7 @@ public class GameLogic {
 				dX = 0;
 				npcv = 1;
 				character.onWallHit();
-			} else if (isValidXMovement(topLeft, bottomLeft, dX, 13) == 13){
+			} else if (isValidXMovement(topLeft, bottomLeft, dX, 4) == 4){
 				dX = 0;
 				npcv = 2;
 				character.onWallHit();
@@ -151,7 +151,7 @@ public class GameLogic {
 				dX = 0;
 				npcv = 1;
 				character.onWallHit();
-			} else if (isValidXMovement(topRight, bottomRight, dX, 13) == 13) {
+			} else if (isValidXMovement(topRight, bottomRight, dX, 4) == 4) {
 				dX = 0;
 				npcv = 2;
 				character.onWallHit();
@@ -168,7 +168,7 @@ public class GameLogic {
 				dY = 0;
 				npcv = 1;
 				character.onWallHit();
-			} else if (isValidYMovement(topLeft, topRight, dY, 13) == 13) {
+			} else if (isValidYMovement(topLeft, topRight, dY, 4) == 4) {
 				dY = 0;
 				npcv = 2;
 				character.onWallHit();
@@ -184,7 +184,7 @@ public class GameLogic {
 				dY = 0;
 				npcv = 1;
 				character.onWallHit();
-			} else if (isValidYMovement(bottomLeft, bottomRight, dY, 13) == 13) {
+			} else if (isValidYMovement(bottomLeft, bottomRight, dY, 4) == 4) {
 				dY = 0;
 				npcv = 2;
 				character.onWallHit();
