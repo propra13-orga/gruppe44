@@ -59,6 +59,12 @@
 ###Informatik Professor
 ![](res/img/benutzerhandbuch/informatik.png) Der Superhacker.
 
+###NPC
+![](res/img/benutzerhandbuch/egyptianguy.png) Er hat hilfreiche Informationen für den Spieler.  
+
+###Klausuraufsicht
+![](res/img/benutzerhandbuch/imperial.png) Er stellt die schwersten Fragen.   
+
 ##Gegner
 
 Die Gegner haben folgende 3 Eigenschaften:  
@@ -94,20 +100,37 @@ Bossgegner: 100 Lebenspunkte
 **Rechte Maustaste:** Zwischen Analysis-, Lineare Algebra- und InformatikZauber wechseln  
 
 ##Spielmenü
-fehlt: Screenshot mit Erklärung der Buttons
+
+![](res/img/benutzerhandbuch/startmenu.png)  
+
+**Erklärung der Button:**  
+*Neues Spiel:* Startet ein neues Spiel  
+*Einstellungen:* Hier kann man sich zwischen Spieler und Spielerin entscheiden  
+*Mitwirkende:* Hier findet man Bilder aller am Spiel mitwirkenden Personen  
+*Karten Editor:* Siehe Karteneditor  
+*Multiplayer:* Siehe Multiplayer  
+*Beenden:* beendet das Spiel  
 
 ##Spielfenster
-fehlt: Screenshot mit folgenden Erklärungen:  
-- Mana und Lebensanzeige  
-- Leben  
+
+![](res/img/benutzerhandbuch/ingame.png)  
+**Die Informationsleiste enthält folgende Informationen:**  
+- Lebenspunkte- und Manaanzeige  
+- Anzahl an Leben  
 - Geld  
-- Items  
+- Anzahl an Heil- und Manatränken  
 - Erfahrungslevel und Erfahrungspunkte  
-- Attacke  
-- Zauber  
+- Schaden einer Attacke  
+- Schaden des Zaubers  
+- aktuelle FPS  
+- Karten- und Levelnummer  
 
 ##Karteneditor
- fehlt: Screenshot vom Karteneditor
+
+![](res/img/benutzerhandbuch/mapeditor.png)  
+Oben ist eine Informationsleiste die den Speicherort der aktuellen Karte enthält und anzeigt, ob Veränderungen vorgenommen wurden und ob diese bereits gespeichert wurden.  
+
+![](res/img/benutzerhandbuch/mapeditor2.png) 
 
 ###Kacheln
 
@@ -241,7 +264,8 @@ Der Spieler kann folgende 5 Erfahrungslevel erreichen:
 	**Aufstieg:** 750 Erfahrungspunkten     
 		
 ## Multiplayer
-fehlt: Screenshot mit Buttonerklärung
+
+![](res/img/benutzerhandbuch/network.png) 
 
 ###Server erstellen/schließen
 Um einen Server zu erstellen klickt man auf den Button *Server erstellen*. Nun erscheint im Chatverlauf folgende Nachricht: *"Console: Server gestartet. Auf Client warten ..."*. Hat sich ein Client mit dem Server verbunden erscheint folgende Nachricht: *"Console: Verbunden mit Client /IP:Port"* und das Chatfenster wird aktiviert, ebenso wie der Button *Bereit*. Desweiteren erhält man in der Game-Infoleiste informationen darüber, ob der Mitspieler bereit zum Spielen ist oder nicht. Möchte der Server die Verbindung zum Client trennen sendet er ihm die Nachricht *"/bye"*. Um Server zu schliessen klickt man auf den Button *Server schliessen*. Wenn der Server mit keinem Client mehr verbunden ist wird das Chatfenster und der *Bereit* Button deaktiviert.
