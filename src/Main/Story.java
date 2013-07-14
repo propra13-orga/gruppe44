@@ -8,6 +8,9 @@ import java.util.ArrayList;
 
 import javax.swing.JOptionPane;
 
+/**
+ * enthaelt die NPC-Texte
+ */
 public class Story {
 
 	private Houston houston;
@@ -17,6 +20,11 @@ public class Story {
 	private ArrayList<String> storyText;
 	private int mapNumber;
 
+	/**
+	 * initialisiert das Array der NPC-Texte
+	 * @param mapNumber
+	 * @param houston
+	 */
 	public Story(int mapNumber, Houston houston) {
 		this.houston = houston;
 		this.mapNumber = mapNumber;
@@ -34,6 +42,10 @@ public class Story {
 		assignFileContentToStoryText();
 	}
 
+	/**
+	 * aendert den Text abhaengig von der Kartennummer
+	 * @param mapNumber
+	 */
 	public void renewStory(int mapNumber) {
 		this.mapNumber = mapNumber;
 		try {
@@ -56,6 +68,9 @@ public class Story {
 		} catch (NumberFormatException | IOException e) {e.printStackTrace();}
 	}
 
+	/**
+	 * zeigt den Text vom NPC an
+	 */
 	public void showText() {
 		Component frame = null;
 		JOptionPane.showMessageDialog(frame, storyText.get(mapNumber));

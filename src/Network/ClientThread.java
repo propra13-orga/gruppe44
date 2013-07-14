@@ -5,16 +5,31 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 
+/**
+ * Thread vom Client
+ */
 public class ClientThread implements Runnable {
 
 	private MultiPlayer mp;
 
 	private Data output;
 
+	/**
+	 * @param mp
+	 */
 	public ClientThread(MultiPlayer mp) {
 		this.mp = mp;
 	}
 
+	/**
+	 * Wenn die Verbindung steht, stelle einige Werte ein;
+	 * holt die eingehende und ausgehende Verbindung zum Client;
+	 * Erstellt einen Thread, der einkommende Daten separat liest;
+	 * setzt/aendert Nachrichten;
+	 * schreibt Daten, wenn sie veraendert wurden;
+	 * beendet die Verbindung
+	 * @see java.lang.Runnable#run()
+	 */
 	@Override
 	public void run() {
 		String ip = mp.clientIp.getText();

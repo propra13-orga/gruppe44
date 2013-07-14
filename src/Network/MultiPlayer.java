@@ -25,6 +25,9 @@ import javax.swing.border.TitledBorder;
 
 import Main.Houston;
 
+/**
+ * Klasse fuer Mehrspielermodus
+ */
 public class MultiPlayer extends JPanel implements ActionListener {
 
 	private static final long serialVersionUID = 1L;
@@ -39,6 +42,9 @@ public class MultiPlayer extends JPanel implements ActionListener {
 
 	private JTextArea chatHistory;
 
+	/**
+	 * alle Textfelder des Chatfensters
+	 */
 	public JTextField
 	gameStatus,
 	serverPort,
@@ -47,6 +53,9 @@ public class MultiPlayer extends JPanel implements ActionListener {
 	clientPort,
 	chatInput;
 
+	/**
+	 * alle Buttons des Chatfensters
+	 */
 	public JButton
 	readyToPlay,
 	notReadyToPlay,
@@ -58,29 +67,90 @@ public class MultiPlayer extends JPanel implements ActionListener {
 	disconnectAsClient;
 
 
+	/**
+	 * Server und Client Thread
+	 */
 	public Thread serverClientThread = null;
+
+	/**
+	 * Serverthread und Clientthread
+	 */
 	public Runnable serverThread, clientThread;
 
 
+	/**
+	 * String Ich
+	 */
 	public final static String ME = "Ich";
+
+	/**
+	 * String Er/Sie/Es
+	 */
 	public final static String OPPONENT = "Er/Sie/Es";
+
+	/**
+	 * String Console
+	 */
 	public final static String CONSOLE = "Console";
 	private final static String newline = "\n";
+
+	/**
+	 *String /bye
+	 */
 	public final static String BYE = "/bye";
 
+	/**
+	 * String Du bist noch nicht bereit;
+	 * gibt an, dass noch niemand bereit ist
+	 */
 	public final static String NOBODYREADY = "Du bist noch nicht bereit.";
+
+	/**
+	 * String Mitspieler ist bereit. Du auch?
+	 */
 	public final static String OPPONENTREADY = "Mitspieler ist bereit. Du auch?";
+
+	/**
+	 * String Du bist bereit. Dein Mitspieler noch nicht
+	 */
 	public final static String YOUREADY = "Du bist bereit. Dein Mitspieler noch nicht";
+
+	/**
+	 * String Spiel startet ...
+	 */
 	public final static String GAMESTARTS = "Spiel startet ...";
 
 
+	/**
+	 * String enthaelt die zu sendende Nachricht
+	 */
 	public String messageToSend = "";
+
+	/**
+	 * gibt an, ob der Client mit dem Server verbunden ist
+	 */
 	public Boolean serverIsConnectedToClient = false;
+
+	/**
+	 * enthalten die Input bzw Output Daten
+	 */
 	public Data input, output;
+
+	/**
+	 * gibt an, ob das Spiel vorbei ist
+	 */
 	public Boolean isOver = true;
+
+	/**
+	 * gibt an, ob der Benutzer bereit zum Spielen ist
+	 */
 	public boolean ready = false;
 
 
+	/**
+	 * initialisiert das Chatfenster
+	 * @param houston
+	 */
 	public MultiPlayer(Houston houston) {
 		this.houston = houston;
 
@@ -276,6 +346,10 @@ public class MultiPlayer extends JPanel implements ActionListener {
 		backToGame.setEnabled(false);
 	}
 
+	/**
+	 * veraendert den Zustand des Bereit und des  Nicht bereit Buttons
+	 * @param enableButtons
+	 */
 	public void setReadyToPlayButtonEnabled(Boolean enableButtons) {
 		if (enableButtons == true) {
 			readyToPlay.setEnabled(!ready);
@@ -287,6 +361,9 @@ public class MultiPlayer extends JPanel implements ActionListener {
 	}
 
 
+	/**
+	 * trennt die Verbindung zwischen Client und Server
+	 */
 	public void stop() {
 		serverClientThread = null;
 
@@ -338,6 +415,11 @@ public class MultiPlayer extends JPanel implements ActionListener {
 		appendChatMessage(MultiPlayer.BYE, MultiPlayer.ME);
 	}
 
+	/**
+	 * zeigt Nachrichten und deren Autor im Chat an
+	 * @param message
+	 * @param author
+	 */
 	public void appendChatMessage(String message, String author) {
 		message = message.trim();
 		if (message.length() > 0) {
@@ -346,6 +428,10 @@ public class MultiPlayer extends JPanel implements ActionListener {
 		}
 	}
 
+	/**
+	 * zeigt Nachrichten von der Konsole an
+	 * @param message
+	 */
 	public void appendChatMessage(String message) {
 		appendChatMessage(message, MultiPlayer.CONSOLE);
 	}
@@ -354,19 +440,33 @@ public class MultiPlayer extends JPanel implements ActionListener {
 		messageToSend = message.trim();
 	}
 
+	/**
+	 * uebermittelt dem Mitspieler, dass der Benutzer bereit zum Spielen ist
+	 * @param ready
+	 */
 	public void sendReady(Boolean ready) {
 		this.ready = ready;
 		output.ready = ready;
 	}
 
+	/**
+	 * veraendert die Information darueber ob die Spieler bereit sind
+	 * @param status
+	 */
 	public void changeGameStatus(String status) {
 		gameStatus.setText(status);
 	}
 
+	/**
+	 * zeigt Nachrichten vom Mitspieler an
+	 */
 	public void handleChat() {
 		appendChatMessage(input.message, MultiPlayer.OPPONENT);
 	}
 
+	/**
+	 * reagiert abhaengig davon, ob die Spieler bereit sind oder nicht
+	 */
 	public void handleGameStatus() {
 		if (!houston.gameIsRunning && houston.gameOver) {
 			if (input.ready && ready) {
@@ -382,6 +482,9 @@ public class MultiPlayer extends JPanel implements ActionListener {
 		}
 	}
 
+	/**
+	 * veraendert im Spiel die Karte und beendet das Spiel
+	 */
 	public void handleGameUpdatesByNetworkInput() {
 		if (houston.gameIsRunning && !input.ready) {
 			exitGame();
@@ -401,6 +504,10 @@ public class MultiPlayer extends JPanel implements ActionListener {
 	}
 
 
+	/**
+	 * kontrolliert die Buttons
+	 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
+	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		Object buttonClicked = e.getSource();
@@ -433,13 +540,24 @@ public class MultiPlayer extends JPanel implements ActionListener {
 	}
 
 
+	/**
+	 * uebergibt:
+	 * Rechteck vom Spieler;
+	 * Kartennummer;
+	 * ob der Spieler noch lebt;
+	 * Levelnummer;
+	 */
 	public void doGameUpdates() {
 		output.playerBounds.setRect(houston.player.getBounds());
 		output.mapNumber = houston.map.getMapNumber();
-		output.playerIsAllive = (houston.player.getLives() > 0);
+		output.playerIsAlive = (houston.player.getLives() > 0);
 		output.levelNumber = houston.map.getLevelNumber();
 	}
 
+	/**
+	 * zeichnet den Mitspieler
+	 * @param g
+	 */
 	public void drawObjects(Graphics2D g) {
 		g.drawImage(houston.player.texture, (int) input.playerBounds.getX()-2, (int) input.playerBounds.getY()-18, null);
 	}
@@ -448,6 +566,10 @@ public class MultiPlayer extends JPanel implements ActionListener {
 	}
 
 
+	/**
+	 * beendet das Spiel und wechselt zu der uebergebene Karte
+	 * @param cardName
+	 */
 	public void exitGame(String cardName) {
 		sendReady(false);
 		houston.changeAppearance(true, false, cardName);
@@ -455,6 +577,9 @@ public class MultiPlayer extends JPanel implements ActionListener {
 		setReadyToPlayButtonEnabled(true);
 	}
 
+	/**
+	 * beendet das Spiel und wechselt zurueck zum Chatfenster
+	 */
 	public void exitGame() {
 		exitGame(Houston.MULTIPLAYER);
 	}

@@ -1,13 +1,13 @@
 package Main;
 
 
-import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JDialog;
@@ -15,6 +15,9 @@ import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.WindowConstants;
 
+/**
+ * Klasse der Quests
+ */
 public class Quest {
 
 	private Houston houston;
@@ -28,6 +31,11 @@ public class Quest {
 	String tempcl;
 	private int mapNumber;
 
+	/**
+	 * initialisiert die Quests
+	 * @param mapNumber
+	 * @param houston
+	 */
 	public Quest(int mapNumber, Houston houston) {
 		this.houston = houston;
 		this.mapNumber = mapNumber;
@@ -54,6 +62,10 @@ public class Quest {
 		complength = Integer.parseInt(tempcl);
 	}
 
+	/**
+	 * ruft die Initialisierung des zur Kartennummer passenden Quests auf
+	 * @param mapNumber
+	 */
 	public void renewQuest(int mapNumber) {
 		this.mapNumber = mapNumber;
 		try {
@@ -76,6 +88,9 @@ public class Quest {
 		} catch (NumberFormatException | IOException e) {e.printStackTrace();}
 	}
 
+	/**
+	 * erstellt das Questfenster
+	 */
 	public void doQuest() {
 		final JDialog questDialog = new JDialog();
 		final JDialog bitchDialog = new JDialog();
@@ -84,32 +99,32 @@ public class Quest {
 		questDialog.setLayout(null);
 		JLabel questLabel = new JLabel(questText.get(0));
 		JLabel bitchPlease = new JLabel(new ImageIcon("./res/img/albert.jpg"));
-		
+
 		questLabel.setBounds(50, 0, 390, 100);
 		textField.setBounds(150,70,200,30);
 		button1.setBounds(190, 120, 120, 30);
-		
-		
+
+
 		ActionListener textMsg = new ActionListener() {
-			
-			
-			
+
+
+
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				System.out.println(textField.getText());
 				if (questCheck(textField.getText()) == true) {
-				questDialog.dispose();	
+					questDialog.dispose();
 				}
 				else {
 					bitchDialog.setVisible(true);
-					}
 				}
-				
-			
+			}
 
-			
+
+
+
 		};
-		
+
 		questDialog.setTitle("R\u00e4tsel");
 		questDialog.setSize(500, 250);
 		questDialog.setModal(true);
@@ -118,15 +133,16 @@ public class Quest {
 		questDialog.add(questLabel);
 		questDialog.setResizable(false);
 		questDialog.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
-		
+
 		bitchDialog.setSize(501, 382);
 		bitchDialog.setModal(true);
 		bitchDialog.setResizable(false);
 		bitchDialog.add(bitchPlease);
-		
+
 		button1.addActionListener(textMsg);
-		
+
 		textField.addFocusListener(new java.awt.event.FocusAdapter() {
+			@Override
 			public void focusGained(java.awt.event.FocusEvent evt) {
 				try {
 					Thread.sleep(1200);
@@ -134,22 +150,22 @@ public class Quest {
 					e.printStackTrace();
 				}
 				textField.setText("");
-				
-		        }
-		});		
-		
+
+			}
+		});
+
 		questDialog.setVisible(true);
 	}
 
-	 static boolean questCheck(String input){
+	static boolean questCheck(String input){
 		if ((input.equals("/quit")) == true ){
 			return true;}
 		else if((solution.contains(input) == true) && input.length() >= complength){
 			return true;
 		}
-			return false;
-		
-	}
+		return false;
 
 	}
+
+}
 
