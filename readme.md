@@ -7,12 +7,12 @@
     - Analysis Professor
     - Lineare Algebra Professor
     - Informatik Professor
-- [Gegner](#gegner)
+- [Gegner](#-gegner)
     - Lebenspunkte der Gegner
-- [Steuerung](#steuerung)
-- [Spielmenü](#spielmenue)
-- [Spielfenster](#spielfenster)
-- [Karteneditor](#karteneditor)
+- [Steuerung](#-steuerung)
+- [Spielmenü](#-spielmen)
+- [Spielfenster](#-spielfenster)
+- [Karteneditor](#-karteneditor)
     - Kacheln
     - Karte laden
     - Karte speichern
@@ -26,18 +26,18 @@
     - Karte ändern
         - Kachel einfügen/ändern
         - Item einfügen/entfernen
-- [Items](#items)
+- [Items](#-items)
     - Manatrank
     - Heiltrank
     - Rüstung
-- [Aktionen](#aktionen)
+- [Aktionen](#-aktionen)
     - Interaktion mit dem NPC
     - Quests und Rätsel
     - Betreten des Shops
     - Angreifen
     - Zauber
-- [Schadenssystem/Erfahrung](#schadenssystem)
-- [Multiplayer](#multiplayer)
+- [Schadenssystem/Erfahrung](#-schadenssystemerfahrung)
+- [Multiplayer](#-multiplayer)
     - Server erstellen/schließen
     - Client verbinden/trennen
     - Chat
@@ -63,7 +63,7 @@
 ###Klausuraufsicht
 ![](res/img/benutzerhandbuch/imperial.png) Er stellt die schwersten Fragen.   
 
-## <a id="gegner"></a> Gegner
+## <a id="-gegner"></a> Gegner
 
 Die Gegner haben folgende 3 Eigenschaften:  
 
@@ -88,7 +88,7 @@ Bossgegner: 80 Lebenspunkte
 Gegner: 50 Lebenspunkte  
 Bossgegner: 100 Lebenspunkte  
 
-## <a id="steuerung"></a> Steuerung
+## <a id="-steuerung"></a> Steuerung
 ![](res/img/benutzerhandbuch/tastatur.png)
 
 **W:** Der Spieler geht nach oben.  
@@ -103,7 +103,7 @@ Bossgegner: 100 Lebenspunkte
 **Linke Maustaste:** Zaubern  
 **Rechte Maustaste:** Zwischen Analysis-, Lineare Algebra- und InformatikZauber wechseln  
 
-## <a id="spielmenue"></a> Spielmenü
+## <a id="-spielmen"></a> Spielmenü
 
 ![](res/img/benutzerhandbuch/startmenu.png)  
 
@@ -115,7 +115,7 @@ Bossgegner: 100 Lebenspunkte
 *Multiplayer:* Siehe Multiplayer  
 *Beenden:* beendet das Spiel  
 
-## <a id="spielfenster"></a> Spielfenster
+## <a id="-spielfenster"></a> Spielfenster
 
 ![](res/img/benutzerhandbuch/ingame.png)  
 **Die Informationsleiste enthält folgende Informationen:**  
@@ -129,7 +129,7 @@ Bossgegner: 100 Lebenspunkte
 - aktuelle FPS  
 - Karten- und Levelnummer  
 
-## <a id="karteneditor"></a> Karteneditor
+## <a id="-karteneditor"></a> Karteneditor
 
 ![](res/img/benutzerhandbuch/mapeditor.png)  
 Oben ist eine Informationsleiste, die den Speicherort der aktuellen Karte enthält und anzeigt ob Veränderungen vorgenommen wurden und deren Speicherzustand.  
@@ -182,7 +182,7 @@ Zunächst lädt man die zu ändernde Karte, wie unter *Karte laden* beschrieben.
 
 **Item einfügen/entfernen:** Tab *Items* anklicken und dort per linkem Mausklick ein Item auswählen, das man in die Karte einbauen möchte. Nun positioniert man das ausgewählte Item an der gewünschten Position in der Karte mit Hilfe der linken Maustaste. Mit Hilfe von *Item entfernen*  löscht man durch Linksklick auf ein Item in der Karte das angeklickte Item.  
 
-## <a id="items"></a> Items
+## <a id="-items"></a> Items
 
 Die Items sind entweder im Shop zu kaufen oder befinden sich auf der Karte und können somit vom Spieler eingesammelt werden. Es gibt folgende 3 Items:
 
@@ -195,7 +195,7 @@ Der Spieler kann maximal 3 Heiltränke tragen. Verwendet er ein Heiltrank fülle
 ###Rüstung
 Die Rüstung schütz den Spieler sowohl vor Angriffen als auch vor Zauber und halbiert den Schaden. Ein Spieler kann immer nur eine Rüstung tragen. Fällt der Spieler in eine Falle verliert er seine Rüstung.  
 
-## <a id="aktionen"></a> Aktionen
+## <a id="-aktionen"></a> Aktionen
 
 ###Interaktion mit dem NPC
 Steht der Spieler unmittelbar vor einem NPC und drückt nun die Taste *E* redet er mit dem NPC und erhält von diesem wichtige Informationen für das Spiel.
@@ -220,7 +220,7 @@ Der Spieler zaubert, indem er die linke Maustaste betätigt, dabei fliegt der Za
 
 ![](res/img/benutzerhandbuch/wormBig.png) Informatik-Zauber    
 
-## <a id="schadenssystem"></a> Schadenssystem/Erfahrung
+## <a id="-schadenssystemerfahrung"></a> Schadenssystem/Erfahrung
 
 Der Spieler beginnt im Erfahrungslevel 1 mit 0 Erfahrungspunkten. Den Schaden den ein Angriff bzw Zauber beim Gegner anrichtet ist abhängig vom Erfahrungslevel des Spielers. Um Erfahrungspunkte zu erhalten muss er Gegner töten. Die Anzahl der Erfahrungspunkte, die man pro getöteten Gegner erhält, staffeln sich wie folgt:
 
@@ -267,7 +267,7 @@ Der Spieler kann folgende 5 Erfahrungslevel erreichen:
 	**freigeschaltete Magien:** Analysis, Lineare Algebra, Informatik  
 	**Aufstieg:** 750 Erfahrungspunkten     
 		
-## <a id="multiplayer"></a> Multiplayer
+## <a id="-multiplayer"></a> Multiplayer
 
 ![](res/img/benutzerhandbuch/network.png) 
 
