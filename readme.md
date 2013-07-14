@@ -23,11 +23,9 @@
     - neue Karte erstellen
         - Kachel einfügen/ändern
         - Item einfügen/entfernen
-        - Gegner einfügen/entfernen
     - Karte ändern
         - Kachel einfügen/ändern
         - Item einfügen/entfernen
-        - Gegner einfügen/entfernen
 - Items
     - Manatrank
     - Heiltrank
@@ -93,9 +91,15 @@ Bossgegner: 100 Lebenspunkte
 ## Steuerung
 ![](res/img/benutzerhandbuch/tastatur.png)
 
-**Esc:** Der Spieler gelangt in das Menü.  
+**W:** Der Spieler geht nach oben.  
+**A:** Der Spieler geht nach links.  
+**S:** Der Spieler geht nach unten.  
+**D:** Der Spieler geht nach rechts.  
+**E:** Der Spieler betritt den Shop, redet mit dem NPC oder redet mit der Klausuraufsicht.  
 **H:** Der Spieler trinkt einen Heiltrank.  
 **M:** Der Spieler trinkt einen Manatrank.  
+**Esc:** Der Spieler gelangt in das Menü. 
+   
 **Linke Maustaste:** Zaubern  
 **Rechte Maustaste:** Zwischen Analysis-, Lineare Algebra- und InformatikZauber wechseln  
 
@@ -128,7 +132,7 @@ Bossgegner: 100 Lebenspunkte
 ##Karteneditor
 
 ![](res/img/benutzerhandbuch/mapeditor.png)  
-Oben ist eine Informationsleiste die den Speicherort der aktuellen Karte enthält und anzeigt, ob Veränderungen vorgenommen wurden und ob diese bereits gespeichert wurden.  
+Oben ist eine Informationsleiste, die den Speicherort der aktuellen Karte enthält und anzeigt ob Veränderungen vorgenommen wurden und deren Speicherzustand.  
 
 ![](res/img/benutzerhandbuch/mapeditor2.png) 
 
