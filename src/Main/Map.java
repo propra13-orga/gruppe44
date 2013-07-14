@@ -134,6 +134,7 @@ public class Map {
 			BufferedImage tex_ground = sprite.getSubimage(0, 96, 32, 32);
 			BufferedImage tex_wall = sprite.getSubimage(0, 0, 32, 32);
 			BufferedImage tex_npc = sprite.getSubimage(32, 50, 32, 46);
+			BufferedImage tex_qnpc = sprite.getSubimage(64, 50, 32, 46);
 			BufferedImage tex_grass = sprite.getSubimage(0, 128, 32, 32);
 			BufferedImage tex_trap = sprite.getSubimage(0, 32, 32, 32);
 			BufferedImage tex_start = sprite.getSubimage(0, 64, 32, 32);
@@ -143,6 +144,7 @@ public class Map {
 			texture.put(1, tex_wall);
 			texture.put(2, tex_wall);
 			texture.put(3, tex_npc);
+			texture.put(4, tex_qnpc);
 			texture.put(5, tex_grass);
 			texture.put(7, tex_trap);
 			texture.put(8, tex_start);
@@ -151,7 +153,8 @@ public class Map {
 			textureName.put(0, "Boden");
 			textureName.put(1, "Wand");
 			textureName.put(2, "Begehbare Wand");
-			textureName.put(3, "NPC");
+			textureName.put(3, "Story-NPC");
+			textureName.put(4, "Quest-NPC");
 			textureName.put(5, "Shop");
 			textureName.put(7, "Falle");
 			textureName.put(8, "Start");

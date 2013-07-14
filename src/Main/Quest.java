@@ -20,7 +20,7 @@ import javax.swing.WindowConstants;
  */
 public class Quest {
 
-	private Houston houston;
+	private Player player;
 
 	private String questUrl;
 	private String[] questUrls;
@@ -37,8 +37,8 @@ public class Quest {
 	 * @param houston
 	 */
 	public Quest(int mapNumber, Houston houston) {
-		this.houston = houston;
 		this.mapNumber = mapNumber;
+		this.player = houston.player;
 
 		questUrls = new String[8];
 		questUrls[0] = "./res/quest/quest1.txt";
@@ -111,18 +111,14 @@ public class Quest {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				System.out.println(textField.getText());
 				if (questCheck(textField.getText()) == true) {
+					player.increaseExperience((mapNumber+1) * 10);
 					questDialog.dispose();
 				}
 				else {
 					bitchDialog.setVisible(true);
 				}
 			}
-
-
-
-
 		};
 
 		questDialog.setTitle("R\u00e4tsel");
@@ -150,7 +146,6 @@ public class Quest {
 					e.printStackTrace();
 				}
 				textField.setText("");
-
 			}
 		});
 
@@ -164,8 +159,6 @@ public class Quest {
 			return true;
 		}
 		return false;
-
 	}
 
 }
-
