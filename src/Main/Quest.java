@@ -17,6 +17,7 @@ import javax.swing.WindowConstants;
 
 public class Quest {
 
+	private Player player;
 
 	private String questUrl;
 	private String[] questUrls;
@@ -29,6 +30,7 @@ public class Quest {
 
 	public Quest(int mapNumber, Houston houston) {
 		this.mapNumber = mapNumber;
+		this.player = houston.player;
 
 		questUrls = new String[8];
 		questUrls[0] = "./res/quest/quest1.txt";
@@ -94,9 +96,9 @@ public class Quest {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				System.out.println(textField.getText());
 				if (questCheck(textField.getText()) == true) {
-				questDialog.dispose();
+					player.increaseExperience((mapNumber+1) * 10);
+					questDialog.dispose();
 				}
 				else {
 					bitchDialog.setVisible(true);
