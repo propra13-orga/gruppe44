@@ -15,6 +15,9 @@ import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.WindowConstants;
 
+/**
+ * Klasse der Quests
+ */
 public class Quest {
 
 	private Player player;
@@ -28,6 +31,11 @@ public class Quest {
 	String tempcl;
 	private int mapNumber;
 
+	/**
+	 * initialisiert die Quests
+	 * @param mapNumber
+	 * @param houston
+	 */
 	public Quest(int mapNumber, Houston houston) {
 		this.mapNumber = mapNumber;
 		this.player = houston.player;
@@ -54,6 +62,10 @@ public class Quest {
 		complength = Integer.parseInt(tempcl);
 	}
 
+	/**
+	 * ruft die Initialisierung des zur Kartennummer passenden Quests auf
+	 * @param mapNumber
+	 */
 	public void renewQuest(int mapNumber) {
 		this.mapNumber = mapNumber;
 		try {
@@ -76,6 +88,9 @@ public class Quest {
 		} catch (NumberFormatException | IOException e) {e.printStackTrace();}
 	}
 
+	/**
+	 * erstellt das Questfenster
+	 */
 	public void doQuest() {
 		final JDialog questDialog = new JDialog();
 		final JDialog bitchDialog = new JDialog();
@@ -102,12 +117,8 @@ public class Quest {
 				}
 				else {
 					bitchDialog.setVisible(true);
-					}
 				}
-
-
-
-
+			}
 		};
 
 		questDialog.setTitle("R\u00e4tsel");
@@ -135,21 +146,19 @@ public class Quest {
 					e.printStackTrace();
 				}
 				textField.setText("");
-
-		        }
+			}
 		});
 
 		questDialog.setVisible(true);
 	}
 
-	 static boolean questCheck(String input){
+	static boolean questCheck(String input){
 		if ((input.equals("/quit")) == true ){
 			return true;}
 		else if((solution.contains(input) == true) && input.length() >= complength){
 			return true;
 		}
-			return false;
-
+		return false;
 	}
 
 }

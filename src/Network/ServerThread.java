@@ -6,16 +6,31 @@ import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 
+/**
+ * Thread vom Server
+ */
 public class ServerThread implements Runnable {
 
 	private MultiPlayer mp;
 	private Data output;
 
 
+	/**
+	 * @param mp
+	 */
 	public ServerThread(MultiPlayer mp) {
 		this.mp = mp;
 	}
 
+	/**
+	 * wartet auf die Verbindung vom Client;
+	 * stellt einige Werte ein, wenn die Verbindung besteht;
+	 * holt Input und Output;
+	 * erstellt einen Thread, der einkommende Daten seperat liest;
+	 * aendert/sendet Nachrichten und Daten
+	 * beendet Verbindung
+	 * @see java.lang.Runnable#run()
+	 */
 	@Override
 	public void run() {
 		mp.appendChatMessage("Server gestartet. Auf Client warten ...");

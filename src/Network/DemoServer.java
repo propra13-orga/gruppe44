@@ -6,10 +6,17 @@ import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 
+/**
+ * Klasse vom Server
+ */
 public class DemoServer {
 
 	private static int port = 2345;
 
+	/**
+	 * schickt empfangene Nachricht zurueck an den Client
+	 * @param args
+	 */
 	public static void main(String[] args) {
 
 		try (ServerSocket server = new ServerSocket(port)) {

@@ -8,11 +8,18 @@ import java.net.UnknownHostException;
 
 import javax.swing.JOptionPane;
 
+/**
+ * Klasse vom Client
+ */
 public class DemoClient {
 
 	private static int port = 2345;
 	private static String ip = "127.0.0.1";
 
+	/**
+	 * sendet und empfaengt Nachrichten
+	 * @param args
+	 */
 	public static void main(String[] args) {
 
 		try (Socket server = new Socket(ip, port)) {
