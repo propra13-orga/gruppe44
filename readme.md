@@ -43,7 +43,7 @@
     - Chat
     - Spiel starten
 
-## <a id="-charakter"></a> Charaktere
+## <a id="-charaktere"></a> Charaktere
 
 ###Spieler/in
 ![](res/img/benutzerhandbuch/spieler.png) Ein ganz normaler Musterstudent!
