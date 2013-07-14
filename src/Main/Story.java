@@ -10,22 +10,21 @@ import javax.swing.JOptionPane;
 
 public class Story {
 
-	private Houston houston;
-
 	private String storyUrl;
 	private BufferedReader storyBuffer;
 	private ArrayList<String> storyText;
 	private int mapNumber;
 
 	public Story(int mapNumber, Houston houston) {
-		this.houston = houston;
 		this.mapNumber = mapNumber;
 
 		storyText = new ArrayList<String>();
 
 		try {
 			initializeStory();
-		} catch (IOException e) {e.printStackTrace();}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 	private void initializeStory() throws IOException {
@@ -38,7 +37,9 @@ public class Story {
 		this.mapNumber = mapNumber;
 		try {
 			initializeStory();
-		} catch (IOException e) {e.printStackTrace();}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 	private void readStoryFile() throws IOException {
@@ -60,4 +61,5 @@ public class Story {
 		Component frame = null;
 		JOptionPane.showMessageDialog(frame, storyText.get(mapNumber));
 	}
+
 }

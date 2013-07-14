@@ -1,13 +1,13 @@
 package Main;
 
 
-import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JDialog;
@@ -17,7 +17,6 @@ import javax.swing.WindowConstants;
 
 public class Quest {
 
-	private Houston houston;
 
 	private String questUrl;
 	private String[] questUrls;
@@ -29,7 +28,6 @@ public class Quest {
 	private int mapNumber;
 
 	public Quest(int mapNumber, Houston houston) {
-		this.houston = houston;
 		this.mapNumber = mapNumber;
 
 		questUrls = new String[8];
@@ -84,32 +82,32 @@ public class Quest {
 		questDialog.setLayout(null);
 		JLabel questLabel = new JLabel(questText.get(0));
 		JLabel bitchPlease = new JLabel(new ImageIcon("./res/img/albert.jpg"));
-		
+
 		questLabel.setBounds(50, 0, 390, 100);
 		textField.setBounds(150,70,200,30);
 		button1.setBounds(190, 120, 120, 30);
-		
-		
+
+
 		ActionListener textMsg = new ActionListener() {
-			
-			
-			
+
+
+
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				System.out.println(textField.getText());
 				if (questCheck(textField.getText()) == true) {
-				questDialog.dispose();	
+				questDialog.dispose();
 				}
 				else {
 					bitchDialog.setVisible(true);
 					}
 				}
-				
-			
 
-			
+
+
+
 		};
-		
+
 		questDialog.setTitle("R\u00e4tsel");
 		questDialog.setSize(500, 250);
 		questDialog.setModal(true);
@@ -118,15 +116,16 @@ public class Quest {
 		questDialog.add(questLabel);
 		questDialog.setResizable(false);
 		questDialog.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
-		
+
 		bitchDialog.setSize(501, 382);
 		bitchDialog.setModal(true);
 		bitchDialog.setResizable(false);
 		bitchDialog.add(bitchPlease);
-		
+
 		button1.addActionListener(textMsg);
-		
+
 		textField.addFocusListener(new java.awt.event.FocusAdapter() {
+			@Override
 			public void focusGained(java.awt.event.FocusEvent evt) {
 				try {
 					Thread.sleep(1200);
@@ -134,10 +133,10 @@ public class Quest {
 					e.printStackTrace();
 				}
 				textField.setText("");
-				
+
 		        }
-		});		
-		
+		});
+
 		questDialog.setVisible(true);
 	}
 
@@ -148,8 +147,7 @@ public class Quest {
 			return true;
 		}
 			return false;
-		
-	}
 
 	}
 
+}
