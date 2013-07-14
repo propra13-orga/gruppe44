@@ -6,6 +6,7 @@ import Main.Houston;
 import Main.Map;
 import Main.Movable;
 import Main.Player;
+import Main.Quest;
 import Main.Story;
 
 /** enthaelt die Logic vom Spiel */
@@ -19,6 +20,7 @@ public class GameLogic {
 	private MagicLogic magicLogic;
 	private ItemLogic itemLogic;
 	private Story story;
+	private Quest quest;
 
 	private Point2D topLeft, topRight, bottomLeft, bottomRight;
 	double tlX, tlY; // Temporaere Character Ecke
@@ -38,6 +40,7 @@ public class GameLogic {
 		this.player		= houston.player;
 		this.map		= houston.map;
 		this.story		= houston.story;
+		this.quest 		= houston.quest;
 
 		this.playerLogic	= houston.playerLogic		= new PlayerLogic(houston);
 		this.enemyLogic		= houston.enemyLogic		= new EnemyLogic(houston);
@@ -67,6 +70,7 @@ public class GameLogic {
 	public void changeLevel(int levelNumber, int mapNumber) {
 		map.renewMap(levelNumber, mapNumber);
 		story.renewStory(mapNumber);
+		quest.renewQuest(mapNumber);
 
 		playerLogic.onLevelChange();
 		enemyLogic.onLevelChange();
