@@ -1,4 +1,4 @@
-# Wir brauchen DRINGEND einen Namen - Dungeon Crawler 
+# Campus Invader 
 ---
 ## Inhaltsverzeichnis
 
@@ -207,10 +207,10 @@ Steht der Spieler unmittelbar vor einer Klausuraufsicht und drückt nun die Tast
 Befindet der Spieler sich auf der Shopkachel und drückt nun die Taste *E* betritt er den Shop und kann sich dort Mana- und Heiltränke kaufen, wofür er jedoch Geld benötigt. Dies erhält er, indem er Gegner tötet. Pro getöteten Gegner erhält der Spieler 10 Euro.
 
 ###Angreifen 
-Der Spieler kann den Gegner angreifen indem er *Leertaste* drückt, wenn er in seiner Nähe steht. Den Schaden eines Angriffes kann man dem Schadenssystems entnehmen.
+Der Spieler kann den Gegner angreifen indem er *Leertaste* drückt, wenn er in seiner Nähe steht. Den Schaden eines Angriffes kann man dem Schadenssystem entnehmen.
 
 ###Zauber
-Der Spieler zaubert, indem er die linke Maustaste betätigt, dabei fliegt der Zauber dahin, wo sich der Mauszieger im Moment des Klickens befindet. Pro Zauber verliert der Spieler 5 Manapunkte. Besitzt der Spieler keine Manapunkte mehr kann er nicht mehr zaubern und muss den Gegner mit Hilfe des Angriffes besiegen. Den Schaden des Zaubers kann man dem Schadenssystems entnehmen. Greift der Spieler einen Gegner mit dem Zauber eines fremden Fachgebiets an erzielt er 5 Schadenspunkte mehr, wie mit der Verwendung des Zauber aus dem Fachgebiet des Gegners.  
+Der Spieler zaubert, indem er die linke Maustaste betätigt, dabei fliegt der Zauber dahin, wo sich der Mauszieger im Moment des Klickens befindet. Pro Zauber verliert der Spieler 5 Manapunkte. Besitzt der Spieler keine Manapunkte mehr kann er nicht mehr zaubern und muss den Gegner mit Hilfe des Angriffes besiegen. Den Schaden des Zaubers kann man dem Schadenssystem entnehmen. Greift der Spieler einen Gegner mit dem Zauber eines fremden Fachgebiets an erzielt er 5 Schadenspunkte mehr, wie mit der Verwendung des Zauber aus dem Fachgebiet des Gegners.  
 
 **Es gibt 3 Arten von Zauber:**  
 
